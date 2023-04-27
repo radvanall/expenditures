@@ -20,7 +20,7 @@ class ItemRepository extends Repository{
         $stmt->bindValue(":category_id",htmlspecialchars(strip_tags($data->getCategoryId())),PDO::PARAM_INT);
         $stmt->bindValue(":user_id",htmlspecialchars(strip_tags($data->getUserId())),PDO::PARAM_INT);
         $response= $stmt->execute();
-        $this->db::disconnect();
+       // $this->db::disconnect();
         return $response;
   }
   public function update($data){
