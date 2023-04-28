@@ -59,6 +59,12 @@ class InvoiceService extends Service{
         }   catch(PDOException $e){ 
        return $this->errorMessage->error='Connection failed: '. $e->getMessage();
        }}
+    
+    function error($errorMessage="error"){
+        $this->repository->rollBack();
+        $this->repository->disconnect();
+        return $this->errorMessage->error=$errorMessage;
+    }
 
     function insertRecords($records,$invoice,$recordRepository,$categoryRepository,$itemRepository){
         try {
@@ -73,88 +79,37 @@ class InvoiceService extends Service{
                 $invoiceId=$this->repository->getLastInsertId();
                 foreach($records as $record)
                 {
-                    if(empty($record["item"]))
-                    {
-                        $this->repository->rollBack();
-                        $this->repository->disconnect();
-                        return $this->errorMessage->error='Invalid item!';
-                    }
-                    if(empty($record["item"]["category_id"]))
-                    { 
-                        $this->repository->rollBack();
-                        $this->repository->disconnect();
-                        return $this->errorMessage->error='Invalid category id!';
-                    }
+                    if(empty($record["item"])) return $this->error('invalid item!');
+                    if(empty($record["item"]["category_id"])) return $this->error('Invalid category id!');
                     $categoryId=$record["item"]['category_id'];
-                
                     if(substr($record["item"]["category_id"],-3)=="new")
                     {
-                        if(empty($record['item']['category_name']))
-                        {
-                            $this->repository->rollBack();
-                            $this->repository->disconnect();
-                            return $this->errorMessage->error='Invalid category name!';
-                        }
+                        if(empty($record['item']['category_name'])) return $this->error('Invalid category name!');
                         $category=new Category(0,$record['item']['category_name'],$invoice->user_id);
                         $message=$categoryRepository->insert($category);
-                        if(!$message)
-                        {
-                            $this->repository->rollBack();
-                            $this->repository->disconnect();
-                            return $this->errorMessage->error='Something went wrong1';
-                        }
+                        if(!$message)  return $this->error('Something went wrong with the category');
                         $categoryId=$categoryRepository->getLastInsertId();
                     }
                    
-                    if(empty($record['item']['item_name']))
-                    { 
-                        $this->repository->rollBack();
-                        $this->repository->disconnect();
-                        return $this->errorMessage->error='Invalid item name!';
-                    }
-                    if(empty($record['item']['unit']))
-                    { 
-                        $this->repository->rollBack();
-                        $this->repository->disconnect();
-                        return $this->errorMessage->error='Invalid unit!';
-                    } 
+                    if(empty($record['item']['item_name']))  return $this->error('Invalid item name!');
+                    if(empty($record['item']['unit'])) return $this->error('Invalid unit!');
                     $itemId=$record['record']['item_id'];
                     if(substr($record['record']['item_id'],-3)=="new")
                     {
                         $new_item=new Item(0,$record['item']['item_name'],$record['item']['unit'],$categoryId,$invoice->user_id);
                         $message=$itemRepository->insert($new_item);
-                        if(!$message) 
-                        {
-                            $this->repository->rollBack();
-                            $this->repository->disconnect();
-                            return $this->errorMessage->error='Something went wrong with item';
-                        } 
+                        if(!$message)  return $this->error('Something went wrong with item');
                         $itemId=$itemRepository->getLastInsertId();
                     }
-                    if(empty($record['record']['quantity']))
-                    {
-                        $this->repository->rollBack();
-                        $this->repository->disconnect();
-                        return $this->errorMessage->error='Invalid quantity!';
-                    }  
+                    if(empty($record['record']['quantity'])) return $this->error('Invalid quantity!');
                     $new_record=new Record(0,$record['record']['quantity'],$record['record']['price'],$invoiceId,$itemId);
                     $message=$recordRepository->insert($new_record);
-                    if(!$message) 
-                    {
-                        $this->repository->rollBack();
-                        $this->repository->disconnect();
-                        return $this->errorMessage->error='Something went wrong with record';
-                    }
+                    if(!$message) return $this->error('Something went wrong with record');
                 } 
                 $this->repository->commit();
                 $this->repository->disconnect();
                 return  $this->successMessage->success='The invoice has been added';
             } 
-        catch (PDOException $e) 
-        {
-        $this->repository->rollBack();
-        $this->repository->disconnect();
-        return $this->errorMessage->error='Connection failed: '. $e->getMessage();
-      }
-}  
+        catch (PDOException $e){ return $this->error('Connection failed: '. $e->getMessage());}
+    }  
 }
