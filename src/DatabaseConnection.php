@@ -15,7 +15,7 @@ class DatabaseConnection{
                 self::$db_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 self::$db_connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
             }catch(PDOException $e){
-                echo array('error'=>'Connection failed: '. $e->getMessage());
+                var_dump(array('error'=>'Connection failed: '. $e->getMessage()));
             }
         }
         return self::$db_connection;
