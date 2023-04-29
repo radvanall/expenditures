@@ -1,0 +1,38 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.wrapper input {
+  width: 100%;
+  outline: none;
+  border: 2px solid #4898bd;
+  font-size: 18px;
+  box-shadow: none;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+.wrapper input:focus {
+  border-color: #297497;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.08),
+    0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 7px rgba(0, 0, 0, 0.14),
+    0 1px 10px rgba(0, 0, 0, 0.16);
+}
+.wrapper input::placeholder {
+  color: transparent;
+}
+.wrapper label {
+  position: absolute;
+  font-size: 18px;
+  left: 10px;
+  color: grey;
+  transition: 0.5s all;
+}
+.wrapper input:focus ~ label,
+.wrapper input:not(:placeholder-shown) ~ label {
+  /* background-color: white; */
+  transform: translateY(-30px);
+  color: black;
+}

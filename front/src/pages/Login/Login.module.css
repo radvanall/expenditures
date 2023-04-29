@@ -1,0 +1,7 @@
+.login {
+  background-image: url("../../images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 92vh;
+  width: 100%;
+}
