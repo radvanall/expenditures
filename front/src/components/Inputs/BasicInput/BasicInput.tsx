@@ -1,13 +1,28 @@
-import React, { FC } from "react";
+import React, { ReactNode, FC } from "react";
 import styles from "./BasicInput.module.css";
 import Input from "../Input/Input";
-interface Props {
-  width?: string;
-}
-const BasicInput: FC<Props> = ({ width }) => {
+import InputProps from "../../../Interfaces/InputProps";
+
+const BasicInput: FC<InputProps> = ({
+  children,
+  width,
+  type,
+  name,
+  onBlur,
+  onChange,
+  inputRef,
+}) => {
   return (
-    <div style={{ width: width ?? "100%" }}>
-      <Input styles={styles} />
+    <div style={{ width: width ?? "100%" }} className={styles.wrapper}>
+      {children && <div className={styles.icon_container}>{children}</div>}
+      <Input
+        styles={styles}
+        name={name}
+        type={type}
+        onBlur={onBlur}
+        onChange={onChange}
+        inputRef={inputRef}
+      />
     </div>
   );
 };
