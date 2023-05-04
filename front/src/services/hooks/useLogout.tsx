@@ -1,26 +1,30 @@
-import { useAuth } from "./../../context/Provider";
 import { useState } from "react";
+import { useAuth } from "../../context/Provider";
 import axios from "axios";
 
-function usePost(url: string, request: string) {
+function useLogout() {
   const { setAuth } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
-  function makePostRequest(data: object = {}) {
+
+  const logout = () => {
     setPending(true);
     const formData = new FormData();
-    formData.append("request", request);
-    formData.append("formData", JSON.stringify(data));
+    formData.append("request", "logout");
     axios
-      .post(url, formData, { withCredentials: true })
+      .post(
+        "http://localhost:84/expenditures/public/userController.php",
+        formData,
+        { withCredentials: true }
+      )
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data.success);
           setError(null);
           setMessage(response.data.success);
-          //   window.localStorage.setItem("isAuth", "true");
-          setAuth(true);
+          //   window.localStorage.removeItem("isAuth");
+          setAuth(false);
         }
         console.log(response.data);
       })
@@ -34,7 +38,8 @@ function usePost(url: string, request: string) {
       .finally(() => {
         setPending(false);
       });
-  }
-  return { error, pending, message, makePostRequest };
+  };
+
+  return { error, pending, message, logout };
 }
-export default usePost;
+export default useLogout;
