@@ -4,21 +4,39 @@
   display: flex;
   justify-content: center;
 }
-.wrapper input {
+.wrapper.pink input {
   width: 100%;
   outline: none;
-  border: 2px solid #4898bd;
+  border: 2px solid var(--tertialy--backgorund-color);
+  /* border: 2px solid var(--secondary-border-color); */
   font-size: 18px;
   box-shadow: none;
   padding-left: 10px;
   border-radius: 5px;
 }
+.wrapper.pink input:focus {
+  border-color: var(--tertialy-border-color);
+  box-shadow: var(--tertialy-box-shadow);
+}
+
+.wrapper input {
+  width: 100%;
+  outline: none;
+  border: 2px solid #4898bd;
+  /* border: 2px solid var(--secondary-border-color); */
+  font-size: 18px;
+  box-shadow: none;
+  padding-left: 10px;
+  border-radius: 5px;
+  /* color: var(--primary-text-color); */
+}
 .wrapper input:focus {
-  border-color: #297497;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.08),
-    0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1),
-    0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 7px rgba(0, 0, 0, 0.14),
-    0 1px 10px rgba(0, 0, 0, 0.16);
+  /* border-color: #297497; */
+  border-color: var(--secondary-border-color);
+
+  box-shadow: var(--secondary-box-shadow);
+  /* /* box-shadow: 0px 0px 3px 1px rgba(102, 240, 235, 0.6);
+  box-shadow: 0px 0px 3px 1px rgba(102, 240, 235, 0.6); */
 }
 .wrapper input::placeholder {
   color: transparent;
@@ -34,7 +52,8 @@
 .wrapper input:not(:placeholder-shown) ~ label {
   /* background-color: white; */
   transform: translateY(-30px);
-  color: black;
+  /* color: black; */
+  color: var(--primary-text-color);
 }
 .wrapper .icon_container {
   position: absolute;
