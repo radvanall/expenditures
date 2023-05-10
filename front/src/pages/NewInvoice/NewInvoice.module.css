@@ -1,0 +1,12 @@
+.invoice_wrapper {
+  display: flex;
+  width: 100%;
+}
+.invoice_form {
+  flex: 1 1 33%;
+  min-width: 250px;
+}
+.invoice_table {
+  flex: 1 1 66%;
+  min-width: 400px;
+}
