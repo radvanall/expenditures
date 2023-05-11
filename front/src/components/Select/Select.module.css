@@ -1,0 +1,100 @@
+.select__wrapper {
+  position: relative;
+}
+.select__wrapper ul {
+  box-sizing: border-box;
+  position: absolute;
+  margin-top: 5px;
+  background-color: white;
+  width: 100%;
+  border: 2px solid var(--secondary-border-color);
+  border-radius: 10px;
+  padding-left: 1px;
+  padding-right: 1px;
+  gap: 0px;
+  max-height: 400px;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-10px);
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.select__wrapper ul.ul_visible {
+  opacity: 1;
+  transform: translate(0);
+  pointer-events: all;
+  /* z-index: 3; */
+}
+
+.select__wrapper ul li {
+  padding: 0 5px;
+}
+.select__wrapper ul li:hover {
+  background-color: var(--secondary-background-color);
+  color: white;
+}
+.input__wrapper {
+  position: relative;
+  width: 100%;
+  /* overflow: hidden; */
+  /* box-sizing: content-box; */
+}
+.input__wrapper input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding-left: 5px;
+  font-size: 18px;
+  box-sizing: border-box;
+  box-shadow: none;
+  outline: none;
+
+  border: 2px solid #4898bd;
+
+  /* border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px; */
+  border-radius: 10px;
+}
+.input__wrapper input:focus {
+  box-shadow: var(--secondary-box-shadow);
+  border: 2px solid var(--secondary-border-color);
+}
+.input__wrapper button {
+  position: absolute;
+  font-size: 18px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: #4898bd;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 30px;
+  height: 100%;
+  /* border: 2px solid var(--secondary-border-color); */
+  border: 2px solid #4898bd;
+  /* border: none; */
+  margin: none;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+.input__wrapper button:hover {
+  background-color: var(--secondary-background-color);
+  color: white;
+}
+.input__wrapper:focus-within button {
+  border: 2px solid var(--secondary-border-color);
+  color: var(--secondary-border-color);
+}
+.input__wrapper:focus-within button:hover {
+  color: white;
+}
+.input__wrapper button .icon {
+  transition: transform 0.5s;
+}
+.input__wrapper button .icon.up {
+  transform: rotate(180deg);
+}
