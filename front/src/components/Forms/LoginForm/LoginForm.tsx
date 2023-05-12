@@ -4,31 +4,22 @@ import BasicInput from "../../Inputs/BasicInput/BasicInput";
 import { LoginInputFields as inputFields } from "../../../data/loginInputFields";
 import useValidate from "../../../services/hooks/useValidate";
 import TextButton from "../../Buttons/Button/TextButton";
-import usePost from "../../../services/hooks/usePost";
+import useAuthorization from "../../../services/hooks/useAuthorization";
 import Modal from "../../Modals/Modal/Modal";
 import Pending from "../../Pending/Pending";
-type FormData = Record<string, string>;
+type FormData = Record<string, string | number>;
 interface Props {
   setForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const LoginForm: FC<Props> = ({ setForm }) => {
   const [visible, setVisible] = useState<boolean>(false);
-  const {
-    error,
-    pending,
-    message: answer,
-    makePostRequest,
-  } = usePost(
-    "http://localhost:84/expenditures/public/userController.php",
-    "login"
-  );
-
+  const { error, pending, message: answer, login } = useAuthorization();
   const submitData = (data: FormData) => {
     const objectData = {
       email: data.Email,
       password: data.Password,
     };
-    makePostRequest(objectData);
+    login(objectData);
     setVisible(true);
   };
   const { register, errors, handleSubmit } = useValidate(inputFields);
@@ -47,11 +38,7 @@ const LoginForm: FC<Props> = ({ setForm }) => {
         ) : error ? (
           <h4>{error}</h4>
         ) : (
-          <TextButton
-            message={answer + " "}
-            formHandler={formHandler}
-            // buttonText={buttonText}
-          />
+          <TextButton message={answer + " "} formHandler={formHandler} />
         )}
       </Modal>
       <Form

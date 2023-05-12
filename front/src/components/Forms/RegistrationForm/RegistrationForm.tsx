@@ -8,7 +8,7 @@ import Modal from "../../Modals/Modal/Modal";
 import usePost from "../../../services/hooks/usePost";
 import Pending from "../../Pending/Pending";
 
-type FormData = Record<string, string>;
+type FormData = Record<string, string | number>;
 interface Props {
   setForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
