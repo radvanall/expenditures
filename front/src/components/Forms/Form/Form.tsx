@@ -17,6 +17,8 @@ interface Props {
     e?: React.BaseSyntheticEvent<object, any, any> | undefined
   ) => Promise<void>;
   errors: FieldErrors<FormData>;
+  serverError?: string | null;
+  serverAnswer?: string | null;
 }
 const Form: FC<Props> = ({
   children,
@@ -27,6 +29,8 @@ const Form: FC<Props> = ({
   register,
   submit,
   errors,
+  serverError,
+  serverAnswer,
   modal = false,
 }) => {
   console.log("form", inputFields);
@@ -45,7 +49,7 @@ const Form: FC<Props> = ({
           return (
             <div className={styles.input_container} key={item.id}>
               <Input
-                value={item.value}
+                defaultValue={item.defaultValue}
                 key={item.key}
                 type={item.type}
                 label={item?.label ?? ""}
@@ -65,8 +69,10 @@ const Form: FC<Props> = ({
             </div>
           );
         })}
+        {children && <div>{children}</div>}
         <div className={styles.form__end}>
-          {children}
+          {serverError && <span>{serverError}</span>}
+          {serverAnswer && <span>{serverAnswer}</span>}
           <input className={styles.submit__button} type="submit" value="Send" />
         </div>
       </form>
