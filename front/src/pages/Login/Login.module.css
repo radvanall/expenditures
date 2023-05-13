@@ -1,7 +1,12 @@
 .login {
+  position: relative;
   background-image: url("../../images/background.jpg");
   background-size: cover;
   background-position: center;
   height: 92vh;
+  min-height: 550px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
