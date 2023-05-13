@@ -6,7 +6,8 @@ import useValidate from "../../../services/hooks/useValidate";
 import { InputType } from "../../../Interfaces/InputType";
 import usePost from "../../../services/hooks/usePost";
 import useGetUser from "../../../services/hooks/useGetUser";
-type FormData = Record<string, string>;
+import Form from "../../Forms/Form/Form";
+type FormData = Record<string, string | number>;
 interface Props {
   changedField: string;
   visible: boolean;
@@ -30,6 +31,7 @@ const EditUserModal: FC<Props> = ({
     "http://localhost:84/expenditures/public/userController.php",
     "update"
   );
+  console.log("modal:", inputFields);
   const { getRequest } = useGetUser();
   const submitData = (data: FormData) => {
     console.log("SUBMITED", data);
@@ -55,44 +57,21 @@ const EditUserModal: FC<Props> = ({
   };
   return (
     <Modal visible={visible} setVisible={resetForm}>
-      <form
-        className={styles.edit__user__container}
+      <Form
         ref={ref}
-        onSubmit={submit}
-        noValidate
+        formName={`Change ${changedField}`}
+        Input={BasicInput}
+        inputFields={inputFields}
+        register={register}
+        submit={submit}
+        errors={errors}
+        modal={true}
+        serverAnswer={answer}
+        serverError={error}
       >
-        <div className={styles.title__container}>
-          <h4>{`Change ${changedField}`}</h4>
-        </div>
-        {inputFields.map((field) => {
-          const reg = register(field.name);
-          return (
-            <div key={field.id}>
-              <BasicInput
-                value={field.value}
-                name={reg.name}
-                label={field?.label ?? ""}
-                onChange={reg.onChange}
-                onBlur={reg.onBlur}
-                inputRef={reg.ref}
-                type={field.type}
-                borderColor="pink"
-              />
-              {errors[field?.name] && (
-                <span className={styles.error__message}>
-                  {errors[field.name]?.message}
-                </span>
-              )}
-            </div>
-          );
-        })}
-        <div>
-          {error && <span>{error}</span>}
-          {answer && <span>{answer}</span>}
-        </div>
-
-        <input type="submit" value="Confirm changes" />
-      </form>
+        {/* {error && <span>{error}</span>}
+          {answer && <span>{answer}</span>} */}
+      </Form>
     </Modal>
   );
 };

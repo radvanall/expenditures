@@ -3,7 +3,9 @@ import styles from "./Modal.module.css";
 
 interface Props {
   visible: boolean;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setVisible:
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | ((val: boolean) => void);
   children?: ReactNode;
 }
 const Modal: FC<Props> = ({ visible, setVisible, children }) => {
