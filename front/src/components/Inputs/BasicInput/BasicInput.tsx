@@ -5,6 +5,7 @@ import InputProps from "../../../Interfaces/InputProps";
 
 const BasicInput: FC<InputProps> = ({
   children,
+  defaultValue,
   value,
   width,
   type,
@@ -15,7 +16,7 @@ const BasicInput: FC<InputProps> = ({
   onChange,
   inputRef,
 }) => {
-  console.log("bi", value);
+  console.log("bi", defaultValue);
   return (
     <div
       style={{ width: width ?? "100%" }}
@@ -29,6 +30,7 @@ const BasicInput: FC<InputProps> = ({
       <Input
         styles={styles}
         value={value}
+        defaultValue={defaultValue}
         name={name}
         type={type}
         label={label}

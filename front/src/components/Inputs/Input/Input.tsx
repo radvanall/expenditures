@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 type Props = {
   styles: { [key: string]: string };
   name: string;
   type: string;
   label: string;
+  key?: string;
+  defaultValue?: string | number;
   value?: string | number;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,6 +13,7 @@ type Props = {
 };
 const Input: FC<Props> = ({
   styles,
+  defaultValue,
   value,
   name,
   label,
@@ -19,12 +22,13 @@ const Input: FC<Props> = ({
   inputRef,
   type,
 }) => {
-  console.log("i", value);
+  console.log("i", defaultValue);
   return (
     <div className={styles.wrapper}>
       <input
-        defaultValue={value}
-        // value={value}
+        defaultValue={defaultValue}
+        value={value}
+        key={defaultValue}
         type={type}
         placeholder="any"
         name={name}
