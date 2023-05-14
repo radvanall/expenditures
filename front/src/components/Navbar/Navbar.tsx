@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { links, protectedLinks } from "../../services/links";
 import { useAuth } from "../../context/Provider";
-import useLogout from "../../services/hooks/useLogout";
+import useAuthorization from "../../services/hooks/useAuthorization";
 import styles from "./Navbar.module.css";
 import Modal from "../Modals/Modal/Modal";
 import Pending from "../Pending/Pending";
@@ -10,7 +10,7 @@ import Navlink from "../Navlink/Navlink";
 const Navbar = () => {
   const { auth } = useAuth();
   const [visible, setVisible] = useState<boolean>(false);
-  const { error, pending, message, logout } = useLogout();
+  const { error, pending, message, logout } = useAuthorization();
   const handleLogout = () => {
     setVisible(true);
     logout();
