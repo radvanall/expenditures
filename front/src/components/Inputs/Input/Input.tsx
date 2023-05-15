@@ -3,8 +3,9 @@ type Props = {
   styles: { [key: string]: string };
   name: string;
   type: string;
-  label: string;
+  label?: string;
   key?: string;
+  min?: string;
   defaultValue?: string | number;
   value?: string | number;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -15,6 +16,7 @@ const Input: FC<Props> = ({
   styles,
   defaultValue,
   value,
+  min,
   name,
   label,
   onBlur,
@@ -28,6 +30,7 @@ const Input: FC<Props> = ({
       <input
         defaultValue={defaultValue}
         value={value}
+        min={min}
         key={defaultValue}
         type={type}
         placeholder="any"

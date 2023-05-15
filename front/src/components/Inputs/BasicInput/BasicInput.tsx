@@ -15,6 +15,7 @@ const BasicInput: FC<InputProps> = ({
   onBlur,
   onChange,
   inputRef,
+  min,
 }) => {
   console.log("bi", defaultValue);
   return (
@@ -31,6 +32,7 @@ const BasicInput: FC<InputProps> = ({
         styles={styles}
         value={value}
         defaultValue={defaultValue}
+        min={min}
         name={name}
         type={type}
         label={label}
