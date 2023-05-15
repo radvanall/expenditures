@@ -41,12 +41,19 @@
 .wrapper input::placeholder {
   color: transparent;
 }
+.wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+  /* background-color: var(--secondary-border-color); */
+  filter: invert(38%) sepia(55%) saturate(575%) hue-rotate(154deg)
+    brightness(93%) contrast(89%);
+}
+
 .wrapper label {
   position: absolute;
   font-size: 18px;
   left: 10px;
   color: grey;
   transition: 0.5s all;
+  pointer-events: none;
 }
 .wrapper input:focus ~ label,
 .wrapper input:not(:placeholder-shown) ~ label {
