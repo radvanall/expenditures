@@ -29,10 +29,13 @@ class CategoryService extends Service{
      //   $this->repository->getConnection();
        $message=$this->repository->insert($category);
     //   $this->repository->disconnect();
-       if($message){return  array('success'=>"The category has been created");}
-       else{ return $this->errorMessage->error='Something went wrong';}
+       if($message){
+        $this->successMessage->success="The category has been created.";
+        return  $this->successMessage;}
+       else{ $this->errorMessage->error='Something went wrong';return $this->errorMessage; }
     }catch(PDOException $e){
-        return $this->errorMessage->error="Connection failed: " . $e->getMessage();
+         $this->errorMessage->error="Connection failed: " . $e->getMessage();
+        return $this->errorMessage;
     }
    }
    function update($modified_category){
