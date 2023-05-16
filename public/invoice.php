@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Credentials: true");
 include "../src/repository/InvoiceRepository.php";
 include "../src/DatabaseConnection.php";
 include "../src/service/InvoiceService.php";
@@ -22,10 +25,12 @@ session_start();
  if(isset($_SESSION["user_id"])){
  if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="insert_full"){
     $formData = $_POST['formData'];
-    $data = $_POST['data'];    
+   //  $data = $_POST['data'];    
     $arrayData = json_decode($formData,true);
-    $invoice=json_decode($data);
+   //  $invoice=json_decode($data);
     $records=$arrayData["records"];
+    $date =$arrayData["date"]; 
+    $user_id=$_SESSION["user_id"];
 
    //  if(empty($records[1]["item"]["item_name"])) echo "empty"; else echo $records[0]["item"]["item_name"];
    //if(empty($records[1]["item"])) echo "empty"; else  var_dump($records[1]["item"]);
@@ -37,7 +42,7 @@ session_start();
    // var_dump($records);
 
     
-  $result=$invoiceService->insertRecords($records,$invoice,$recordRepository,$categoryRepository,$itemRepository);
+  $result=$invoiceService->insertRecords($records,$date,$user_id,$recordRepository,$categoryRepository,$itemRepository);
    if(property_exists($result,'error')){
     http_response_code(400);
     echo json_encode($result);
