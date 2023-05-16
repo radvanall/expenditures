@@ -13,9 +13,9 @@ abstract class Service {
     abstract public function insert($data);
     abstract public function update($data);
 
-    function findAll(){
+    function findAll($user_id){
         try{
-             $data=$this->repository->findAll(); 
+             $data=$this->repository->findAll($user_id); 
         }catch(PDOException $e){
             return $this->errorMessage->error="Connection failed: " . $e->getMessage();
         }

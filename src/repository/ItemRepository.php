@@ -7,8 +7,8 @@ class ItemRepository extends Repository{
     public function findById($id,$table=null){
       return parent::findById($id,"item");
     }   
-     public function findAll($table=null){
-        return parent::findAll('item');
+     public function findAll($user_id,$table=null){
+        return parent::findAll($user_id,'item');
     }
 
     public function insert($data){

@@ -26,8 +26,8 @@ class RecordRepository extends Repository{
     public function findById($id,$table=null){
       return parent::findById($id,"record");
     }   
-     public function findAll($table=null){
-        return parent::findAll('record');
+     public function findAll($user_id,$table=null){
+        return parent::findAll($user_id,'record');
     }
 
     public function delete($id,$table=null){

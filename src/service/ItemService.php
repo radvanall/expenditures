@@ -2,9 +2,9 @@
 include "../src/model/Item.php";
 include_once  "Service.php";
 class ItemService extends Service{
-    function findAll(){  
+    function findAll($user_id){  
         $items=array();
-        $data=parent::findAll();
+        $data=parent::findAll($user_id);
         if(is_array($data)){
            foreach($data as $item){
                array_push($items,new Item($item->id,$item->item_name,$item->unit,$item->category_id,$item->user_id));
@@ -28,10 +28,11 @@ class ItemService extends Service{
          //   $this->repository->getConnection();
            $message=$this->repository->insert($item);
         //   $this->repository->disconnect();
-           if($message){return  array('success'=>"The category has been created");}
+           if($message){ $this->successMessage->success="The category has been created";return $this->successMessage;}
            else{ return $this->errorMessage->error='Something went wrong';}
         }catch(PDOException $e){
-            return $this->errorMessage->error="Connection failed: " . $e->getMessage();
+            $this->errorMessage->error="Connection failed: " . $e->getMessage();
+            return $this->errorMessage;
         }
        }
        function update($modified){

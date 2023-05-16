@@ -2,9 +2,9 @@
 include "../src/model/Category.php";
 include_once  "Service.php";
 class CategoryService extends Service{
-    function findAll(){
+    function findAll($user_id){
         $categories=array();
-        $data=parent::findAll();
+        $data=parent::findAll($user_id);
         if(is_array($data)){
         foreach($data as $category){
             array_push( $categories,new Category($category->id,$category->category_name,$category->user_id));

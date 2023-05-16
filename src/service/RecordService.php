@@ -2,9 +2,9 @@
 include "../src/model/Record.php";
 include_once  "Service.php";
 class RecordService extends Service{
-    function findAll(){
+    function findAll($user_id){
         $records=array();
-        $data=parent::findAll();
+        $data=parent::findAll($user_id);
         if(is_array($data)){
         foreach($data as $record){
             array_push($records,new Record($record->id,$record->quantity,$record->price,$record->invoice_id,$record->item_id));

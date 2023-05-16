@@ -8,8 +8,8 @@ class InvoiceRepository extends Repository{
         $stmt->bindValue(":date",htmlspecialchars(strip_tags($data->getDate())),PDO::PARAM_STR);
         return $stmt;
     }
-    public function findAll($table=null){
-        return parent::findAll('invoice');
+    public function findAll($user_id,$table=null){
+        return parent::findAll($user_id,'invoice');
     }
     public function findById($id,$table=null){
         return parent::findById($id,"invoice");

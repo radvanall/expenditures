@@ -2,8 +2,8 @@
 include_once  "Repository.php";
 class CategoryRepository extends Repository{
 
-    public function findAll($table=null){
-        return parent::findAll('category');
+    public function findAll($user_id,$table=null){
+        return parent::findAll($user_id,'category');
     }
     public function findById($id,$table=null){
         return parent::findById($id,"category");

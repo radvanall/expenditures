@@ -33,10 +33,12 @@
       return $this->connection->commit();
     }
 
-     public function findAll($table){
+     public function findAll($user_id,$table){
       $this->connection=$this->db::connect();
-      $sql="SELECT * FROM " . $table;
+      $sql="SELECT * FROM " . $table . " WHERE user_id=:id";
+      // $sql="SELECT * FROM " . $table;
       $stmt=$this->connection->prepare($sql);
+      $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
       $stmt->execute();
       $data=array();
       while($row=$stmt->fetch()){

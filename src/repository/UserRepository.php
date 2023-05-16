@@ -8,8 +8,8 @@ class UserRepository extends Repository{
     public function findById($id,$table=null){
       return parent::findById($id,"users");
     }   
-     public function findAll($table=null){
-        return parent::findAll('users');
+     public function findAll($user_id,$table=null){
+        return parent::findAll($user_id,'users');
     }
     public function findByEmail($email){
       $this->connection=$this->db::connect();
