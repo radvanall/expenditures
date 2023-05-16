@@ -46,4 +46,40 @@ class CategoryService extends Service{
     }   catch(PDOException $e){ 
    return $this->errorMessage->error='Connection failed: '. $e->getMessage();
    }}
+
+   function findCategoriesAndItems($user_id){
+    try{
+        $data=$this->repository->findCategoriesAndItems($user_id); 
+    }catch(PDOException $e){
+       return $this->errorMessage->error="Connection failed: " . $e->getMessage();
+    }
+    if(!$data){
+       //$this->errorMessage->error='no data';
+       return [];
+    }
+    $grouped=array_reduce($data,function($result,$field){
+        $category_id=$field->category_id;
+        $category_name=$field->category_name;
+        $item_id=$field->item_id;
+        $item_name=$field->item_name;
+        $unit=$field->unit;
+        if(!isset($result[$category_id])){
+            $result[$category_id]=[
+                'category_id'=>$category_id,
+                'category_name'=>$category_name,
+                'items'=>[],
+            ];
+        }
+        $result[$category_id]['items'][]=[
+            'item_id'=>$item_id,
+            'item_name'=>$item_name,
+            'unit'=>$unit,
+        ];
+        return $result;
+
+    },[]);
+    $grouped=array_values($grouped);
+    return $grouped; 
+    }
 }
+

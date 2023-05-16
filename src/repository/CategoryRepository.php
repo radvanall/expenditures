@@ -33,5 +33,19 @@ class CategoryRepository extends Repository{
         $this->db::disconnect();
         return $count;
     }
+    public function findCategoriesAndItems($user_id){
+        $this->connection=$this->db::connect();
+        $sql = $sql = "SELECT c.id as category_id, c.category_name,i.id as item_id, i.item_name,i.unit FROM `category` c inner join `item` i on i.category_id= c.id WHERE c.user_id=:user_id;";
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":user_id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+        $stmt->execute();
+        $data=array();
+        while($row=$stmt->fetch()){
+          array_push($data,$row);
+      }
+      $this->db::disconnect();
+        $this->db::disconnect();
+        return $data;
+    }
  
 }
