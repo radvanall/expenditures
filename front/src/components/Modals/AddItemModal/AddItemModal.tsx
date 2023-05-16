@@ -75,6 +75,8 @@ const AddItemModal: FC<AddModalI> = ({
         <div className={styles.input_container}>
           <Select
             options={categories}
+            name="Select category"
+            label="Select category"
             displayedOptions={displayedCategories}
             handleCallback={handleChangeItem}
             setDisplayedOptions={setDisplayedCategories}
