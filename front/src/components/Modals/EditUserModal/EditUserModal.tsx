@@ -18,7 +18,6 @@ const EditUserModal: FC<Props> = ({
   visible,
   setVisible,
   changedField,
-  // value,
   inputFields,
 }) => {
   const {
@@ -68,10 +67,7 @@ const EditUserModal: FC<Props> = ({
         modal={true}
         serverAnswer={answer}
         serverError={error}
-      >
-        {/* {error && <span>{error}</span>}
-          {answer && <span>{answer}</span>} */}
-      </Form>
+      ></Form>
     </Modal>
   );
 };
