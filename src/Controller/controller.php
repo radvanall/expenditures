@@ -19,8 +19,18 @@ else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && iss
           echo 'Error decoding JSON: ' . json_last_error_msg();
        }
      else 
-     { $message=$service->insert($input_data); 
-       echo json_encode($message);}
+     {
+      $input_data->user_id=$_SESSION["user_id"];
+       $message=$service->insert($input_data); 
+       if(property_exists($message,'error')){
+        http_response_code(400);
+        header('Content-Type: application/json');
+        echo json_encode($message);
+     }else {
+        http_response_code(200);
+        echo json_encode($message);
+     }
+      }
 }  else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="update"){
   $form_data=$postVars["formData"];
   $input_data=json_decode(stripslashes($form_data));
@@ -28,7 +38,16 @@ else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && iss
      echo 'Error decoding JSON: ' . json_last_error_msg();
   }
   else 
-  { $message=$service->update($input_data); echo json_encode($message);}
+  { $message=$service->update($input_data); 
+    if(property_exists($message,'error')){
+      http_response_code(400);
+      header('Content-Type: application/json');
+      echo json_encode($message);
+   }else {
+      http_response_code(200);
+      echo json_encode($message);
+   }
+  }
 
 }  else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="delete" && isset($getVars["id"])){
   $message=$service->delete($getVars["id"]);
@@ -38,5 +57,20 @@ else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && iss
   }else
   echo json_encode($message);
 }
-else echo "no data";
+else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="categoriesAndItems"){
+
+  $message=$service->findCategoriesAndItems($_SESSION['user_id']);
+  //echo json_encode($message);
+  // echo "is:" . !is_array($message);
+  if(!is_array($message)){
+  if(property_exists($message,'error')){
+      http_response_code(400);
+      echo json_encode($message);
+  } }else{
+  http_response_code(200);
+  echo json_encode($message);}
+}
+
+
+// else echo "no data";
 }

@@ -13,67 +13,65 @@ session_start();
  $method = $_SERVER['REQUEST_METHOD']; 
  $getVars = $_GET; 
  $postVars = $_POST; 
- if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="login"){
-    // echo $postVars['request'];
+ if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="login" && isset($_SESSION["user_id"])){
+   http_response_code(400);
+   header('Content-Type: application/json');
+   echo json_encode(array("error"=>"you are already logged in!"));
+ }
+ else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="login" ){
      $form_data=$postVars["formData"];
      $form_data=json_decode($form_data);
-     $result=$userService->login($form_data);
-    echo json_encode($result);
-    // session_start();
-   //  echo $_SESSION['user_id'];
-    //  var_dump($form_data);
- }else if(isset($_SESSION["user_id"])){
- if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="loggout"){
+     $message=$userService->login($form_data);
+     if(property_exists($message,'error')){
+      http_response_code(400);
+      header('Content-Type: application/json');
+      echo json_encode($message);
+   }else {
+      http_response_code(200);
+      echo json_encode($message);
+   }
+   
+ }else  if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="create"){
+   $form_data=$_POST["formData"];
+   $input_data=json_decode(stripslashes($form_data));
+     if($input_data===null){
+          echo 'Error decoding JSON: ' . json_last_error_msg();
+       }
+     else 
+     { $message=$userService->insert($input_data); 
+      if(property_exists($message,'error')){
+         http_response_code(400);
+         header('Content-Type: application/json');
+         echo json_encode($message);
+      }else {
+         http_response_code(200);
+         echo json_encode($message);
+      }
+      }
+}
+ 
+ else if(isset($_SESSION["user_id"])){
+ if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="logout"){
     session_unset();
     session_destroy();
+    http_response_code(200);
+header('Content-Type: application/json');
+echo json_encode(array("success"=>"you logged out!"));
+ }else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="getLoggedUser"){
+   $message=$userService->findById($_SESSION["user_id"]);
+   if(property_exists($message,'error')){
+      http_response_code(400);
+      header('Content-Type: application/json');
+      echo json_encode($message);
+   }else {
+      $message->set_password_hash("classified data");
+      http_response_code(200);
+      echo json_encode($message);
+   }
  }
  else
  CRUD_controller($userService,$method, $getVars, $postVars);
-}else echo json_encode(array("message"=>"you are not logged in!","status"=>false));
 
-// if($_SERVER["REQUEST_METHOD"]=="GET" && isset($_GET["id"])&& $_GET["id"]=="all"){
-//       $users=$userService->findAll();
-//       header('Content-Type: application/json; charset=utf-8');
-//       echo json_encode($users);
-// }else
-// if($_SERVER["REQUEST_METHOD"]=="GET" && isset($_GET["id"]) && $_GET["id"]!=="all" && isset($_GET["request"])&& $_GET["request"]=="find"){
-//     $user=$userService->findById($_GET["id"]);
-//     if(property_exists($user,'error')){
-//         http_response_code(400);
-//         echo json_encode($user);
-//     }else
-//     echo json_encode($user);
-// }  else if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["request"]) && $_POST["request"]=="new_user"){
-
-//          $form_data=$_POST["formData"];
-//         // var_dump($form_data);
-//          //echo $test;
-//         //   var_dump($test);
-//          $user=json_decode(stripslashes($form_data));
-//          if($user===null){
-//             echo 'Error decoding JSON: ' . json_last_error_msg();
-//          }
-//          else 
-//          { $message=$userService->insert($user); echo json_encode($message);}
-
-// }  else if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["request"]) && $_POST["request"]=="update"){
-//     $form_data=$_POST["formData"];
-//     $user=json_decode(stripslashes($form_data));
-//     if($user===null){
-//        echo 'Error decoding JSON: ' . json_last_error_msg();
-//     }
-//     else 
-//     { $message=$userService->update($user); echo json_encode($message);}
-//    // echo $_POST["request"];
-// }  else if($_SERVER["REQUEST_METHOD"]=="GET" && isset($_GET["request"]) && $_GET["request"]=="delete" && isset($_GET["id"])){
-//    // echo $_GET["request"];
-//     //echo $_GET["id"]==0;
-//     $message=$userService->delete($_GET["id"]);
-//     if(property_exists($message,'error')){
-//         http_response_code(400);
-//         echo json_encode($message);
-//     }else
-//     echo json_encode($message);
-// }
-          
-// else echo "no users";
+}else {  http_response_code(400);
+header('Content-Type: application/json');
+echo json_encode(array("error"=>"you are not logged in!"));}
