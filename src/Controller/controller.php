@@ -1,7 +1,8 @@
 <?php
 function CRUD_controller($service,$method, $getVars, $postVars){
 if($method=="GET" && isset($getVars["id"])&& $getVars["id"]=="all"){
-    $result=$service->findAll();
+    $user_id=$_SESSION["user_id"];
+    $result=$service->findAll($user_id);
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($result);
 }
