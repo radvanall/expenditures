@@ -1,5 +1,8 @@
 <?php
 //include "../src/model/User.php";
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Credentials: true");
 include "../src/repository/UserRepository.php";
 include "../src/DatabaseConnection.php";
 include "../src/service/UserService.php";
