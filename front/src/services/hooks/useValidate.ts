@@ -14,16 +14,22 @@ function useValidate(inputFields: InputType[]) {
         type === "email"
           ? z.string().min(5, "to small").email()
           : type === "number"
-          ? z.number().min(1)
+          ? z
+              .number({
+                invalid_type_error: "Enter a number",
+              })
+              .min(1, "Enter a number")
           : type === "select"
-          ? z.number().min(1)
+          ? z.number().min(1, "Choose an opti")
+          : type === "select_text"
+          ? z.string().min(1, "Choose an option")
           : name === "unit"
           ? z.string().min(1, "enter something")
           : z.string().min(3, "to small").max(20, "To long"),
       ])
     )
   );
-
+  console.log("Z:", z.number());
   const fullSchema = inputFields.some(
     (field) => field.name === "Confirm password"
   )
