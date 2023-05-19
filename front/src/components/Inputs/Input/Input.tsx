@@ -38,7 +38,7 @@ const Input: FC<Props> = ({
         onBlur={onBlur}
         onChange={onChange}
         ref={inputRef}
-        autoComplete="on"
+        autoComplete="off"
       />
       <label htmlFor="input">{label}</label>
     </div>
