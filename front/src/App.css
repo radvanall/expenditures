@@ -33,6 +33,12 @@ body {
   --primary-text-color: black;
   --secondary-text-color: #333333;
 }
+input[type="number"]::-webkit-inner-spin-button {
+  display: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 .App.dark {
   --primary-background-color: #0a1828;
   --secondary-background-color: #178582;
