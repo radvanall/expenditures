@@ -1,0 +1,23 @@
+.table__wrapper {
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  width: 100%;
+  border: 2px solid var(--secondary-border-color);
+  box-shadow: var(--primary-box-shadow);
+  overflow: hidden;
+}
+.buttons__wrapper {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+  margin: 5px;
+}
+.footer {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.footer h4 {
+  padding-right: 20px;
+}
