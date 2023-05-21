@@ -16,11 +16,12 @@ function usePost(url: string, request: string) {
       .post(url, formData, { withCredentials: true })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.success);
+          console.log(response);
           setError(null);
           setMessage(response.data.success);
+          // setMessage(response.data);
           //   window.localStorage.setItem("isAuth", "true");
-          setAuth(true);
+          //setAuth(true);
         }
         console.log(response.data);
       })
@@ -28,13 +29,18 @@ function usePost(url: string, request: string) {
         console.log(error.response.data.error);
         setMessage(null);
         setError(error.response.data.error);
-        setAuth(false);
+        //setAuth(false);
         // window.localStorage.removeItem("isAuth");
       })
       .finally(() => {
         setPending(false);
       });
   }
-  return { error, pending, message, makePostRequest };
+  function resetPost() {
+    setError(null);
+    setPending(false);
+    setMessage(null);
+  }
+  return { error, pending, message, makePostRequest, resetPost };
 }
 export default usePost;
