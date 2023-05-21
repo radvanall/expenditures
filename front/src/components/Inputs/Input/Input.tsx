@@ -25,6 +25,11 @@ const Input: FC<Props> = ({
   type,
 }) => {
   console.log("i", defaultValue);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
   return (
     <div className={styles.wrapper}>
       <input
@@ -39,6 +44,7 @@ const Input: FC<Props> = ({
         onChange={onChange}
         ref={inputRef}
         autoComplete="off"
+        onKeyDown={handleKeyDown}
       />
       <label htmlFor="input">{label}</label>
     </div>
