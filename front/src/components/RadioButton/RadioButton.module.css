@@ -1,0 +1,46 @@
+.radio__button {
+  margin-bottom: 10px;
+}
+.radio {
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+}
+.radio + .radio {
+  margin-left: 20px;
+}
+.radio input[type="radio"] {
+  display: none;
+}
+.radio span {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-border-color);
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.radio span:after {
+  content: "";
+  height: 8px;
+  width: 8px;
+  background: var(--primary-border-color);
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  transition: 300ms ease-in-out 0s;
+}
+.radio input[type="radio"]:checked ~ span::after {
+  transform: translate(-50%, -50%) scale(1);
+}

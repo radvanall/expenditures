@@ -1,0 +1,15 @@
+.invoice_wrapper {
+  box-sizing: border-box;
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  gap: 10px;
+}
+.invoice_menu {
+  flex: 1 1 25%;
+  min-width: 250px;
+}
+.invoice_table {
+  flex: 1 1 75%;
+  min-width: 400px;
+}

@@ -1,0 +1,8 @@
+.pagination__container {
+  display: flex;
+  justify-content: center;
+}
+.active__button {
+  color: var(--primary-background-color);
+  background-color: var(--secondary-border-color);
+}

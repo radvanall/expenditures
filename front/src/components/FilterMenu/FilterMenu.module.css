@@ -1,0 +1,7 @@
+.menu__wrapper {
+  border-radius: 10px;
+  width: 100%;
+  border: 2px solid var(--secondary-border-color);
+  box-shadow: var(--primary-box-shadow);
+  overflow: hidden;
+}

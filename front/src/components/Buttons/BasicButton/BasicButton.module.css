@@ -1,0 +1,27 @@
+.pink {
+  --pale-border: #f07f93;
+  --border-color: var(--tertialy-border-color);
+  --background-color: var(--tertialy--backgorund-color);
+  --box-shadow: var(--tertialy-box-shadow);
+}
+.blue {
+  --pale-border: #4898bd;
+  --border-color: var(--secondary-border-color);
+  --background-color: var(--secondary-background-color);
+  --box-shadow: var(--secondary-box-shadow);
+}
+
+.basic__button {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: white;
+  border-radius: 5px;
+  padding: 3px;
+
+  /* margin: 5px; */
+}
+.basic__button:hover {
+  box-shadow: var(--box-shadow);
+  background-color: var(--primary-background-color);
+  color: var(--background-color);
+}

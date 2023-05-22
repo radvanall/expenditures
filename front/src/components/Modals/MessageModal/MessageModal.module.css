@@ -1,0 +1,8 @@
+.message__modal {
+  width: 100%;
+}
+.buttons__wrapper {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+}
