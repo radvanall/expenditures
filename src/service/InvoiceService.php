@@ -4,6 +4,7 @@ include "../src/model/Category.php";
 include "../src/model/Record.php";
 include "../src/model/Item.php";
 include_once  "Service.php";
+include_once "../src/DTO/TableInvoice.php";
 class InvoiceService extends Service{  
       function prepareInsert($date,$user_id){
         if(empty($date)){ return $this->errorMessage->error='Invalid date!';}
@@ -20,6 +21,8 @@ class InvoiceService extends Service{
             return $this->errorMessage->error="Connection failed: " . $e->getMessage();
         }
       }
+    
+
       function findAll($user_id){
         $invoices=array();
         $data=parent::findAll($user_id);
@@ -68,6 +71,8 @@ class InvoiceService extends Service{
     }
 
     function insertRecords($records,$date,$user_id,$recordRepository,$categoryRepository,$itemRepository){
+        if (empty($records)) {$this->errorMessage->error='There is no records!';
+            return $this->errorMessage;}
         try {
                 $this->repository->getConnection();
                 $this->repository->beginTransaction();
@@ -88,8 +93,31 @@ class InvoiceService extends Service{
                 } 
                 $this->repository->commit();
                 $this->repository->disconnect();
-                return  $this->successMessage->success='The invoice has been added';
+                $this->successMessage->success='The invoice has been added';
+                return  $this->successMessage;
             } 
         catch (PDOException $e){ return $this->error('Connection failed: '. $e->getMessage());}
     }  
+    function findAllInvoiceTable($user_id,$firstRow,$offset){
+        $response = new stdClass(); 
+        try{
+        $nr_of_rows=$this->repository->countRows($user_id);
+        $invoices=array();
+        $data=$this->repository->findAllInvoiceTable($user_id,$firstRow,$offset);
+        if($data){
+            foreach($data as $row){
+                array_push($invoices,new TableInvoice($row->id,$row->date,$row->quantity,$row->nr_of_records,$row->total_price));  
+        }        
+        $response->invoices=$invoices;
+        $response->row_count=$nr_of_rows->row_count;
+        return $response;
+        }
+
+        return $data;
+        } 
+         catch (PDOException $e){
+             $this->errorMessage->error='Connection failed: '. $e->getMessage();
+            
+            return $this->errorMessage;}
+    }
 }

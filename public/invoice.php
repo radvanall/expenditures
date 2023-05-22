@@ -24,34 +24,34 @@ session_start();
  $postVars = $_POST; 
  if(isset($_SESSION["user_id"])){
  if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="insert_full"){
-    $formData = $_POST['formData'];
-   //  $data = $_POST['data'];    
+    $formData = $_POST['formData']; 
     $arrayData = json_decode($formData,true);
-   //  $invoice=json_decode($data);
     $records=$arrayData["records"];
     $date =$arrayData["date"]; 
     $user_id=$_SESSION["user_id"];
 
-   //  if(empty($records[1]["item"]["item_name"])) echo "empty"; else echo $records[0]["item"]["item_name"];
-   //if(empty($records[1]["item"])) echo "empty"; else  var_dump($records[1]["item"]);
-     
-   //  foreach ($records as $record) {
-   //     echo "record:"; var_dump($record["record"]);
-   //     echo "item:"; var_dump($record["item"]);
-   //  }
-   // var_dump($records);
-
-    
   $result=$invoiceService->insertRecords($records,$date,$user_id,$recordRepository,$categoryRepository,$itemRepository);
    if(property_exists($result,'error')){
     http_response_code(400);
     echo json_encode($result);
-}else
- echo json_encode($result);
-    
-    // foreach ($records as $item) {
-    //  echo $item["product_name"];
-    // }
- }else
+}else{
+   http_response_code(200);
+echo json_encode($result);
+}
+ }else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="get_table_invoice"){
+   $user_id=$_SESSION["user_id"];
+   $firstRow=$getVars["firstRow"];
+   $offset=$getVars["offset"];
+   $result=$invoiceService->findAllInvoiceTable($user_id,$firstRow,$offset);
+  if(property_exists($result,'error')){
+      http_response_code(400);
+      echo json_encode($result); 
+  }
+   else{   
+   http_response_code(200);
+  echo json_encode($result);
+  }
+ }
+ else
  CRUD_controller($invoiceService,$method, $getVars, $postVars);
 } else echo json_encode(array("status"=>"you are not logged in!"));

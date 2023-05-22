@@ -18,19 +18,39 @@ class InvoiceRepository extends Repository{
     public function delete($id,$table=null){
         return parent::delete($id,'invoice');
     }
+    function countRows($user_id){
+        $this->connection=$this->db::connect();
+        $sql="SELECT COUNT(*) AS row_count FROM ( SELECT i.id FROM invoice i INNER JOIN record r ON i.id = r.invoice_id WHERE i.user_id = :id GROUP BY i.id ) AS subquery;";
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+         $stmt->execute();
+        $response= $stmt->fetch();
+        $this->db::disconnect();
+        return $response;
 
+    }
     public function insert($data){
        $this->connection=$this->db::connect();
         $stmt=$this->insertQuery($data);
-       
-        // $sql="INSERT INTO `invoice`(`user_id`, `date`)  VALUES(:user_id,:date)";
-        // $stmt=$this->connection->prepare($sql);
-        // $stmt->bindValue(":user_id",htmlspecialchars(strip_tags($data->getUserId())),PDO::PARAM_INT);
-        // $stmt->bindValue(":date",htmlspecialchars(strip_tags($data->getDate())),PDO::PARAM_STR);
         $response= $stmt->execute();
-        // echo $this->connection->lastInsertId();
-       // $this->db::disconnect();
         return $response;
+    }
+
+    public function  findAllInvoiceTable($user_id,$firstRow,$offset){
+        $this->connection=$this->db::connect();
+        $sql = "SELECT i.id as id,i.date as 'date', COUNT(r.id) as nr_of_records,SUM(r.quantity) as quantity,  SUM(r.price*r.quantity) as total_price,user_id FROM `invoice` i inner join record r on i.id=r.invoice_id WHERE i.user_id=:id GROUP BY i.id LIMIT :firstRow, :offset;";
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+        $stmt->bindValue(":firstRow",htmlspecialchars(strip_tags($firstRow)),PDO::PARAM_INT);
+        $stmt->bindValue(":offset",htmlspecialchars(strip_tags($offset)),PDO::PARAM_INT);
+        $stmt->execute();
+        $data=array();
+        while($row=$stmt->fetch()){
+            array_push($data,$row);
+        }
+        $this->db::disconnect();
+        return $data;
+        
     }
     public function update($data){
         $this->connection=$this->db::connect();
@@ -57,5 +77,5 @@ class InvoiceRepository extends Repository{
         $this->db::disconnect();
         return $response;
     }
-
+     
 }
