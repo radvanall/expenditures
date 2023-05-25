@@ -26,6 +26,7 @@ function useAuthorization() {
           setError(null);
           setMessage(response.data.success);
           //   window.localStorage.removeItem("isAuth");
+
           setAuth(false);
           setUserData(null);
         }
@@ -59,14 +60,14 @@ function useAuthorization() {
           console.log(response.data.success);
           setError(null);
           setMessage(response.statusText);
+          setUserData(response.data);
           //   window.localStorage.removeItem("isAuth");
           setAuth(true);
-          setUserData(response.data);
         }
         console.log(response.data);
       })
       .catch((error) => {
-        console.log(error.response.data.error);
+        console.log(error.response);
         setMessage(null);
         setError(error.response.data.error);
         setAuth(false);
