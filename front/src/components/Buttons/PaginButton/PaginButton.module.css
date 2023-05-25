@@ -10,6 +10,7 @@
   margin: 2px;
   text-align: center;
   font-size: 18px;
+  cursor: pointer;
 }
 .button__style:hover {
   color: var(--primary-background-color);
