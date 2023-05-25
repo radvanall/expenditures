@@ -1,0 +1,38 @@
+.radiobox__container {
+  position: relative;
+  display: flex;
+}
+.radiobox__container label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.radiobox__container input[type="radio"] {
+  cursor: pointer;
+  position: absolute;
+  opacity: 0;
+}
+.radiobox__container label::after {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border-radius: 0.15em;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  border: 0.05em solid var(--secondary-border-color);
+}
+.radiobox__container label:hover::after,
+.radiobox__container label:hover + .radiobox__container label::after {
+  background-color: var(--pale-blue);
+}
+.radiobox__container input[type="radio"]:checked + label::after {
+  content: "\002714";
+  background-color: var(--secondary-background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.radiobox__container input[type="radio"]:focus + label::after {
+  box-shadow: var(--secondary-box-shadow);
+}
