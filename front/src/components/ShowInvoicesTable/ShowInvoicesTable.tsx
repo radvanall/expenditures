@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import Table from "../../components/Table/Table";
 import Pagination from "../Pagination/Pagination";
 import styles from "./ShowInvoicesTable.module.css";
-
+import { useInvoicesContext } from "../../pages/Invoices/InvoincesContext";
 type InvoiceTable = {
   id: number;
   date: string;
@@ -11,34 +11,46 @@ type InvoiceTable = {
   total_price: number;
 };
 
-type ShowInvoicesTableProps = {
-  data: InvoiceTable[];
-  nr_of_pages: number;
-  selected: number;
-  changeFirstRow: (nr: number) => void;
-  goToStart: () => void;
-  goToEnd: () => void;
-};
-const ShowInvoicesTable: FC<ShowInvoicesTableProps> = ({
-  data,
-  nr_of_pages,
-  selected,
-  changeFirstRow,
-  goToStart,
-  goToEnd,
-}) => {
+// type ShowInvoicesTableProps = {
+//   data: InvoiceTable[];
+//   nr_of_pages: number;
+//   selected: number;
+//   changeFirstRow: (nr: number) => void;
+//   goToStart: () => void;
+//   goToEnd: () => void;
+// };
+// const ShowInvoicesTable: FC<ShowInvoicesTableProps> = (
+const ShowInvoicesTable = (
+  {
+    // data,
+    // nr_of_pages,
+    // selected,
+    // changeFirstRow,
+    // goToStart,
+    // goToEnd,
+  }
+) => {
+  const {
+    data,
+    goToStart,
+    goToEnd,
+    changeFirstRow,
+    handleDetails,
+    nrOfPages,
+    selected,
+  } = useInvoicesContext();
   return (
     <div className={styles.table__wrapper}>
       <Table<InvoiceTable>
-        tableFields={data}
-        handleDetails={() => {}}
+        tableFields={data?.invoices}
+        handleDetails={handleDetails}
         tableTitle={"Invoices"}
       />
       <Pagination
         goToStart={goToStart}
         goToEnd={goToEnd}
         changeFirstRow={changeFirstRow}
-        nr_of_pages={nr_of_pages}
+        nr_of_pages={nrOfPages}
         selected={selected}
       />
       {/* <div>
