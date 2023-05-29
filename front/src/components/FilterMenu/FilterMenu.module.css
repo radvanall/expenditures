@@ -1,19 +1,33 @@
 .menu__wrapper {
+  box-sizing: border-box;
   border-radius: 10px;
   width: 100%;
+  padding: 5px;
   border: 2px solid var(--secondary-border-color);
   box-shadow: var(--primary-box-shadow);
   overflow: hidden;
 }
 .checkbox__wrapper {
   display: flex;
+  margin-top: 10px;
   justify-content: flex-end;
 }
 .input__wrapper {
   width: 100%;
-  padding-top: 30px;
+
   display: flex;
   gap: 5px;
   justify-content: space-between;
   position: relative;
+}
+.range__wrapper {
+  padding-top: 40px;
+}
+.date__wrapper {
+  padding-top: 20px;
+}
+.button__wrapper {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
 }

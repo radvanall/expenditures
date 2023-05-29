@@ -38,47 +38,52 @@ const FilterMenu = () => {
   //     [name]: value,
   //   }));
   // };
-  const { handleSubmit, handleFormChange, formData, data } =
-    useInvoicesContext();
-
+  const {
+    handleSubmit,
+    handleFormChange,
+    handleRadioClick,
+    formData,
+    data,
+    isChecked,
+  } = useInvoicesContext();
+  console.log(isChecked);
   return (
     <div className={styles.menu__wrapper}>
-      {/* <button onClick={() => console.log(ckecked)}>Click</button> */}
       <form onSubmit={handleSubmit}>
-        <div className={styles.checkbox__wrapper}>
-          {/* <Checkbox
-          name="check"
-          id="dateid"
-          label="Select date"
-          onChange={(e) => setChecked(e.currentTarget.checked)}
-        /> */}
-        </div>
         <div className={styles.checkbox__wrapper}>
           <Radiobox
             id="date"
             name="date_radio"
-            label="chousedate"
+            label="Filter by date"
+            labelFontWeight="600"
+            checked={isChecked.date}
             value="date"
+            onChange={handleFormChange}
+            onClick={handleRadioClick}
+          />
+        </div>
+        <div className={`${styles.input__wrapper} ${styles.date__wrapper}`}>
+          <BasicInput
+            type="date"
+            label=""
+            name="date"
+            value={formData.date}
             onChange={handleFormChange}
           />
         </div>
-        <BasicInput
-          type="date"
-          label=""
-          name="date"
-          value={formData.date}
-          onChange={handleFormChange}
-        />
         <div className={styles.checkbox__wrapper}>
           <Radiobox
             id="date2"
             name="date_radio"
-            label="chouseRangeofdate"
+            label="Filter by a range of dates"
+            labelFontWeight="600"
+            checked={isChecked.range}
             value="range"
             onChange={handleFormChange}
+            onClick={handleRadioClick}
           />
         </div>
-        <div className={styles.input__wrapper}>
+        <div className={`${styles.input__wrapper} ${styles.range__wrapper}`}>
           <BasicInput
             type="date"
             label="First date"
@@ -87,7 +92,7 @@ const FilterMenu = () => {
             onChange={handleFormChange}
           />
         </div>
-        <div className={styles.input__wrapper}>
+        <div className={`${styles.input__wrapper} ${styles.range__wrapper}`}>
           <BasicInput
             type="date"
             label="Last date"
@@ -101,32 +106,40 @@ const FilterMenu = () => {
             name="min_price_checkbox"
             label="Minimum price"
             id="min_price"
+            labelFontWeight="600"
             onChange={handleFormChange}
           />
         </div>
-        <RangeInput
-          name="min_price"
-          value={formData.min_price}
-          max={data?.max_price}
-          unit="Lei"
-          onChange={handleFormChange}
-        />
+        <div className={styles.input__wrapper}>
+          <RangeInput
+            name="min_price"
+            value={formData.min_price}
+            max={data?.max_price}
+            unit="Lei"
+            onChange={handleFormChange}
+          />
+        </div>
         <div className={styles.checkbox__wrapper}>
           <Checkbox
             name="max_price_checkbox"
             label="Maximum price"
             id="max_price"
+            labelFontWeight="600"
             onChange={handleFormChange}
           />
         </div>
-        <RangeInput
-          name="max_price"
-          value={formData.max_price}
-          max={data?.max_price}
-          unit="Lei"
-          onChange={handleFormChange}
-        />
-        <BasicButton type="submit" text="Filter" />
+        <div className={styles.input__wrapper}>
+          <RangeInput
+            name="max_price"
+            value={formData.max_price}
+            max={data?.max_price}
+            unit="Lei"
+            onChange={handleFormChange}
+          />
+        </div>
+        <div className={styles.button__wrapper}>
+          <BasicButton type="submit" text="Filter" fontSize="16px" />
+        </div>
       </form>
     </div>
   );

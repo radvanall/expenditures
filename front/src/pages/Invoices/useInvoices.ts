@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
 import useGetReq from "../../services/hooks/useGetReq";
 import { usePagination } from "../../services/hooks/usePagination";
-
+import { useNavigate } from "react-router-dom";
+export const defaultFormValues = {
+  date_radio: "",
+  date: new Date().toISOString().slice(0, 10),
+  first_date: new Date().toISOString().slice(0, 10),
+  last_date: new Date().toISOString().slice(0, 10),
+  min_price_checkbox: false,
+  min_price: 0,
+  max_price_checkbox: false,
+  max_price: 0,
+};
+export type defaultFormValuesType = typeof defaultFormValues;
+type InvoiceTable = {
+  id: number;
+  date: string;
+  quantity: number;
+  nr_of_records: number;
+  total_price: number;
+};
+export interface dataTable {
+  invoices: InvoiceTable[];
+  row_count: number;
+  max_price: number;
+}
 const useInvoices = () => {
-  type InvoiceTable = {
-    id: number;
-    date: string;
-    quantity: number;
-    nr_of_records: number;
-    total_price: number;
-  };
-  interface dataTable {
-    invoices: InvoiceTable[];
-    row_count: number;
-  }
-  const defaultFormValues = {
-    date_radio: "",
-    date: new Date().toISOString().slice(0, 10),
-    first_date: new Date().toISOString().slice(0, 10),
-    last_date: new Date().toISOString().slice(0, 10),
-    min_price_checkbox: false,
-    min_price: 0,
-    max_price_checkbox: false,
-    max_price: 0,
-  };
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(defaultFormValues);
+  const [isChecked, setIsChecked] = useState({
+    date: false,
+    range: false,
+  });
+
   const {
     offset,
     firstRow,
@@ -50,23 +58,62 @@ const useInvoices = () => {
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "min_price_checkbox" || name === "max_price_checkbox") {
+      console.log(e.target.checked);
       setFormData((prevValues) => ({
         ...prevValues,
         [name]: e.target.checked,
       }));
       return;
     }
+    if (value === "date") {
+      setIsChecked((prevValues) => ({
+        date: true,
+        range: false,
+      }));
+    }
+    if (value === "range") {
+      setIsChecked((prevValues) => ({
+        range: true,
+        date: false,
+      }));
+    }
+    console.log(name, value);
     setFormData((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
   };
+  const handleRadioClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
+    console.log(name, value);
+    console.log(formData.date_radio);
+    if (formData.date_radio === value) {
+      console.log("isEqual");
+      setFormData((prevValues) => ({
+        ...prevValues,
+        [name]: "",
+      }));
+      setIsChecked((prevValues) => ({
+        ...prevValues,
+        [value]: false,
+      }));
+    }
+  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    fetchData();
+    goToStart();
     console.log(formData);
   };
+  const handleDetails = (id: number) => {
+    console.log("click");
+    console.log(id);
+    navigate(id);
+  };
+  console.log(isChecked);
   useEffect(() => {
     if (data?.row_count) setRowCount(data?.row_count);
+    console.log(data);
   }, [data]);
   useEffect(() => {
     fetchData();
@@ -76,6 +123,9 @@ const useInvoices = () => {
     nrOfPages,
     selected,
     formData,
+    isChecked,
+    handleDetails,
+    handleRadioClick,
     changeFirstRow,
     goToStart,
     goToEnd,
