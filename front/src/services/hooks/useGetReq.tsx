@@ -19,7 +19,8 @@ export const useGetReq = <T,>(url: string) => {
       }
       const axiosError = err as AxiosError<{ error: string }>;
       if (axiosError.response) {
-        console.log("axiosError:", axiosError);
+        // console.log("axiosError:", axiosError);
+        console.log(axiosError.response.data);
         setError(axiosError.response.data?.error);
       } else {
         setError("Network Error");

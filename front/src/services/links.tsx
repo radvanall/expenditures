@@ -13,4 +13,12 @@ export const protectedLinks = [
     pathname: "/home",
     name: "Home",
   },
+  {
+    pathname: "/new_invoice",
+    name: "New Invoice",
+  },
+  {
+    pathname: "/invoices",
+    name: "Invoices",
+  },
 ];

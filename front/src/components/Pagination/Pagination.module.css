@@ -1,6 +1,7 @@
 .pagination__container {
   display: flex;
   justify-content: center;
+  padding: 3px;
 }
 .active__button {
   color: var(--primary-background-color);
