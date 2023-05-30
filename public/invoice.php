@@ -42,7 +42,13 @@ echo json_encode($result);
    $user_id=$_SESSION["user_id"];
    $firstRow=$getVars["firstRow"];
    $offset=$getVars["offset"];
-   $result=$invoiceService->findAllInvoiceTable($user_id,$firstRow,$offset);
+   $date=$getVars["date"];
+   $firstDate=$getVars["first_date"];
+   $lastDate=$getVars["last_date"];
+   $maxPrice=$getVars["max_price"];
+   $minPrice=$getVars["min_price"];
+  //  echo json_encode(array($date,$firstDate,$lastDate,$maxPrice,$minPrice));
+   $result=$invoiceService->findAllInvoiceTable($user_id,$firstRow,$offset,$date,$firstDate,$lastDate, $maxPrice,$minPrice);
   if(property_exists($result,'error')){
       http_response_code(400);
       echo json_encode($result); 
