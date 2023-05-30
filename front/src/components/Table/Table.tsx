@@ -20,7 +20,7 @@ import BasicButton from "../Buttons/BasicButton/BasicButton";
 // }
 interface Props<T> {
   tableFields: T[] | undefined;
-  tableTitle: string;
+  tableTitle?: string;
   handleEdit?: (id: number) => void;
   handleDelete?: (id: number) => void;
   handleDetails?: (id: number) => void;
@@ -45,7 +45,7 @@ function Table<T extends { id: number }>({
 
   return (
     <table className={styles.table}>
-      <caption>{tableTitle}</caption>
+      {tableTitle && <caption>{tableTitle}</caption>}
       <thead>
         {tableFields?.length && (
           <tr>
