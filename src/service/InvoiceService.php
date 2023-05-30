@@ -5,6 +5,8 @@ include "../src/model/Record.php";
 include "../src/model/Item.php";
 include_once  "Service.php";
 include_once "../src/DTO/TableInvoice.php";
+require_once "../src/DTO/FullRecordDTO.php";
+require_once "../src/DTO/InvoiceDTO.php";
 class InvoiceService extends Service{  
       function prepareInsert($date,$user_id){
         if(empty($date)){ return $this->errorMessage->error='Invalid date!';}
@@ -69,6 +71,37 @@ class InvoiceService extends Service{
          $this->errorMessage->error=$errorMessage;
          return  $this->errorMessage;
     }
+  function getFullInvoice($user_id,$invoice_id){
+    if(empty($invoice_id)){$this->errorMessage->error='There is no such invoice!';
+        return $this->errorMessage;}
+        try{
+            $response=$this->repository->getFullInvoice($user_id,$invoice_id);
+            if(empty($response)) return $this->error='No data for this invoice';
+            $records=array();
+            $total_sum=0;
+            foreach($response as $record){
+              array_push($records,new FullRecordDTO( 
+              $record->record_id,
+              $record->item_id,
+              $record->item_name,
+              $record->unit,
+              $record->category_id,
+              $record->category_name,
+              $record->quantity,
+              $record->price,
+              $record->total_price
+            ));
+            $total_sum+=(float)  $record->total_price;
+            }
+
+            // $firstObject = $response[0];
+             $invoice=new InvoiceDTO($response[0]->invoice_id,$response[0]->date,$response[0]->user_id,$total_sum,$records);
+            return $invoice;
+           }catch(PDOException $e){
+            return $this->error('Connection failed: '. $e->getMessage());
+           }
+   }
+ 
 
     function insertRecords($records,$date,$user_id,$recordRepository,$categoryRepository,$itemRepository){
         if (empty($records)) {$this->errorMessage->error='There is no records!';

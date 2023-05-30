@@ -52,6 +52,20 @@ echo json_encode($result);
   echo json_encode($result);
   }
  }
+ else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="get_full_invoice"){
+  $user_id=$_SESSION["user_id"];
+  $invoice_id=$getVars["invoice_id"];
+  $result=$invoiceService->getFullInvoice($user_id,$invoice_id);
+  if(property_exists($result,'error')){
+      http_response_code(400);
+      echo json_encode($result); 
+  }
+   else{   
+   http_response_code(200);
+  echo json_encode($result);
+  }
+
+ }
  else
  CRUD_controller($invoiceService,$method, $getVars, $postVars);
 } else echo json_encode(array("status"=>"you are not logged in!"));

@@ -77,5 +77,20 @@ class InvoiceRepository extends Repository{
         $this->db::disconnect();
         return $response;
     }
+
+    public function getFullInvoice($user_id,$invoice_id){
+        $this->connection=$this->db::connect();
+        $sql="SELECT i.id as invoice_id,i.user_id, i.date,r.id as record_id,im.id as item_id,im.item_name,im.unit,im.category_id,c.category_name,r.quantity,r.price, r.price*r.quantity as total_price FROM invoice i inner join record r on i.id=r.invoice_id inner join item im on im.id=r.item_id inner join category c on c.id=im.category_id where i.user_id=:user_id and i.id=:invoice_id;";
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":user_id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+        $stmt->bindValue(":invoice_id",htmlspecialchars(strip_tags($invoice_id)),PDO::PARAM_INT);
+        $stmt->execute();
+        $result=array();
+        while($row=$stmt->fetch()){
+            array_push($result,$row);
+        }
+        $this->db::disconnect();
+        return $result;
+    }
      
 }
