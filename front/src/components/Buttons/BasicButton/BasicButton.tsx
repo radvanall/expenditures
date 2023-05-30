@@ -6,6 +6,7 @@ interface Props {
   type?: "button" | "submit" | "reset" | undefined;
   height?: string;
   color?: string;
+  fontSize?: string;
 }
 const BasicButton: FC<Props> = ({
   text,
@@ -13,6 +14,7 @@ const BasicButton: FC<Props> = ({
   type = "button",
   height,
   color,
+  fontSize,
 }) => {
   return (
     <button
@@ -23,7 +25,7 @@ const BasicButton: FC<Props> = ({
       }
       onClick={handleClick}
       type={type}
-      style={{ height: height ?? "auto" }}
+      style={{ height: height ?? "auto", fontSize: fontSize ?? "auto" }}
     >
       {text}
     </button>
