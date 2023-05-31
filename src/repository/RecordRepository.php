@@ -48,13 +48,14 @@ class RecordRepository extends Repository{
    }
    public function update($data){
     $this->connection=$this->db::connect();
-    $sql="UPDATE `record` SET`quantity`=:quantity,`price`=:price,`invoice_id`=:invoice_id ,`item_id`=:item_id WHERE id=:id ";
+    // $sql="UPDATE `record` SET`quantity`=:quantity,`price`=:price,`invoice_id`=:invoice_id ,`item_id`=:item_id WHERE id=:id ";
+    $sql="UPDATE `record` SET`quantity`=:quantity,`price`=:price,`item_id`=:item_id WHERE id=:id ";
     $stmt=$this->connection->prepare($sql);
     $stmt->bindValue(":id",htmlspecialchars(strip_tags($data->getId())),PDO::PARAM_INT);
     $stmt->bindValue(":quantity",htmlspecialchars(strip_tags($data->getQuantity())),PDO::PARAM_INT);
     $stmt->bindValue(":price",htmlspecialchars(strip_tags($data->getPrice())),PDO::PARAM_STR);
     $stmt->bindValue(":item_id",htmlspecialchars(strip_tags($data->getItemId())),PDO::PARAM_INT);
-    $stmt->bindValue(":invoice_id",htmlspecialchars(strip_tags($data->getInvoiceId())),PDO::PARAM_INT);
+    // $stmt->bindValue(":invoice_id",htmlspecialchars(strip_tags($data->getInvoiceId())),PDO::PARAM_INT);
   
     $stmt->execute();
     $count = $stmt->rowCount();
