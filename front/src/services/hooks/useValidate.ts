@@ -42,12 +42,13 @@ function useValidate(inputFields: InputType[]) {
   const {
     register,
     setValue,
+    setError,
     trigger,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(fullSchema),
   });
-  return { register, errors, setValue, trigger, handleSubmit };
+  return { register, errors, setValue, setError, trigger, handleSubmit };
 }
 export default useValidate;

@@ -5,7 +5,8 @@ interface Props {
   visible: boolean;
   setVisible:
     | React.Dispatch<React.SetStateAction<boolean>>
-    | ((val: boolean) => void);
+    | ((val: boolean) => void)
+    | (() => void);
   children?: ReactNode;
 }
 const Modal: FC<Props> = ({ visible, setVisible, children }) => {
