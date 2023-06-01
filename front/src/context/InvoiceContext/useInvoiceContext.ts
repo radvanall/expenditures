@@ -69,7 +69,8 @@ export const useInvoiceContext = () => {
     }
   };
   const changeRecord = (data: FormData) => {
-    data.unit = state.defaultItem?.unit as string;
+    console.log(data);
+    // data.unit = state.defaultItem?.unit as string;
     dispatch({
       type: TYPE.UPDATE_RECORD,
       payload: data as RecordI,
@@ -178,6 +179,7 @@ export const useInvoiceContext = () => {
       )
     )
       dispatch({ type: TYPE.INCREASE_RECORD_ID });
+    console.log(data);
     data.unit = state.defaultItem?.unit as string;
     dispatch({ type: TYPE.SUBMIT_RECORD, payload: data as RecordI });
   };

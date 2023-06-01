@@ -81,6 +81,7 @@ const InvoiceForm = () => {
       setDisplayedCategories
     );
   };
+
   const modifyItem = (item: SelectI) => {
     handleChangeItem(item, items, categories);
   };

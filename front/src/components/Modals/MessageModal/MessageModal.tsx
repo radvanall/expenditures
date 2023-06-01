@@ -6,6 +6,7 @@ interface Props {
   visible: boolean;
   handleOk: () => void;
   cancelButton?: boolean;
+  handleCancel?: () => void;
   setVisible:
     | React.Dispatch<React.SetStateAction<boolean>>
     | ((val: boolean) => void);
@@ -15,6 +16,7 @@ const MessageModal: FC<Props> = ({
   visible,
   setVisible,
   handleOk,
+  handleCancel,
   cancelButton,
   children,
 }) => {
@@ -31,7 +33,10 @@ const MessageModal: FC<Props> = ({
           {cancelButton && (
             <BasicButton
               text="Cancel"
-              handleClick={() => setVisible(false)}
+              handleClick={() => {
+                setVisible(false);
+                handleCancel && handleCancel();
+              }}
               color="pink"
             />
           )}

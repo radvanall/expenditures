@@ -7,6 +7,7 @@ interface Props {
   min?: string;
   type: string;
   label?: string;
+  color?: string;
   name: string;
   borderColor?: string;
   errors: string | undefined;
@@ -22,6 +23,7 @@ const InputFormField: FC<Props> = ({
   onChange,
   onBlur,
   inputRef,
+  color,
   width,
   label,
   errors,
@@ -32,6 +34,7 @@ const InputFormField: FC<Props> = ({
       <BasicInput
         type={type}
         name={name}
+        borderColor={color}
         onChange={onChange}
         onBlur={onBlur}
         inputRef={inputRef}

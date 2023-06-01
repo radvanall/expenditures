@@ -90,3 +90,12 @@
 .wrapper:focus-within .icon_container {
   color: #297497;
 }
+.wrapper.pink .icon_container {
+  color: var(--tertialy--backgorund-color);
+}
+.wrapper.pink .icon_container::before {
+  background-color: var(--tertialy--backgorund-color);
+}
+.wrapper.pink:focus-within .icon_container {
+  color: var(--tertialy-border-color);
+}
