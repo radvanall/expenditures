@@ -71,6 +71,20 @@ echo json_encode($result);
   echo json_encode($result);
   }
 
+ } else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="money_per_date"){
+  $user_id=$_SESSION["user_id"];
+  $first_date=$getVars["first_date"];
+
+  $result=$invoiceService->getMoneyPerDay($user_id,$first_date);
+  if(property_exists($result,'error')){
+      http_response_code(400);
+      echo json_encode($result); 
+  }
+   else{   
+   http_response_code(200);
+  echo json_encode($result);
+  }
+
  }
  else
  CRUD_controller($invoiceService,$method, $getVars, $postVars);

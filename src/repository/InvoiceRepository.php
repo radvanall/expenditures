@@ -92,5 +92,19 @@ class InvoiceRepository extends Repository{
         $this->db::disconnect();
         return $result;
     }
+    public function getMoneyPerDay($user_id, $firstDate){
+        $this->connection=$this->db::connect();
+        $sql="SELECT i.date, SUM(r.quantity*r.price) as money FROM `invoice` i inner join record r on i.id=r.invoice_id WHERE i.user_id=:id and i.date>:firstDate group by i.date";
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+        $stmt->bindValue(":firstDate",htmlspecialchars(strip_tags($firstDate)),PDO::PARAM_STR);
+        $stmt->execute();
+        $result=array();
+        while($row=$stmt->fetch()){
+            array_push($result,$row);
+        };
+        $this->db::disconnect();
+        return $result;
+    }
      
 }

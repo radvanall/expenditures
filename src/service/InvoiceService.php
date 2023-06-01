@@ -153,4 +153,21 @@ class InvoiceService extends Service{
             
             return $this->errorMessage;}
     }
+
+    function getMoneyPerDay($user_id, $firstDate){
+        if (empty($firstDate)){return $this->returnError("No first date");}
+        try{
+            $response = new stdClass();
+            $fields=array();
+            $data=$this->repository->getMoneyPerDay($user_id, $firstDate);
+            foreach($data as $row){
+                array_push($fields,$row);
+            }
+            $response->fields=$fields;
+            return $response;
+
+        }catch(PDOException $e){
+            return $this->returnError( $this->errorMessage->error='Connection failed: '. $e->getMessage());
+        }
+    }
 }
