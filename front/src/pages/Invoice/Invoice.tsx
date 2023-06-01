@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditForm from "../../components/EditForm/EditForm";
+import { recordType } from "../../Interfaces/RecordType";
 import Table from "../../components/Table/Table";
 import useGetReq from "../../services/hooks/useGetReq";
 import usePost from "../../services/hooks/usePost";
 import styles from "./Invoice.module.css";
 import BasicButton from "../../components/Buttons/BasicButton/BasicButton";
-
-type recordType = {
-  id: number;
-  item_id: number;
-  item_name: string;
-  unit: string;
-  category_id: number;
-  category_name: string;
-  quantity: number;
-  price: number;
-  total_price: number;
-};
+import MessageModal from "../../components/Modals/MessageModal/MessageModal";
 type InvoiceType = {
   id: number;
   date: string;
@@ -30,17 +20,14 @@ type TableType = {
   item: string;
   category: string;
   quantity: number;
+  unit: string;
   price: number;
   "Total price": number;
 };
-type EditRecordType = {
-  category_id: number;
-  item_id: number;
-} & TableType;
 const Invoice = () => {
   const [modal, setModal] = useState<boolean>(false);
+  const [deleteMessageModal, setDeleteMessageModal] = useState<boolean>(false);
   const [formState, setFormState] = useState<"edit" | "create">("edit");
-  //const hasTransitionedIn = useMountTransition(modal, 300);
   const { id } = useParams();
   const { data, loading, error, fetchData } = useGetReq<InvoiceType>(
     `/invoice.php?request=get_full_invoice&invoice_id=${id}`
@@ -65,6 +52,7 @@ const Invoice = () => {
         item: record.item_name,
         category: record.category_name,
         quantity: record.quantity,
+        unit: record.unit,
         price: record.price,
         ["Total price"]: record.total_price,
       };
@@ -87,14 +75,32 @@ const Invoice = () => {
     setFormState("create");
     setModal(true);
   };
-  const handleDelete = (id: number) => {
+  const openDeleteModal = (id: number) => {
+    const record = data?.records.find((record) => record.id === id);
+    if (record) setCurrentRecord(record);
+    setDeleteMessageModal(true);
+  };
+  const handleDelete = () => {
     makePostRequest({
-      id: id,
+      id: currentRecord?.id,
     });
     fetchData();
+    setCurrentRecord(null);
+  };
+  const handleCancel = () => {
+    setCurrentRecord(null);
   };
   return (
     <div className={styles.invoice__page}>
+      <MessageModal
+        visible={deleteMessageModal}
+        setVisible={setDeleteMessageModal}
+        handleOk={handleDelete}
+        cancelButton={true}
+        handleCancel={handleCancel}
+      >
+        <p>Are you sure you want to delete this record"</p>"
+      </MessageModal>
       <div className={styles.new__record__button}>
         <BasicButton
           text="Add new record"
@@ -125,7 +131,7 @@ const Invoice = () => {
         <Table<TableType>
           tableFields={records ?? undefined}
           handleEdit={handleEdit}
-          handleDelete={handleDelete}
+          handleDelete={openDeleteModal}
           tableTitle={"Records"}
         />
       </div>
