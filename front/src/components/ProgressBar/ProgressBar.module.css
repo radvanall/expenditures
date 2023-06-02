@@ -1,0 +1,18 @@
+.progress__bar__wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.progress__bar {
+  width: 90%;
+  height: 15px;
+  /* border: 1px solid var(--secondary-border-color); */
+  -webkit-appearance: none;
+}
+.progress__bar::-webkit-progress-bar {
+  background: var(--pale-blue);
+}
+.progress__bar::-webkit-progress-value {
+  background: var(--secondary-border-color);
+}
