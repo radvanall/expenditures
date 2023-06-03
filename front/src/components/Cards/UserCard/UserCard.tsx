@@ -34,110 +34,87 @@ const UserCard = () => {
   // console.log(editNicknameFields);
 
   return (
-    <div>
-      <Card>
-        {(modal || hasTransitionedIn) && (
-          <EditUserModal
-            inputFields={inputFields}
-            visible={modal && hasTransitionedIn}
-            setVisible={setModal}
-            changedField={changedField}
-            // value={selectedUserField}
-          />
-        )}
-        <div className={styles.img__wrapper}>
-          <img src="/img/user.jpg" alt="img" />
-        </div>
-        <div className={styles.user__info}>
-          <div className={styles.user__info_line}>
-            <div>Nickname:</div>
-            <div
-              className={`${styles.push_right} ${styles.right__text__container}`}
-            >
-              <p>{userData?.nickname}</p>
-              <div className={styles.feather_container}>
-                <FaFeatherAlt
-                  className={styles.feather}
-                  onClick={() => {
-                    // setSelectedUserField({
-                    //   name: "nickname",
-                    //   value: userData?.nickname ?? "",
-                    // });
-                    setchangedField("nickname");
-                    setModal((prev) => !prev);
-                    const setValue = editNicknameFields.find(
-                      (field) => field.name === "Nickname"
-                    );
-                    if (setValue)
-                      setValue.defaultValue = userData?.nickname ?? "";
-                    setInputFields(editNicknameFields);
+    <Card>
+      {(modal || hasTransitionedIn) && (
+        <EditUserModal
+          inputFields={inputFields}
+          visible={modal && hasTransitionedIn}
+          setVisible={setModal}
+          changedField={changedField}
+          // value={selectedUserField}
+        />
+      )}
+      <div className={styles.img__wrapper}>
+        <img src="/img/user.jpg" alt="img" />
+      </div>
+      <div className={styles.user__info}>
+        <div className={styles.user__info_line}>
+          <div>Nickname:</div>
+          <div
+            className={`${styles.push_right} ${styles.right__text__container}`}
+          >
+            <p>{userData?.nickname}</p>
+            <div className={styles.feather_container}>
+              <FaFeatherAlt
+                className={styles.feather}
+                onClick={() => {
+                  // setSelectedUserField({
+                  //   name: "nickname",
+                  //   value: userData?.nickname ?? "",
+                  // });
+                  setchangedField("nickname");
+                  setModal((prev) => !prev);
+                  const setValue = editNicknameFields.find(
+                    (field) => field.name === "Nickname"
+                  );
+                  if (setValue)
+                    setValue.defaultValue = userData?.nickname ?? "";
+                  setInputFields(editNicknameFields);
 
-                    console.log(editNicknameFields);
-                  }}
-                />
-              </div>
+                  console.log(editNicknameFields);
+                }}
+              />
             </div>
           </div>
-          <div className={styles.aditional_info_wrapper}>
-            <button
-              className={
-                visible
-                  ? `${styles.show} ${styles.active}`
-                  : animation
-                  ? `${styles.show} ${styles.inactive}`
-                  : styles.show
-              }
-              onClick={handleVisible}
-            >
-              <AiOutlineDown className={styles.down__circle} />
-            </button>
-            <div
-              className={
-                visible
-                  ? `${styles.aditional_info} ${styles.active}`
-                  : styles.aditional_info
-              }
-            >
-              <div className={styles.user__info_line}>
-                <div>Email:</div>
-                <div
-                  className={`${styles.push_right} ${styles.right__text__container}`}
-                >
-                  <p>{userData?.email}</p>
-                  <div className={styles.feather_container}>
-                    <button
-                      onClick={() => {
-                        setchangedField("email");
-                        setModal((prev) => !prev);
-                        const setValue = editEmailFields.find(
-                          (field) => field.name === "Email"
-                        );
-                        if (setValue)
-                          setValue.defaultValue = userData?.email ?? "";
-                        setInputFields(editEmailFields);
-                        console.log(editEmailFields);
-                      }}
-                    >
-                      <FaFeatherAlt className={styles.feather} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.user__info_last_line}>
-                <p>Change password</p>
-                <div
-                  className={`${styles.feather_container} ${styles.push_right}`}
-                >
+        </div>
+        <div className={styles.aditional_info_wrapper}>
+          <button
+            className={
+              visible
+                ? `${styles.show} ${styles.active}`
+                : animation
+                ? `${styles.show} ${styles.inactive}`
+                : styles.show
+            }
+            onClick={handleVisible}
+          >
+            <AiOutlineDown className={styles.down__circle} />
+          </button>
+          <div
+            className={
+              visible
+                ? `${styles.aditional_info} ${styles.active}`
+                : styles.aditional_info
+            }
+          >
+            <div className={styles.user__info_line}>
+              <div>Email:</div>
+              <div
+                className={`${styles.push_right} ${styles.right__text__container}`}
+              >
+                <p>{userData?.email}</p>
+                <div className={styles.feather_container}>
                   <button
                     onClick={() => {
-                      setchangedField("password");
+                      setchangedField("email");
                       setModal((prev) => !prev);
-                      // const setValue = editPasswordFields.find(
-                      //   (field) => field.name === "email"
-                      // );
-                      // if (setValue) setValue.value = userData?.email ?? "";
-                      setInputFields(editPasswordFields);
-                      console.log(editPasswordFields);
+                      const setValue = editEmailFields.find(
+                        (field) => field.name === "Email"
+                      );
+                      if (setValue)
+                        setValue.defaultValue = userData?.email ?? "";
+                      setInputFields(editEmailFields);
+                      console.log(editEmailFields);
                     }}
                   >
                     <FaFeatherAlt className={styles.feather} />
@@ -145,10 +122,31 @@ const UserCard = () => {
                 </div>
               </div>
             </div>
+            <div className={styles.user__info_last_line}>
+              <p>Change password</p>
+              <div
+                className={`${styles.feather_container} ${styles.push_right}`}
+              >
+                <button
+                  onClick={() => {
+                    setchangedField("password");
+                    setModal((prev) => !prev);
+                    // const setValue = editPasswordFields.find(
+                    //   (field) => field.name === "email"
+                    // );
+                    // if (setValue) setValue.value = userData?.email ?? "";
+                    setInputFields(editPasswordFields);
+                    console.log(editPasswordFields);
+                  }}
+                >
+                  <FaFeatherAlt className={styles.feather} />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 };
 

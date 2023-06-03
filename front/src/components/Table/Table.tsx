@@ -52,6 +52,7 @@ function Table<T extends { id: number }>({
             {tableHeader &&
               tableHeader.map((columnName) => (
                 <th
+                  key={columnName}
                   style={
                     columnName === "id"
                       ? { width: "5%" }
@@ -68,9 +69,10 @@ function Table<T extends { id: number }>({
       <tbody>
         {tableFields?.length &&
           tableFields.map((row) => (
-            <tr>
+            <tr key={row.id}>
               {Object.keys(row).map((cell) => (
                 <td
+                  key={cell}
                   style={
                     cell === "id"
                       ? { width: "5%" }
