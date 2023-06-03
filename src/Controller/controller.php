@@ -50,13 +50,20 @@ else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && iss
    }
   }
 
-}  else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="delete" && isset($getVars["id"])){
-  $message=$service->delete($getVars["id"]);
+}  else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="delete" ){
+  $form_data=$postVars["formData"];
+  $data = json_decode($form_data, true);
+  $id = $data['id'];
+
+  $message=$service->delete($id);
   if(property_exists($message,'error')){
       http_response_code(400);
       echo json_encode($message);
-  }else
-  echo json_encode($message);
+  }else{
+    http_response_code(200);
+    echo json_encode($message);
+   
+ }
 }
 else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="categoriesAndItems"){
 

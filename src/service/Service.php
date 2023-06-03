@@ -12,6 +12,10 @@ abstract class Service {
     }
     abstract public function insert($data);
     abstract public function update($data);
+    function returnError($message){
+        $this->errorMessage->error=$message;
+        return $this->errorMessage;
+     }
 
     function findAll($user_id){
         try{
@@ -40,13 +44,14 @@ abstract class Service {
            }
     }
     function delete($id){
-    if($id==0){ return $this->errorMessage->error='no id';}
+    if($id==0){ return $this->returnError('no id');}
     try{
     $message=$this->repository->delete($id);
-    if($message){return  $this->successMessage->success="The field has been deleted";}
-    else{ return $this->errorMessage->error='Something went wrong';}} 
+    if($message){ $this->successMessage->success="The field has been deleted";
+    return $this->successMessage; }
+    else{ return $this->returnError('Something went wrong');}} 
     catch(PDOException $e){ 
-        return $this->errorMessage->error='Connection failed: '. $e->getMessage();
+        return $this->returnError('Connection failed: '. $e->getMessage()); 
     }
 }
 }

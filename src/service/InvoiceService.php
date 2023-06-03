@@ -131,22 +131,24 @@ class InvoiceService extends Service{
             } 
         catch (PDOException $e){ return $this->error('Connection failed: '. $e->getMessage());}
     }  
-    function findAllInvoiceTable($user_id,$firstRow,$offset){
+    function findAllInvoiceTable($user_id,$firstRow,$offset,$date,$firstDate,$lastDate,$maxPrice,$minPrice){
         $response = new stdClass(); 
         try{
-        $nr_of_rows=$this->repository->countRows($user_id);
+        $nr_of_rows=$this->repository->countRows($user_id,$date,$firstDate,$lastDate,$maxPrice,$minPrice);
+        $max_price=$this->repository->max_price($user_id);
         $invoices=array();
-        $data=$this->repository->findAllInvoiceTable($user_id,$firstRow,$offset);
-        if($data){
+        $data=$this->repository->findAllInvoiceTable($user_id,$firstRow,$offset,$date,$firstDate,$lastDate,$maxPrice,$minPrice);
+        // if($data){
             foreach($data as $row){
                 array_push($invoices,new TableInvoice($row->id,$row->date,$row->quantity,$row->nr_of_records,$row->total_price));  
         }        
         $response->invoices=$invoices;
         $response->row_count=$nr_of_rows->row_count;
+        $response->max_price=$max_price->max_price;
         return $response;
-        }
+        // }
 
-        return $data;
+        // return $data;
         } 
          catch (PDOException $e){
              $this->errorMessage->error='Connection failed: '. $e->getMessage();
