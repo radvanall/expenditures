@@ -21,6 +21,8 @@ import BasicButton from "../Buttons/BasicButton/BasicButton";
 interface Props<T> {
   tableFields: T[] | undefined;
   tableTitle?: string;
+  customColumnWidth?: { columnName: string; width: number };
+  buttonPading?: string;
   handleEdit?: (id: number) => void;
   handleDelete?: (id: number) => void;
   handleDetails?: (id: number) => void;
@@ -33,6 +35,8 @@ interface Props<T> {
 function Table<T extends { id: number }>({
   tableFields,
   tableTitle,
+  customColumnWidth,
+  buttonPading,
   handleDelete,
   handleEdit,
   handleDetails,
@@ -40,7 +44,10 @@ function Table<T extends { id: number }>({
   const tableHeader = tableFields?.length ? Object.keys(tableFields[0]) : null;
   const [columnWidth, setColumnWidth] = useState(0);
   useEffect(() => {
-    if (tableHeader !== null) setColumnWidth(95 / tableHeader?.length);
+    const restWidth = customColumnWidth ? 95 - customColumnWidth.width : 95;
+    const lenghtMin = customColumnWidth ? 1 : 0;
+    if (tableHeader !== null)
+      setColumnWidth(restWidth / (tableHeader?.length - lenghtMin));
   }, [tableFields]);
 
   return (
@@ -56,6 +63,11 @@ function Table<T extends { id: number }>({
                   style={
                     columnName === "id"
                       ? { width: "5%" }
+                      : columnName === customColumnWidth?.columnName
+                      ? {
+                          width: `${customColumnWidth.width}%`,
+                          textAlign: "center",
+                        }
                       : { width: `${columnWidth}%` }
                   }
                 >
@@ -76,6 +88,8 @@ function Table<T extends { id: number }>({
                   style={
                     cell === "id"
                       ? { width: "5%" }
+                      : cell === customColumnWidth?.columnName
+                      ? { width: `${customColumnWidth.width}%` }
                       : { width: `${columnWidth}%` }
                   }
                 >
@@ -84,7 +98,10 @@ function Table<T extends { id: number }>({
               ))}
               <td
                 className={styles.actions__cell}
-                style={{ width: `${columnWidth}%` }}
+                style={{
+                  width: `${columnWidth}%`,
+                  paddingLeft: buttonPading ?? "4px",
+                }}
               >
                 {handleDetails && (
                   <BasicButton
