@@ -1,6 +1,7 @@
 <?php
 include "../src/model/Category.php";
 include_once  "Service.php";
+require_once "../src/DTO/CategoryTableDTO.php";
 class CategoryService extends Service{
     function findAll($user_id){
         $categories=array();
@@ -84,5 +85,22 @@ class CategoryService extends Service{
     $grouped=array_values($grouped);
     return $grouped; 
     }
+
+    public function getCategoryTable($user_id){
+        try{
+            $result=$this->repository->getCategoryTable($user_id);
+            $categories=array();
+            foreach($result as $category){
+                array_push($categories,new CategoryTableDTO($category->category_id,$category->category_name,$category->nr_of_items,$category->total_price));
+            }
+            $response=new stdClass();
+            $response->categories=$categories;
+            return $response;
+            
+        }catch(PDOException $e){
+            return $this->returnError( $this->errorMessage->error='Connection failed: '. $e->getMessage());
+        }
+    }
+ 
 }
 

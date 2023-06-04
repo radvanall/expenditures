@@ -47,5 +47,20 @@ class CategoryRepository extends Repository{
         $this->db::disconnect();
         return $data;
     }
- 
+    public function getCategoryTable($user_id){
+        $sql = "SELECT s1.category_id,s1.category_name ,count(s1.item_id) as nr_of_items,SUM(total_price) as total_price FROM (SELECT c.id as category_id, c.category_name,r.quantity*r.price as total_price, i.id as item_id  FROM `category` c  inner join item i on i.category_id=c.id inner JOIN record r on r.item_id=i.id WHERE c.user_id=:id) as s1 GROUP by s1.category_id  ORDER BY `total_price`  DESC;";
+        $this->connection=$this->db::connect();
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+        $stmt->execute();
+        $result=array();
+        while($row=$stmt->fetch()){
+            array_push($result,$row);
+        }
+        $this->db::disconnect();
+        return $result;
+    }
+   
+    
+
 }
