@@ -13,6 +13,18 @@ session_start();
  $getVars = $_GET; 
  $postVars = $_POST; 
  if(isset($_SESSION["user_id"])){
+    if($method=="GET" && isset($getVars["request"]) && $getVars['request']=="get_category_table"){
+        $result=$categoryService->getCategoryTable($_SESSION["user_id"]);
+        if(property_exists($result,'error')){
+            http_response_code(400);
+            echo json_encode($result);
+        }else{
+          http_response_code(200);
+          echo json_encode($result);
+         
+       }
+
+    }else
  CRUD_controller($categoryService,$method, $getVars, $postVars);
  } else echo json_encode(array("message"=>"you are not logged in!","status"=>false));
 // if($_SERVER["REQUEST_METHOD"]=="GET" && isset($_GET["id"]) && $_GET["id"]=="all"){
