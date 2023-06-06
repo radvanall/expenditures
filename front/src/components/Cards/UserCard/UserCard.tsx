@@ -6,7 +6,6 @@ import { AiOutlineDown } from "react-icons/ai";
 import EditUserModal from "../../Modals/EditUserModal/EditUserModal";
 import { useUserData } from "../../../context/Provider";
 import { useMountTransition } from "../../../services/hooks/useMountTransition";
-// import { InputType } from "../../../Interfaces/InputType";
 import {
   editEmailFields,
   editNicknameFields,
@@ -20,19 +19,10 @@ const UserCard = () => {
   const [modal, setModal] = useState<boolean>(false);
   const hasTransitionedIn = useMountTransition(modal, 300);
   const [animation, setAnimation] = useState<boolean>(false);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.currentTarget);
-  };
   const handleVisible = (e: React.MouseEvent<HTMLButtonElement>) => {
     setVisible((prev) => !prev);
     setAnimation(true);
   };
-  // editNicknameFields[0].value = "flsdkfjk";
-  // editNicknameFields.push({ id: 3, name: "Enter password", type: "password" });
-  // console.log(editNicknameFields);
-  // console.log("render");
-  // console.log(editNicknameFields);
-
   return (
     <Card>
       {(modal || hasTransitionedIn) && (
@@ -41,7 +31,6 @@ const UserCard = () => {
           visible={modal && hasTransitionedIn}
           setVisible={setModal}
           changedField={changedField}
-          // value={selectedUserField}
         />
       )}
       <div className={styles.img__wrapper}>
@@ -58,10 +47,6 @@ const UserCard = () => {
               <FaFeatherAlt
                 className={styles.feather}
                 onClick={() => {
-                  // setSelectedUserField({
-                  //   name: "nickname",
-                  //   value: userData?.nickname ?? "",
-                  // });
                   setchangedField("nickname");
                   setModal((prev) => !prev);
                   const setValue = editNicknameFields.find(
@@ -131,10 +116,6 @@ const UserCard = () => {
                   onClick={() => {
                     setchangedField("password");
                     setModal((prev) => !prev);
-                    // const setValue = editPasswordFields.find(
-                    //   (field) => field.name === "email"
-                    // );
-                    // if (setValue) setValue.value = userData?.email ?? "";
                     setInputFields(editPasswordFields);
                     console.log(editPasswordFields);
                   }}
