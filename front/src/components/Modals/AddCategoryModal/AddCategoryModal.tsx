@@ -12,6 +12,8 @@ const AddCategoryModal: FC<AddModalI> = ({
   setVisible,
   inputFields,
   fetchData,
+  request,
+  Id,
 }) => {
   const {
     error,
@@ -19,10 +21,15 @@ const AddCategoryModal: FC<AddModalI> = ({
     message: answer,
     makePostRequest,
     resetPost,
-  } = usePost("http://localhost:84/expenditures/public/category.php", "insert");
-  const submitData = (data: FormData) => {
+  } = usePost(
+    "http://localhost:84/expenditures/public/category.php",
+    request ? request : "insert"
+  );
+  const submitData = async (data: FormData) => {
     console.log("SUBMITED", data);
-    makePostRequest(data);
+    if (Id && request === "update") data.id = Id;
+
+    await makePostRequest(data);
     fetchData();
   };
   const { register, errors, handleSubmit } = useValidate(inputFields);
@@ -31,7 +38,7 @@ const AddCategoryModal: FC<AddModalI> = ({
   return (
     <Modal visible={visible} setVisible={setVisible}>
       <Form
-        formName={"Add new category"}
+        formName={request === "insert" ? "Add new category" : "Edit category"}
         Input={BasicInput}
         inputFields={inputFields}
         register={register}

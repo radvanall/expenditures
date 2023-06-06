@@ -47,8 +47,8 @@ const MoneyPerDayChart = () => {
       if (data?.fields) console.log(data);
       for (let day = activeButton * 30; day >= 0; day--) {
         const newDate = DateTime.now().minus({ day: day }).toISODate();
-        console.log(fields.find((field) => field.date === newDate));
-        const field = fields.find((field) => field.date === newDate);
+        console.log(fields?.find((field) => field.date === newDate));
+        const field = fields?.find((field) => field.date === newDate);
         const moneyValue = field ? parseFloat(field.money.toString()) : 0;
         chartArray.push({
           date: newDate as string,

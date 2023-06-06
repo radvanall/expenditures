@@ -17,6 +17,8 @@ const AddItemModal: FC<AddModalI> = ({
   setVisible,
   inputFields,
   fetchData,
+  request,
+  Id,
 }) => {
   const [displayedCategories, setDisplayedCategories] = useState<
     SelectI[] | null
@@ -38,12 +40,20 @@ const AddItemModal: FC<AddModalI> = ({
     message: answer,
     makePostRequest,
     resetPost,
-  } = usePost("http://localhost:84/expenditures/public/item.php", "insert");
-  const submitData = (data: FormData) => {
+  } = usePost(
+    "http://localhost:84/expenditures/public/item.php",
+    request ? request : "insert"
+  );
+  const submitData = async (data: FormData) => {
     console.log("SUBMITED", data);
-    makePostRequest(data);
+    if (Id && request === "update") data.id = Id;
+    await makePostRequest(data);
     fetchData();
   };
+  const [selectValue, setSelectValue] = useState<SelectI>({
+    id: inputFields[2].defaultValue as number,
+    name: inputFields[3].defaultValue as string,
+  });
   const { register, errors, setValue, trigger, handleSubmit } =
     useValidate(inputFields);
   const submit = handleSubmit(submitData);
@@ -54,6 +64,12 @@ const AddItemModal: FC<AddModalI> = ({
     console.log("newArray:");
     setTimeout(() => setDisplayedCategories(categories), 300);
     trigger("category_name");
+    setSelectValue({
+      id: item.id,
+      name: item.name,
+      unit: item.unit,
+      links: item.links,
+    });
   };
   const filteredFields = inputFields.filter(
     (item) => item.type !== "select" && item.type !== "select_text"
@@ -62,7 +78,7 @@ const AddItemModal: FC<AddModalI> = ({
   return (
     <Modal visible={visible} setVisible={setVisible}>
       <Form
-        formName={"Add new item"}
+        formName={request === "insert" ? "Add new category" : "Edit category"}
         Input={BasicInput}
         inputFields={filteredFields}
         register={register}
@@ -78,6 +94,7 @@ const AddItemModal: FC<AddModalI> = ({
             name="Select category"
             label="Select category"
             displayedOptions={displayedCategories}
+            defaultValue={request === "insert" ? undefined : selectValue}
             handleCallback={handleChangeItem}
             setDisplayedOptions={setDisplayedCategories}
             z_index={4}
