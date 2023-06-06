@@ -1,7 +1,7 @@
 .home__wrapper {
   padding: 10px;
   display: grid;
-  gap: 5px;
+  gap: 10px;
   grid-template-columns: repeat(4, 1fr);
   overflow: hidden;
 }
@@ -10,5 +10,4 @@
 }
 .grid_col_span_2 {
   grid-column: span 2;
-  background-color: yellow;
 }
