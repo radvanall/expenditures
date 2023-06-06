@@ -1,0 +1,7 @@
+.add__item__wrapper {
+  margin-left: auto;
+  padding: 5px;
+  padding-right: 10px;
+  display: flex;
+  gap: 10px;
+}
