@@ -65,10 +65,15 @@ th {
   width: 100%;
 }
 
-.table tr td,
-th {
+.table tr td {
   /* width: 25%; */
+
   word-break: break-all;
+
+  padding-left: 4px;
+}
+.table th {
+  white-space: wrap;
   padding-left: 4px;
 }
 
