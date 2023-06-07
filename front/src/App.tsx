@@ -9,6 +9,8 @@ import Missing from "./pages/Missing/Missing";
 import Home from "./pages/Home/Home";
 import NewInvoice from "./pages/NewInvoice/NewInvoice";
 import RequireUnauth from "./pages/ProtectedRoutesWrapper/RequireUnauth";
+import Invoices from "./pages/Invoices/Invoices";
+import Invoice from "./pages/Invoice/Invoice";
 function App() {
   console.log("app rerender");
   return (
@@ -16,16 +18,24 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route element={<RequireUnauth />}>
+            <Route index element={<Missing address="login" />} />
             <Route path="login" element={<Login />} />
             <Route path="about" element={<About />} />
+            <Route path="*" element={<Missing address="login" />} />
           </Route>
 
           <Route element={<RequireAuth />}>
+            {/* <Route index element={<Home />} /> */}
+            <Route index element={<Missing address="home" />} />
             <Route path="home" element={<Home />} />
-            <Route path="new_invoice" element={<NewInvoice />} />
-          </Route>
 
-          <Route path="*" element={<Missing />} />
+            <Route path="new_invoice" element={<NewInvoice />} />
+            <Route path="invoices">
+              <Route index element={<Invoices />} />
+              <Route path=":id" element={<Invoice />} />
+            </Route>
+            <Route path="*" element={<Missing address="home" />} />
+          </Route>
         </Route>
       </Routes>
     </div>

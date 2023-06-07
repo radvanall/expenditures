@@ -1,7 +1,12 @@
-import React from "react";
-
-const Missing = () => {
-  return <div>Missing</div>;
+import React, { FC } from "react";
+import { Navigate } from "react-router-dom";
+interface Props {
+  address: string;
+}
+const Missing: FC<Props> = ({ address }) => {
+  // return <div>Missing</div>;
+  console.log(address);
+  return <Navigate to={`/${address}`} />;
 };
 
 export default Missing;
