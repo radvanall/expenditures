@@ -20,6 +20,8 @@
   opacity: 0;
   max-height: 300px;
   overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
   position: absolute;
   transform: translateY(-10px);
   transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
@@ -33,6 +35,7 @@
 
 .menu_list::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
   border-radius: 4px;
 }
 .menu_list::-webkit-scrollbar-track {
@@ -48,7 +51,6 @@
 
 ul.list {
   box-sizing: border-box;
-
   background-color: white;
 
   padding-left: 1px;

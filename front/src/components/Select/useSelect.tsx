@@ -7,11 +7,13 @@ import { reducer, TYPE, initState } from "./reducer";
 const useSelect = (
   options: SelectI[] | null,
   setDisplayedOptions: React.Dispatch<React.SetStateAction<SelectI[] | null>>,
+  displayedOptions: SelectI[] | null | undefined,
   defaultValue?: SelectI | null,
   handleCallback?: (id: SelectI) => void
 ) => {
   const [state, dispatch] = useReducer(reducer, initState);
   const liRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const listRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const arrowUpPressed = useKeyPress("ArrowUp");
   const arrowDownPressed = useKeyPress("ArrowDown");
@@ -34,16 +36,28 @@ const useSelect = (
 
   useEffect(() => {
     dispatch({ type: TYPE.RESET });
+    if (listRef.current) {
+      listRef.current.scrollTop = 0;
+    }
   }, [visible]);
   useEffect(() => {
-    if (arrowUpPressed) {
+    if (arrowUpPressed && displayedOptions) {
       console.log("pressUp", state.selected);
       visible && dispatch({ type: TYPE.MOVE_UP });
+      if (listRef.current) {
+        listRef.current.scrollTop -= 25;
+      }
     }
   }, [arrowUpPressed]);
   useEffect(() => {
-    if (arrowDownPressed) {
-      visible && dispatch({ type: TYPE.MOVE_DOWN });
+    if (arrowDownPressed && displayedOptions) {
+      if (state.selected < displayedOptions?.length - 1) {
+        console.log(displayedOptions.length);
+        visible && dispatch({ type: TYPE.MOVE_DOWN });
+        if (listRef.current) {
+          listRef.current.scrollTop += 25;
+        }
+      }
     }
   }, [arrowDownPressed]);
   useEffect(() => {
@@ -117,6 +131,7 @@ const useSelect = (
     handleInputChange,
     handleSelect,
     liRefs,
+    listRef,
     visible,
     state,
   };

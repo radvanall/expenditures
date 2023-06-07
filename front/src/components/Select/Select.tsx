@@ -35,9 +35,16 @@ const Select: FC<Props> = ({
     handleInputChange,
     handleSelect,
     liRefs,
+    listRef,
     visible,
     state,
-  } = useSelect(options, setDisplayedOptions, defaultValue, handleCallback);
+  } = useSelect(
+    options,
+    setDisplayedOptions,
+    displayedOptions,
+    defaultValue,
+    handleCallback
+  );
 
   return (
     <div
@@ -68,6 +75,7 @@ const Select: FC<Props> = ({
         className={
           visible ? `${styles.menu_list} ${styles.visible}` : styles.menu_list
         }
+        ref={listRef}
         style={{ zIndex: z_index ?? 3 }}
       >
         <ul className={styles.list} onMouseDown={handleSelect}>

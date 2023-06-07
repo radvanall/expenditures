@@ -25,6 +25,7 @@ export const reducer = (
 ): typeof initState => {
   switch (action.type) {
     case TYPE.MOVE_UP: {
+      if (state.selected === 0) return { ...state };
       return { ...state, selected: state.selected - 1 };
     }
     case TYPE.MOVE_DOWN: {
