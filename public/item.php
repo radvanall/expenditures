@@ -14,4 +14,6 @@ session_start();
  $postVars = $_POST; 
  if(isset($_SESSION["user_id"])){
  CRUD_controller($itemService,$method, $getVars, $postVars);
- } else echo json_encode(array("message"=>"you are not logged in!","status"=>false));
+ } else {  http_response_code(400);
+    header('Content-Type: application/json');
+    echo json_encode(array("error"=>"you are not logged in!","status"=>false));}

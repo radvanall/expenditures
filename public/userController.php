@@ -74,4 +74,4 @@ echo json_encode(array("success"=>"you logged out!"));
 
 }else {  http_response_code(400);
 header('Content-Type: application/json');
-echo json_encode(array("error"=>"you are not logged in!"));}
+echo json_encode(array("error"=>"you are not logged in!","status"=>false));}

@@ -26,7 +26,9 @@ session_start();
 
     }else
  CRUD_controller($categoryService,$method, $getVars, $postVars);
- } else echo json_encode(array("message"=>"you are not logged in!","status"=>false));
+ } else {  http_response_code(400);
+    header('Content-Type: application/json');
+    echo json_encode(array("error"=>"you are not logged in!","status"=>false));}
 // if($_SERVER["REQUEST_METHOD"]=="GET" && isset($_GET["id"]) && $_GET["id"]=="all"){
 //     $categories= $categoryService->findAll();
 //     header('Content-Type: application/json; charset=utf-8');

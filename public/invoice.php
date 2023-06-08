@@ -88,4 +88,6 @@ echo json_encode($result);
  }
  else
  CRUD_controller($invoiceService,$method, $getVars, $postVars);
-} else echo json_encode(array("status"=>"you are not logged in!"));
+} else {  http_response_code(400);
+  header('Content-Type: application/json');
+  echo json_encode(array("error"=>"you are not logged in!","status"=>false));}
