@@ -7,7 +7,7 @@ function usePost(url: string, request: string) {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
-  function makePostRequest(data: object = {}) {
+  async function makePostRequest(data: object = {}) {
     setPending(true);
     const formData = new FormData();
     formData.append("request", request);
