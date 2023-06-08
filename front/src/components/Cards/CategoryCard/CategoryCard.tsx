@@ -49,7 +49,7 @@ const CategoryCard = () => {
   const hasTransitionedIn = useMountTransition(modal, 300);
 
   useEffect(() => {
-    if (data?.categories) {
+    if (data?.categories.length) {
       const totalPrice = data?.categories[0]["Total price"];
       const newArray: categoriesElementsT[] = data?.categories.map(
         (category, index) => {

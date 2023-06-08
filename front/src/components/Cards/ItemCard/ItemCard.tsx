@@ -50,7 +50,7 @@ const ItemCard = () => {
   const hasTransitionedIn = useMountTransition(modal, 300);
 
   const getItems = () => {
-    if (data?.items) {
+    if (data?.items.length) {
       const totalPrice = data?.items[0]["Total price"];
       const newArray: ItemsT[] = data?.items.map((item, index) => {
         return {
