@@ -61,6 +61,25 @@ class CategoryRepository extends Repository{
         $this->db::disconnect();
         return $result;
     }
+
+    public function changeCategoryToDelete($user_id,$id){
+        $sql="SELECT id FROM `category` WHERE category_name='default_category' and user_id=:id";
+        $this->connection=$this->db::connect();
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+        $stmt->execute();
+        $default_id=$stmt->fetch()->id;
+        $stmt->closeCursor();
+        
+        $sql="UPDATE item SET category_id=:default_id where $user_id=:user_id and category_id=:id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(":default_id",htmlspecialchars(strip_tags($default_id)),PDO::PARAM_INT);
+        $stmt->bindValue(":user_id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+        $stmt->bindValue(":id",htmlspecialchars(strip_tags($id)),PDO::PARAM_INT);
+        $stmt->execute();
+        $this->db::disconnect();
+        
+    }
    
     
 
