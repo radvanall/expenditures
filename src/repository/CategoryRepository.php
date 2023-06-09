@@ -48,7 +48,7 @@ class CategoryRepository extends Repository{
         return $data;
     }
     public function getCategoryTable($user_id){
-        $sql = "SELECT s1.category_id,s1.category_name ,count(s1.item_id) as nr_of_items,
+        $sql = "SELECT s1.category_id,s1.category_name ,count(DISTINCT s1.item_id) as nr_of_items,
         COALESCE(SUM(total_price),0) as total_price FROM (SELECT c.id as category_id, c.category_name,r.quantity*r.price as total_price, i.id as item_id  FROM `category` c  left join item i on i.category_id=c.id left JOIN record r on r.item_id=i.id WHERE c.user_id=:id) as s1 GROUP by s1.category_id  ORDER BY `total_price`  DESC;";
         $this->connection=$this->db::connect();
         $stmt=$this->connection->prepare($sql);
