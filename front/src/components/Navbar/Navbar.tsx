@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { links, protectedLinks } from "../../services/links";
-import { useAuth } from "../../context/Provider";
+import { useAuth, useModal } from "../../context/Provider";
 import useAuthorization from "../../services/hooks/useAuthorization";
 import styles from "./Navbar.module.css";
 import Modal from "../Modals/Modal/Modal";
@@ -9,7 +9,7 @@ import Navlink from "../Navlink/Navlink";
 
 const Navbar = () => {
   const { auth } = useAuth();
-  const [visible, setVisible] = useState<boolean>(false);
+  const { visible, setVisible, deleteMessage } = useModal();
   const { error, pending, message, logout } = useAuthorization();
   const handleLogout = () => {
     setVisible(true);
@@ -19,7 +19,13 @@ const Navbar = () => {
   return (
     <div>
       <Modal visible={visible} setVisible={setVisible}>
-        {pending ? <Pending /> : error ? <h4>{error}</h4> : <h4>{message}</h4>}
+        {pending ? (
+          <Pending />
+        ) : error ? (
+          <h4>{error}</h4>
+        ) : (
+          <h4>{deleteMessage ? deleteMessage : message}</h4>
+        )}
       </Modal>
       <nav className={styles.navbar}>
         {auth === false ? (

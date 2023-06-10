@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Navlink.module.css";
+import { RiLogoutBoxRLine } from "react-icons/ri";
+import ImgButton from "../Buttons/ImgButton/ImgButton";
 interface Props {
   links: {
     pathname: string;
@@ -20,7 +22,9 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
   };
   return (
     <ul>
-      {auth && <button onClick={handleLogout}>Logout</button>}
+      {/* <button onClick={handleLogout}>Logout</button> */}
+
+      {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
       {links.map((link) => (
         <Link
           key={link.pathname}
@@ -30,6 +34,18 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
           {link.name}
         </Link>
       ))}
+      {auth && (
+        <ImgButton
+          handleClick={handleLogout}
+          color="pink"
+          fontSize="18px"
+          title="Logout"
+        >
+          <RiLogoutBoxRLine />
+        </ImgButton>
+      )}
+
+      {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
     </ul>
   );
 };

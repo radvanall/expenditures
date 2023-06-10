@@ -6,6 +6,7 @@ import {
   ReactNode,
   FC,
 } from "react";
+import useAuthorization from "../services/hooks/useAuthorization";
 
 type userDataType = {
   nickname: string;
@@ -14,6 +15,12 @@ type userDataType = {
 interface AuthContextType {
   auth: boolean;
   setAuth: React.Dispatch<React.SetStateAction<boolean>>;
+}
+interface ModalContextType {
+  visible: boolean;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteMessage: string | null;
+  setDeleteMessage: React.Dispatch<React.SetStateAction<string | null>>;
 }
 interface UserDataContextType {
   userData: userDataType | null;
@@ -27,6 +34,12 @@ const AuthContext = createContext<AuthContextType>({
   auth: false,
   setAuth: () => {},
 });
+const ModalContext = createContext<ModalContextType>({
+  visible: false,
+  setVisible: () => {},
+  deleteMessage: "",
+  setDeleteMessage: () => {},
+});
 console.log("layout rerender");
 const UserDataContext = createContext<UserDataContextType>({
   userData: { nickname: "", email: "" },
@@ -38,6 +51,9 @@ export const useAuth = () => {
 };
 export const useUserData = () => {
   return useContext(UserDataContext);
+};
+export const useModal = () => {
+  return useContext(ModalContext);
 };
 const setInitialUserData = (): userDataType | null => {
   const userData = window.localStorage.getItem("userData");
@@ -53,6 +69,12 @@ const setInitialState = (): boolean => {
 export const Provider: FC<Props> = ({ children }) => {
   const [auth, setAuth] = useState(setInitialState);
   const [userData, setUserData] = useState(setInitialUserData);
+
+  const [visible, setVisible] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState<string | null>(null);
+  useEffect(() => {
+    if (!visible) setDeleteMessage(null);
+  }, [visible]);
   useEffect(() => {
     userData
       ? window.localStorage.setItem("userData", JSON.stringify(userData))
@@ -64,10 +86,19 @@ export const Provider: FC<Props> = ({ children }) => {
       : window.localStorage.removeItem("isAuth");
   }, [auth]);
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-      <UserDataContext.Provider value={{ userData, setUserData }}>
-        {children}
-      </UserDataContext.Provider>
-    </AuthContext.Provider>
+    <ModalContext.Provider
+      value={{
+        visible,
+        setVisible,
+        deleteMessage,
+        setDeleteMessage,
+      }}
+    >
+      <AuthContext.Provider value={{ auth, setAuth }}>
+        <UserDataContext.Provider value={{ userData, setUserData }}>
+          {children}
+        </UserDataContext.Provider>
+      </AuthContext.Provider>
+    </ModalContext.Provider>
   );
 };
