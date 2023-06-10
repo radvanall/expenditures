@@ -159,6 +159,18 @@ export const editPasswordFields = [
     key: "ep3",
   },
 ];
+export const deleteAccount = [
+  {
+    id: 1,
+    name: "password",
+    type: "password",
+    value: "",
+    defaultValue: "",
+    label: "Enter password",
+    border: "pink",
+    key: "d3",
+  },
+];
 
 export const newItem = [
   {

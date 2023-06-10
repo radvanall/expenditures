@@ -4,6 +4,7 @@ import Card from "../Card/Card";
 import { FaFeatherAlt } from "react-icons/fa";
 import { AiOutlineDown } from "react-icons/ai";
 import EditUserModal from "../../Modals/EditUserModal/EditUserModal";
+import DeleteUserModal from "../../Modals/DeleteUserModal/DeleteUserModal";
 import { useUserData } from "../../../context/Provider";
 import { useMountTransition } from "../../../services/hooks/useMountTransition";
 import {
@@ -11,6 +12,7 @@ import {
   editNicknameFields,
   editPasswordFields,
 } from "../../../data/loginInputFields";
+import BasicButton from "../../Buttons/BasicButton/BasicButton";
 const UserCard = () => {
   const { userData } = useUserData();
   const [changedField, setchangedField] = useState("");
@@ -18,6 +20,8 @@ const UserCard = () => {
   const [inputFields, setInputFields] = useState(editEmailFields);
   const [modal, setModal] = useState<boolean>(false);
   const hasTransitionedIn = useMountTransition(modal, 300);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const hasDeleteModalTransitionedIn = useMountTransition(deleteModal, 300);
   const [animation, setAnimation] = useState<boolean>(false);
   const handleVisible = (e: React.MouseEvent<HTMLButtonElement>) => {
     setVisible((prev) => !prev);
@@ -31,6 +35,12 @@ const UserCard = () => {
           visible={modal && hasTransitionedIn}
           setVisible={setModal}
           changedField={changedField}
+        />
+      )}
+      {(deleteModal || hasDeleteModalTransitionedIn) && (
+        <DeleteUserModal
+          visible={deleteModal && hasDeleteModalTransitionedIn}
+          setVisible={setDeleteModal}
         />
       )}
       <div className={styles.img__wrapper}>
@@ -123,6 +133,31 @@ const UserCard = () => {
                   <FaFeatherAlt className={styles.feather} />
                 </button>
               </div>
+            </div>
+            <div
+              className={`${styles.user__info_last_line} ${styles.delete_wrapper}`}
+            >
+              <BasicButton
+                text="Delete acount"
+                handleClick={() => {
+                  setDeleteModal((prev) => !prev);
+                }}
+              />
+              {/* <p>Change password</p>
+              <div
+                className={`${styles.feather_container} ${styles.push_right}`}
+              >
+                <button
+                  onClick={() => {
+                    setchangedField("password");
+                    setModal((prev) => !prev);
+                    setInputFields(editPasswordFields);
+                    console.log(editPasswordFields);
+                  }}
+                >
+                  <FaFeatherAlt className={styles.feather} />
+                </button>
+              </div> */}
             </div>
           </div>
         </div>
