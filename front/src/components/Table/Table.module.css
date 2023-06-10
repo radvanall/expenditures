@@ -29,7 +29,7 @@
   max-height: 420px;
   width: 100%;
   overflow: auto;
-  border-bottom: 1px solid var(--secondary-border-color);
+  /* border-bottom: 1px solid var(--secondary-border-color); */
 }
 .table tbody::-webkit-scrollbar {
   width: 4px;

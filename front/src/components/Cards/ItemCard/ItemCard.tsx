@@ -108,6 +108,14 @@ const ItemCard = () => {
   const handleCancel = () => {
     setItemId(-1);
   };
+  useEffect(() => {
+    if (!modal) {
+      newItem[0].defaultValue = "";
+      newItem[1].defaultValue = "";
+      newItem[2].defaultValue = "";
+      newItem[3].defaultValue = "";
+    }
+  }, [modal]);
   return (
     <Card>
       <div className={styles.add__item__wrapper}>
