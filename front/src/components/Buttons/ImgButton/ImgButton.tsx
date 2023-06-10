@@ -7,6 +7,7 @@ interface Props {
   height?: string;
   color?: string;
   fontSize?: string;
+  title?: string;
 }
 const ImgButton: FC<Props> = ({
   children,
@@ -15,6 +16,7 @@ const ImgButton: FC<Props> = ({
   height,
   color,
   fontSize,
+  title,
 }) => {
   return (
     <button
@@ -24,6 +26,7 @@ const ImgButton: FC<Props> = ({
           : `${styles.basic__button} ${styles.blue}`
       }
       onClick={handleClick}
+      title={title}
       type={type}
       style={{ height: height ?? "auto", fontSize: fontSize ?? "auto" }}
     >

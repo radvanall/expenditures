@@ -27,6 +27,7 @@ function usePost(url: string, request: string) {
       })
       .catch((error) => {
         console.log(error.response.data.error);
+        console.log(error.response);
         setMessage(null);
         setError(error.response.data.error);
         //setAuth(false);

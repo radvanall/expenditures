@@ -95,8 +95,10 @@ const CategoryCard = () => {
     setCategoryId(-1);
   };
   const handleCancel = () => {
+    newCategory[0].defaultValue = "";
     setCategoryId(-1);
   };
+
   return (
     <Card>
       <div className={styles.add__category__wrapper}>

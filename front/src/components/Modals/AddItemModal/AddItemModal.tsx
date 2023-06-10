@@ -78,7 +78,7 @@ const AddItemModal: FC<AddModalI> = ({
   return (
     <Modal visible={visible} setVisible={setVisible}>
       <Form
-        formName={request === "insert" ? "Add new category" : "Edit category"}
+        formName={request === "insert" ? "Add new item" : "Edit item"}
         Input={BasicInput}
         inputFields={filteredFields}
         register={register}
