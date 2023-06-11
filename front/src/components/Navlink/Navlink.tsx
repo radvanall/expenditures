@@ -1,8 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, FormEventHandler, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Navlink.module.css";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import ImgButton from "../Buttons/ImgButton/ImgButton";
+import ToggleSlider from "../ToggleSlider/ToggleSlider";
+import { useTheme } from "../../context/Provider";
 interface Props {
   links: {
     pathname: string;
@@ -19,6 +21,11 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
         ? `${styles.active} ${styles.link} `
         : `${styles.inactive} ${styles.link} `;
     return style;
+  };
+  const { theme, setTheme } = useTheme();
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked);
+    setTheme(e.target.checked);
   };
   return (
     <ul>
@@ -44,7 +51,7 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
           <RiLogoutBoxRLine />
         </ImgButton>
       )}
-
+      <ToggleSlider onChange={handleCheck} checked={theme} />
       {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
     </ul>
   );

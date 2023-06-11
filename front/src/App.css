@@ -13,7 +13,10 @@ body {
 }
 /* Dark classic blue (#0A1828), turquoise (#178582), gold (#BFA181) */
 .App {
-  --pale-blue: #4898bd;
+  /* --pale-blue: #4898bd; */
+
+  --pale-blue: #a4cadb;
+  --card-color: #f2f2f2;
   --primary-background-color: white;
   --secondary-background-color: #4898bd;
   --tertialy--backgorund-color: #f07f93;
@@ -32,6 +35,18 @@ body {
   --tertialy-box-shadow: 0 0 10px hsl(349, 42%, 52%);
   --primary-text-color: black;
   --secondary-text-color: #333333;
+  --caption-color: black;
+  --row-hover: #d1e7ed;
+  --input-border: #297497;
+  /* --url: url("../../images/background.jpg"); */
+  --url: url("/src/images/background.jpg");
+  background-color: var(--primary-background-color);
+  height: 100%;
+  min-height: 100vh;
+
+  /* display: flex;
+  height: 100%;
+  min-height: fit-content; */
 }
 input[type="number"]::-webkit-inner-spin-button {
   display: none;
@@ -40,7 +55,15 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 .App.dark {
-  --primary-background-color: #0a1828;
+  --card-color: #191c24;
+  --input-border: #0f6865;
+  --pale-blue: hsla(0, 0%, 100%, 0.863);
+  /* --url: url("../../images/sky.jpg"); */
+  --url: url("/src/images/sky.jpg");
+
+  /* --pale-blue: #e2d7ca; */
+  /* --primary-background-color: #0a1828; */
+  --primary-background-color: #152036;
   --secondary-background-color: #178582;
   --tertialy--backgorund-color: #bfa181;
   --primary-border-color: var(--secondary-background-color);
@@ -53,4 +76,6 @@ input[type="number"] {
   --tertialy-box-shadow: 0px 3px 10px rgba(191, 161, 129, 0.5);
   --primary-text-color: #bfa181;
   --secondary-text-color: #704214;
+  --caption-color: #178582;
+  --row-hover: hsla(224, 5%, 43%, 0.603);
 }

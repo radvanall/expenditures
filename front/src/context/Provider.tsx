@@ -6,7 +6,6 @@ import {
   ReactNode,
   FC,
 } from "react";
-import useAuthorization from "../services/hooks/useAuthorization";
 
 type userDataType = {
   nickname: string;
@@ -27,6 +26,11 @@ interface UserDataContextType {
   setUserData: React.Dispatch<React.SetStateAction<userDataType | null>>;
 }
 
+interface themeI {
+  theme: boolean;
+  setTheme: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 interface Props {
   children: ReactNode;
 }
@@ -45,7 +49,10 @@ const UserDataContext = createContext<UserDataContextType>({
   userData: { nickname: "", email: "" },
   setUserData: () => {},
 });
-
+const ThemeContext = createContext<themeI>({
+  theme: false,
+  setTheme: () => {},
+});
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -54,6 +61,9 @@ export const useUserData = () => {
 };
 export const useModal = () => {
   return useContext(ModalContext);
+};
+export const useTheme = () => {
+  return useContext(ThemeContext);
 };
 const setInitialUserData = (): userDataType | null => {
   const userData = window.localStorage.getItem("userData");
@@ -69,6 +79,7 @@ const setInitialState = (): boolean => {
 export const Provider: FC<Props> = ({ children }) => {
   const [auth, setAuth] = useState(setInitialState);
   const [userData, setUserData] = useState(setInitialUserData);
+  const [theme, setTheme] = useState(false);
 
   const [visible, setVisible] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState<string | null>(null);
@@ -96,7 +107,9 @@ export const Provider: FC<Props> = ({ children }) => {
     >
       <AuthContext.Provider value={{ auth, setAuth }}>
         <UserDataContext.Provider value={{ userData, setUserData }}>
-          {children}
+          <ThemeContext.Provider value={{ theme, setTheme }}>
+            {children}
+          </ThemeContext.Provider>
         </UserDataContext.Provider>
       </AuthContext.Provider>
     </ModalContext.Provider>

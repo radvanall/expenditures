@@ -11,10 +11,13 @@ import NewInvoice from "./pages/NewInvoice/NewInvoice";
 import RequireUnauth from "./pages/ProtectedRoutesWrapper/RequireUnauth";
 import Invoices from "./pages/Invoices/Invoices";
 import Invoice from "./pages/Invoice/Invoice";
+import { useTheme } from "./context/Provider";
+
 function App() {
+  const { theme } = useTheme();
   console.log("app rerender");
   return (
-    <div className="App">
+    <div className={theme ? "App" : "App dark"}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route element={<RequireUnauth />}>
