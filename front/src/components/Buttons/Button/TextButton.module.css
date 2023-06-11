@@ -1,6 +1,6 @@
 .button__wrapper {
   padding-bottom: 10px;
-  color: black;
+  color: var(--primary-text-color);
 }
 .button__wrapper button {
   background: none;

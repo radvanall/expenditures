@@ -4,6 +4,7 @@
   padding: 10px;
   width: 100%;
   gap: 10px;
+  color: var(--primary-text-color);
 }
 .invoice_menu {
   flex: 1 1 25%;

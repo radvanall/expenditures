@@ -1,5 +1,6 @@
 .message__modal {
   width: 100%;
+  color: var(--primary-text-color);
 }
 .buttons__wrapper {
   display: flex;

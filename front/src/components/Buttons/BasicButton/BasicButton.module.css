@@ -23,6 +23,7 @@
 }
 .basic__button:hover {
   box-shadow: var(--box-shadow);
-  background-color: var(--primary-background-color);
+  background-color: white;
+  /* background-color: var(--primary-background-color); */
   color: var(--background-color);
 }

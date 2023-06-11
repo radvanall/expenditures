@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import styles from "./MoneyPerDayChart.module.css";
 import {
@@ -9,10 +9,6 @@ import {
   Area,
   Tooltip,
   CartesianGrid,
-  LineChart,
-  Line,
-  Scatter,
-  ComposedChart,
 } from "recharts";
 import { TooltipProps } from "recharts";
 import {
@@ -21,6 +17,7 @@ import {
 } from "recharts/types/component/DefaultTooltipContent";
 import useGetReq from "../../../services/hooks/useGetReq";
 import BasicButton from "../../Buttons/BasicButton/BasicButton";
+import { useTheme } from "../../../context/Provider";
 type chartDataT = {
   date: string;
   money: number;
@@ -29,6 +26,7 @@ type moneyPerDay = {
   fields: chartDataT[];
 };
 const MoneyPerDayChart = () => {
+  const { theme } = useTheme();
   //const firstDate = DateTime.now().minus({ months: 1 }).toISODate();
   const [firstDate, setFirstDate] = useState<string>(
     DateTime.now().minus({ months: 1 }).toISODate() as string
@@ -105,6 +103,7 @@ const MoneyPerDayChart = () => {
             tickLine={false}
             tickCount={4}
             interval={0}
+            tick={{ fill: theme ? "black" : "#bfa181", fillOpacity: 0.8 }}
             // interval={6}
             tickFormatter={(str) => {
               const datef = DateTime.fromISO(str);
@@ -125,6 +124,7 @@ const MoneyPerDayChart = () => {
             tickLine={false}
             tickFormatter={(number: number) => `${number.toFixed(2)} lei`}
             width={100}
+            tick={{ fill: theme ? "black" : "#bfa181", fillOpacity: 0.8 }}
           />
           <CartesianGrid opacity={0.4} vertical={false} stroke="#297497" />
           <Tooltip

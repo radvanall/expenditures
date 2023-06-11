@@ -148,6 +148,10 @@ img {
   justify-content: end;
   padding-bottom: 10px;
 }
+.button_feather {
+  background-color: var(--card-color);
+  color: var(--primary-text-color);
+}
 @keyframes shadow-grow {
   0% {
     box-shadow: 0px 0px 0px 0px var(--secondary-background-color);

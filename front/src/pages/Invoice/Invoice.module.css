@@ -37,6 +37,8 @@
   background-color: #f2f2f2;
   box-shadow: var(--primary-box-shadow);
   overflow: hidden;
+  background-color: var(--card-color);
+  color: var(--primary-text-color);
 }
 .invoice__wrapper h4 {
   text-align: center;

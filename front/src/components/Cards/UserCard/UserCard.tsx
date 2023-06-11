@@ -111,6 +111,7 @@ const UserCard = () => {
                       setInputFields(editEmailFields);
                       console.log(editEmailFields);
                     }}
+                    className={styles.button_feather}
                   >
                     <FaFeatherAlt className={styles.feather} />
                   </button>
@@ -129,6 +130,7 @@ const UserCard = () => {
                     setInputFields(editPasswordFields);
                     console.log(editPasswordFields);
                   }}
+                  className={styles.button_feather}
                 >
                   <FaFeatherAlt className={styles.feather} />
                 </button>

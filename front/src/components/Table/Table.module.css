@@ -59,7 +59,8 @@ th {
 }
 .table tr:hover {
   /* background-color: rgba(128, 128, 128, 0.356); */
-  background-color: #d1e7ed;
+  background-color: var(--row-hover);
+  font-weight: 600;
 }
 .table tr {
   width: 100%;
@@ -85,6 +86,9 @@ th {
 .table caption {
   display: block;
   background-color: var(--tertialy--backgorund-color);
+  color: var(--caption-color);
+  font-size: 18px;
+  font-weight: 600;
 }
 /* .table tfoot {
   display: flex;

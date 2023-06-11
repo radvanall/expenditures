@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.5em;
+  color: var(--primary-text-color);
 }
 .range__input__wrapper {
   display: flex;

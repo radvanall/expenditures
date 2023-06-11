@@ -117,7 +117,7 @@ const EditForm: FC<Props> = ({
             <BasicButton
               text="Add record"
               type="submit"
-              color="pink"
+              color="blue"
               handleClick={submitRecord}
             />
           ) : (
@@ -126,7 +126,7 @@ const EditForm: FC<Props> = ({
                 text="Edit"
                 type="submit"
                 handleClick={submit}
-                color="pink"
+                color="blue"
               />
               <BasicButton
                 text="Cancel"

@@ -99,7 +99,8 @@ const Invoice = () => {
         cancelButton={true}
         handleCancel={handleCancel}
       >
-        <p>Are you sure you want to delete this record"</p>"
+        <p>Are you sure you want to delete this record?</p>
+        <br />
       </MessageModal>
       <div className={styles.new__record__button}>
         <BasicButton

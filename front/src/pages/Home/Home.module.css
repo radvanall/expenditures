@@ -4,6 +4,8 @@
   gap: 10px;
   grid-template-columns: repeat(4, 1fr);
   overflow: hidden;
+  /* height: 100%; */
+  /* background-color: var(--primary-background-color); */
 }
 .grid_col_span_3 {
   grid-column: span 3;

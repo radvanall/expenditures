@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   margin: 2px;
+  color: var(--primary-text-color);
 }
 .checkbox__container input[type="checkbox"] {
   cursor: pointer;

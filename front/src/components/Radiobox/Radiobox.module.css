@@ -6,6 +6,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  color: var(--primary-text-color);
 }
 .radiobox__container input[type="radio"] {
   cursor: pointer;

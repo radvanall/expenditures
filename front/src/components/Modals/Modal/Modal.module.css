@@ -17,6 +17,7 @@
   overflow: auto;
   pointer-events: none;
   transition: 0.5s all;
+  color: var(--primary-text-color);
 }
 .modal__wrapper.active {
   opacity: 1;
@@ -24,10 +25,12 @@
 }
 .modal__content {
   margin: 60px;
-  background-color: white;
+  /* background-color: white; */
+  background-color: var(--primary-background-color);
   padding: 20px;
   border-radius: 20px;
-  border: solid 2px #f07f93;
+  /* border: solid 2px #f07f93; */
+  border: solid 2px var(--tertialy--backgorund-color);
   width: max-content;
   min-width: 100px;
   min-height: 100px;
@@ -46,17 +49,19 @@
 .btn {
   margin-left: auto;
   background-color: white;
-  border: 1px solid #f07f93;
+  border: 1px solid var(--tertialy--backgorund-color);
   border-radius: 5px;
   padding: 0 5px;
   margin-bottom: 10px;
   font-size: 16px;
-  color: #f07f93;
+  color: var(--tertialy--backgorund-color);
   right: 5px;
+  font-weight: 600;
 }
 .btn:hover {
-  background-color: #f07f93;
+  background-color: var(--tertialy--backgorund-color);
   color: white;
+
   cursor: pointer;
   box-shadow: 0 0 10px hsl(349, 42%, 52%);
 }

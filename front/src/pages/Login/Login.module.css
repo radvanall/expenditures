@@ -1,6 +1,7 @@
 .login {
   position: relative;
-  background-image: url("../../images/background.jpg");
+  background: var(--url);
+  /* background-image: url("../../images/background.jpg"); */
   background-size: cover;
   background-position: center;
   height: 92vh;

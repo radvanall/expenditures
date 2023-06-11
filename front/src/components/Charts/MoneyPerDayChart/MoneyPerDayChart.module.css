@@ -12,6 +12,8 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--primary-box-shadow);
+  background-color: var(--card-color);
+  /* color: var(--primary-text-color); */
 }
 .button__wrapper {
   display: flex;
