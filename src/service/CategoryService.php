@@ -20,7 +20,14 @@ class CategoryService extends Service{
         return $category;
     }
     function delete($id){
-        return parent::delete($id);
+        $user_id=$_SESSION["user_id"];        
+        try{
+          $response= $this->repository->changeCategoryToDelete($user_id,$id); 
+          if(!isset($response)) return $this->returnError('There is not a default_category for you');
+           return parent::delete($id);
+         }catch(PDOException $e){
+            return $this->returnError( $this->errorMessage->error='Connection failed: '. $e->getMessage());
+        }   
     }    
    function insert($new){
     if(empty($new->category_name)){ return $this->errorMessage->error='Invalid category name!';}
@@ -44,9 +51,10 @@ class CategoryService extends Service{
     $category=new Category($modified_category->id,$modified_category->category_name,0);
     try{
         $message=$this->repository->update($category);
-        if($message){return $this->successMessage->success="The category has been updated.";}
+        if($message){ $this->successMessage->success="The category has been updated.";
+        return  $this->successMessage;}
          else{
-             return $this->errorMessage->error='Something went wrong';}
+             return $this->returnError('Something went wrong');}
     }   catch(PDOException $e){ 
    return $this->errorMessage->error='Connection failed: '. $e->getMessage();
    }}

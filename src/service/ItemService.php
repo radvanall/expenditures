@@ -1,6 +1,7 @@
 <?php
 include "../src/model/Item.php";
 include_once  "Service.php";
+require_once "../src/DTO/ItemTableDTO.php";
 class ItemService extends Service{
     function findAll($user_id){  
         $items=array();
@@ -37,13 +38,32 @@ class ItemService extends Service{
        }
        function update($modified){
         if(empty($modified->item_name)){ return $this->errorMessage->error='Invalid category name!';}
-        $item=new Item($modified->id,$modified->item_name,$modified->unit,$modified->category_id,$modified->user_id);
+        $user_id=$_SESSION["user_id"];
+        $item=new Item($modified->id,$modified->item_name,$modified->unit,$modified->category_id,$user_id);
         try{
             $message=$this->repository->update($item);
-            if($message){return $this->successMessage->success="The item has been updated.";}
+            if($message){ $this->successMessage->success="The item has been updated.";
+                return $this->successMessage;
+            }
              else{
-                 return $this->errorMessage->error='Something went wrong';}
+                 return $this->returnError( 'Something went wrong'); }
         }   catch(PDOException $e){ 
-       return $this->errorMessage->error='Connection failed: '. $e->getMessage();
+       return $this->returnError( 'Connection failed: '. $e->getMessage());
        }}
+
+       public function getItemTable($user_id){
+        try{
+            $result=$this->repository->getItemTable($user_id);
+            $items=array();
+            foreach($result as $item){
+                array_push($items,new ItemTableDTO($item->id,$item->item_name,$item->category_id,$item->category_name,$item->unit,$item->total_price));
+            }
+            $response=new stdClass();
+            $response->items=$items;
+            return $response;
+            
+        }catch(PDOException $e){
+            return $this->returnError( 'Connection failed: '. $e->getMessage());
+        }
+    }
 }
