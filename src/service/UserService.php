@@ -30,6 +30,23 @@ class UserService extends Service{
     $this->errorMessage->error=$message;
     return $this->errorMessage;
  }
+    function delete_user($id,$password){
+        $user=$this->findById($id);
+        if(!$user) return $this->returnError("no such user");
+        if(!password_verify($password,$user->get_password_hash())){
+            return $this->returnError('Password is incorrect!');
+        }
+        try{
+            $message=$this->delete($id);
+            if(!$message) return $this->returnError('The account has not been deleted.');
+            $this->successMessage->success="The account has been deleted"; 
+            return $this->successMessage;
+        }catch(PDOException $e){ 
+            if ($e->getCode()==23000)
+            {return  $this->returnError('This email is already in use');}
+             return  $this->returnError('Connection failed: '. $e->getMessage());
+       }
+    }
     function insert($new_user){
             if(empty($new_user->nickname)){ return array('invalid'=>'Nickname should not be empty!');}
             if(!filter_var($new_user->email,FILTER_VALIDATE_EMAIL)){return $this->errorMessage->error='Invalid email!';}
@@ -53,41 +70,41 @@ class UserService extends Service{
             }
         }
         function update($modified_user){
-            $user=$this->findById($_SESSION["user_id"]);
-            if(!$user){
-                $this->errorMessage->error='no such field';
-                return $this->errorMessage;
-            }
-            if(password_verify($modified_user->password,$user->get_password_hash())){
-                if(empty($modified_user->nickname)&&empty($modified_user->email)&&empty($modified_user->new_password)){ 
-                    return $this->returnError('The fields should not be empty!');
-                }else {
-                   $nickname= empty(trim($modified_user->nickname)) ? $user->get_nickname() :  $modified_user->nickname;
-                   $email=empty(trim($modified_user->email)) ? $user->get_email():trim($modified_user->email);
-                   $password_hash=$user->get_password_hash();
-                   if(!empty(trim($modified_user->new_password))){
-                    if((!preg_match("/^(?=.*[a-zA-Z])(?=.*[0-9])(?!.*\s).+$/",$modified_user->new_password))||strlen($modified_user->new_password)<8){
-                           return $this->returnError('Invalid password');
-                   }
-                   if($modified_user->new_password!==$modified_user->password_confirm){
-                    return $this->returnError('Password should match!');}
-                   $password_hash=password_hash($modified_user->new_password,PASSWORD_DEFAULT); 
-                }
-                if(!filter_var($email,FILTER_VALIDATE_EMAIL)){return $this->errorMessage->error='Invalid email!';}
-                $prepared_user=new User($user->get_id(),$nickname,$email,$password_hash);
-                try{
-                     $message=$this->repository->update($prepared_user); 
-                     if($message){  $this->successMessage->success="You have been successfully updated"; 
-                        return $this->successMessage; }
-                         else{ return $this->returnError('Nothing changed.');}}
-                     catch(PDOException $e){ 
-                            if ($e->getCode()==23000){return  $this->returnError('This email is already in use');}
-                             return  $this->returnError('Connection failed: '. $e->getMessage());
-                       }
-                
-               }}
-            else return $this->returnError('Password is incorrect!');
+        $user=$this->findById($_SESSION["user_id"]);
+        if(!$user){
+            $this->errorMessage->error='no such field';
+            return $this->errorMessage;
         }
+        if(password_verify($modified_user->password,$user->get_password_hash())){
+            if(empty($modified_user->nickname)&&empty($modified_user->email)&&empty($modified_user->new_password)){ 
+                return $this->returnError('The fields should not be empty!');
+            }else {
+               $nickname= empty(trim($modified_user->nickname)) ? $user->get_nickname() :  $modified_user->nickname;
+               $email=empty(trim($modified_user->email)) ? $user->get_email():trim($modified_user->email);
+               $password_hash=$user->get_password_hash();
+               if(!empty(trim($modified_user->new_password))){
+                if((!preg_match("/^(?=.*[a-zA-Z])(?=.*[0-9])(?!.*\s).+$/",$modified_user->new_password))||strlen($modified_user->new_password)<8){
+                       return $this->returnError('Invalid password');
+               }
+               if($modified_user->new_password!==$modified_user->password_confirm){
+                return $this->returnError('Password should match!');}
+               $password_hash=password_hash($modified_user->new_password,PASSWORD_DEFAULT); 
+            }
+            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){return $this->errorMessage->error='Invalid email!';}
+            $prepared_user=new User($user->get_id(),$nickname,$email,$password_hash);
+            try{
+                 $message=$this->repository->update($prepared_user); 
+                 if($message){  $this->successMessage->success="You have been successfully updated"; 
+                    return $this->successMessage; }
+                     else{ return $this->returnError('Nothing changed.');}}
+                 catch(PDOException $e){ 
+                        if ($e->getCode()==23000){return  $this->returnError('This email is already in use');}
+                         return  $this->returnError('Connection failed: '. $e->getMessage());
+                   }
+
+           }}
+        else return $this->returnError('Password is incorrect!');
+    }
 
         function login($input){
             try{
