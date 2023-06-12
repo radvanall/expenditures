@@ -13,6 +13,18 @@ session_start();
  $getVars = $_GET; 
  $postVars = $_POST; 
  if(isset($_SESSION["user_id"])){
+    if($method=="GET" && isset($getVars["request"]) && $getVars['request']=="get_item_table"){
+        $result=$itemService->getItemTable($_SESSION["user_id"]);
+        if(property_exists($result,'error')){
+            http_response_code(400);
+            echo json_encode($result);
+        }else{
+          http_response_code(200);
+          echo json_encode($result);
+         
+       }
+
+    }else
  CRUD_controller($itemService,$method, $getVars, $postVars);
  } else {  http_response_code(400);
     header('Content-Type: application/json');
