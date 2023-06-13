@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
   position: relative;
   margin-bottom: 10px;
 }
@@ -60,12 +60,14 @@ img {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  color: var(--primary-text-color);
   overflow: hidden;
 }
 .user__info_last_line {
   padding-bottom: 5px;
   display: flex;
   justify-content: space-between;
+  color: var(--primary-text-color);
   overflow: hidden;
 }
 .right__text__container {
@@ -82,6 +84,15 @@ img {
   height: 30px;
   font-size: 18px;
   padding: 0 1px;
+}
+.img_change {
+  height: 70%;
+  width: 70%;
+  z-index: 2;
+  opacity: 0;
+}
+.img_change:hover {
+  opacity: 0.5;
 }
 .feather_container {
   margin-left: 5px;
