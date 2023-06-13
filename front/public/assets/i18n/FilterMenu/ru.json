@@ -1,0 +1,9 @@
+{
+  "filterByDate": "Фильтр по дате",
+  "filterByARangeOfDates": "Фильтр по диапазону",
+  "firstDate": "Первая дата",
+  "lastDate": "Последняя дата",
+  "minPrice": "Минимальная цена",
+  "maxPrice": "Максимальная цена",
+  "submit": "Фильтровать"
+}

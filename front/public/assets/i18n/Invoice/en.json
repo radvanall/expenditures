@@ -1,0 +1,15 @@
+{
+  "title": "Invoice",
+  "id": "Invoice id",
+  "add": "Add new record",
+  "date": "Date",
+  "invoicePrice": "Invoice price",
+  "records": "Records",
+  "item": "Item",
+  "category": "Category",
+  "quantity": "Quantity",
+  "unit": "Unit",
+  "price": "Price",
+  "totalPrice": "Total price",
+  "deleteMessage": "Are you sure you want to delete this record?"
+}

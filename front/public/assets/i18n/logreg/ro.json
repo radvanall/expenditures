@@ -1,0 +1,13 @@
+{
+  "loginTitle": "Logare",
+  "registerTitle": "Înregistrare",
+  "nick": "Nume",
+  "email": "Email",
+  "password": "Parola",
+  "confirm_password": "Confirmați parola",
+  "loginMessage": "Aveți deja un cont? ",
+  "loginButtonText": "Logați-vă",
+  "registerMessage": "Nu aveți un cont? ",
+  "registerButtonText": "Înregistrați-vă",
+  "send": "Trimiteți"
+}

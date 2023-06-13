@@ -1,0 +1,15 @@
+{
+  "title": "Factura",
+  "add": "Adaugă Înscriere",
+  "id": "Id-ul facturei",
+  "date": "Data",
+  "invoicePrice": "Prețul facturei",
+  "records": "Nomenclatura",
+  "item": "Prod/ serv",
+  "category": "Categorie",
+  "quantity": "Cantitate",
+  "unit": "Unitate",
+  "price": "Preț",
+  "totalPrice": "Preț total",
+  "deleteMessage": "Sigur doriți să ștergeți această înregistrare?"
+}

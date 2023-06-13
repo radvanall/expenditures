@@ -12,14 +12,16 @@ import usePost from "../../../services/hooks/usePost";
 import styles from "./ItemCard.module.css";
 import AddItemModal from "../../Modals/AddItemModal/AddItemModal";
 import ImgButton from "../../Buttons/ImgButton/ImgButton";
+import { useTranslation } from "react-i18next";
 
 type ItemsT = {
   id: number;
-  category_id?: number;
-  Item: string;
-  "Category name": string;
-  Unit: string;
-  "Total price": number | JSX.Element;
+  [key: string]: string | number | JSX.Element;
+  // category_id?: number;
+  // Item: string;
+  // "Category name": string;
+  // Unit: string;
+  // "Total price": number | JSX.Element;
 };
 type ItemTableT = {
   items: ItemsT[];
@@ -48,17 +50,20 @@ const ItemCard = () => {
   const [itemId, setItemId] = useState(-1);
   const [requestType, setRequestType] = useState("insert");
   const hasTransitionedIn = useMountTransition(modal, 300);
-
+  const { t } = useTranslation(["itemCard"]);
   const getItems = () => {
     if (data?.items.length) {
       const totalPrice = data?.items[0]["Total price"];
       const newArray: ItemsT[] = data?.items.map((item, index) => {
         return {
           id: item.id,
-          Item: item["Item"],
-          "Category name": item["Category name"],
-          Unit: item["Unit"],
-          ["Total price"]: (
+          // Item: item["Item"],
+          // "Category name": item["Category name"],
+          // Unit: item["Unit"],
+          [t("items")]: item["Item"],
+          [t("categoryName")]: item["Category name"],
+          [t("unit")]: item["Unit"],
+          [t("totalPrice")]: (
             <ProgressBar
               value={item["Total price"] as number}
               max={totalPrice as number}
@@ -74,15 +79,15 @@ const ItemCard = () => {
   };
   useEffect(() => {
     getItems();
-  }, [data]);
+  }, [data, t]);
   const handleEdit = (id: number) => {
     const item = data?.items.find((item) => item.id === id);
     console.log("fetched:", item);
     setRequestType("update");
-    newItem[0].defaultValue = item?.["Item"] ?? "";
-    newItem[1].defaultValue = item?.Unit ?? "";
+    newItem[0].defaultValue = (item?.["Item"] as string) ?? "";
+    newItem[1].defaultValue = (item?.Unit as string) ?? "";
     newItem[2].defaultValue = item?.category_id?.toString() ?? "";
-    newItem[3].defaultValue = item?.["Category name"] ?? "";
+    newItem[3].defaultValue = (item?.["Category name"] as string) ?? "";
     if (item) setItemId(item.id);
     setModal(true);
   };
@@ -119,7 +124,7 @@ const ItemCard = () => {
   return (
     <Card>
       <div className={styles.add__item__wrapper}>
-        <BasicButton text="Add Item" handleClick={handleAdd} />
+        <BasicButton text={t("addItems")} handleClick={handleAdd} />
         <ImgButton
           color="pink"
           handleClick={() => {
@@ -137,7 +142,7 @@ const ItemCard = () => {
         cancelButton={true}
         handleCancel={handleCancel}
       >
-        Are you sure you want to delete this item?
+        {t("deleteMessage")}
       </MessageModal>
       {(modal || hasTransitionedIn) && (
         <AddItemModal
@@ -151,12 +156,12 @@ const ItemCard = () => {
       )}
       {items && (
         <Table<ItemsT>
-          tableTitle="Items"
+          tableTitle={t("items") as string}
           tableFields={items}
           buttonPading="10px"
           handleEdit={handleEdit}
           handleDelete={handleOpenDeleteMessage}
-          customColumnWidth={{ columnName: "Total price", width: 30 }}
+          customColumnWidth={{ columnName: t("totalPrice"), width: 30 }}
         />
       )}
     </Card>

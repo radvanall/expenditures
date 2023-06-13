@@ -1,0 +1,12 @@
+{
+  "nickname": "Nume",
+  "email": "Email",
+  "changePassword": "Schimbă parola",
+  "deleteAccount": "Șterge contul",
+  "changeNickname": "Schimbă numele",
+  "changeEmail": "Schimbă email-ul",
+  "enterPassword": "Introduceți parola",
+  "oldPassword": "Parola veche",
+  "newPassword": "Parola nouă",
+  "confirmNewPass": "Confirmați parola nouă"
+}

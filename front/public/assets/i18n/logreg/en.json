@@ -1,0 +1,13 @@
+{
+  "loginTitle": "Login",
+  "registerTitle": "Registration",
+  "nick": "Nickname",
+  "email": "Email",
+  "password": "Password",
+  "confirm_password": "Confirm password",
+  "loginMessage": "Already have an account? ",
+  "loginButtonText": "Login",
+  "registerMessage": "Don't have an account? ",
+  "registerButtonText": "Register",
+  "send": "Send"
+}

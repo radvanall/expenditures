@@ -1,0 +1,9 @@
+{
+  "items": "Produse/ servicii",
+  "addItems": "Adaugă prod/serv",
+  "item": "Nume",
+  "categoryName": "Numele categoriei",
+  "unit": "Unitate de măsură",
+  "totalPrice": "Preț total",
+  "deleteMessage": "Sunteți sigur că doriți să ștergeți acest produs/ serviciu"
+}

@@ -1,0 +1,8 @@
+{
+  "small": "Too small",
+  "enterNumber": "Enter a number",
+  "chooseOption": "Choose an option",
+  "enter": "The field should not be empty",
+  "passwordDoNotMatch": "Passwords do not match",
+  "tooLong": "Too long"
+}

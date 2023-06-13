@@ -1,0 +1,9 @@
+{
+  "filterByDate": "Filter by date",
+  "filterByARangeOfDates": "Filter by a range of dates",
+  "firstDate": "First date",
+  "lastDate": "Last date",
+  "minPrice": "Minimum price",
+  "maxPrice": "Maximum price",
+  "submit": "Filter"
+}

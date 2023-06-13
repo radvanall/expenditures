@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./UserCard.module.css";
 import Card from "../Card/Card";
 import { FaFeatherAlt } from "react-icons/fa";
 import { AiOutlineDown } from "react-icons/ai";
+import { BsDownload } from "react-icons/bs";
 import EditUserModal from "../../Modals/EditUserModal/EditUserModal";
 import DeleteUserModal from "../../Modals/DeleteUserModal/DeleteUserModal";
 import { useUserData } from "../../../context/Provider";
@@ -12,8 +13,11 @@ import {
   editNicknameFields,
   editPasswordFields,
 } from "../../../data/loginInputFields";
+import { useTranslation } from "react-i18next";
 import BasicButton from "../../Buttons/BasicButton/BasicButton";
+import AddImgModal from "../../Modals/AddImgModal/AddImgModal";
 const UserCard = () => {
+  const { t } = useTranslation(["userCard"]);
   const { userData } = useUserData();
   const [changedField, setchangedField] = useState("");
   const [visible, setVisible] = useState<boolean>(false);
@@ -23,9 +27,23 @@ const UserCard = () => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const hasDeleteModalTransitionedIn = useMountTransition(deleteModal, 300);
   const [animation, setAnimation] = useState<boolean>(false);
+  const [imgModal, setImgModal] = useState<boolean>(false);
   const handleVisible = (e: React.MouseEvent<HTMLButtonElement>) => {
     setVisible((prev) => !prev);
     setAnimation(true);
+  };
+  useEffect(() => {
+    editEmailFields[0].label = t("email");
+    editEmailFields[1].label = t("enterPassword");
+    editNicknameFields[0].label = t("nickname");
+    editNicknameFields[1].label = t("enterPassword");
+    editPasswordFields[0].label = t("oldPassword");
+    editPasswordFields[1].label = t("newPassword");
+    editPasswordFields[2].label = t("confirmNewPass");
+  }, [t]);
+  const handleImgSelect = () => {
+    console.log("img click");
+    setImgModal(true);
   };
   return (
     <Card>
@@ -43,12 +61,19 @@ const UserCard = () => {
           setVisible={setDeleteModal}
         />
       )}
+      <AddImgModal
+        visible={imgModal}
+        setVisible={setImgModal}
+        img="/img/user.jpg"
+      />
+
       <div className={styles.img__wrapper}>
         <img src="/img/user.jpg" alt="img" />
+        <BsDownload className={styles.img_change} onClick={handleImgSelect} />
       </div>
       <div className={styles.user__info}>
         <div className={styles.user__info_line}>
-          <div>Nickname:</div>
+          <div>{`${t("nickname")}:`}</div>
           <div
             className={`${styles.push_right} ${styles.right__text__container}`}
           >
@@ -57,7 +82,8 @@ const UserCard = () => {
               <FaFeatherAlt
                 className={styles.feather}
                 onClick={() => {
-                  setchangedField("nickname");
+                  // setchangedField("nickname");
+                  setchangedField(t("changeNickname") as string);
                   setModal((prev) => !prev);
                   const setValue = editNicknameFields.find(
                     (field) => field.name === "Nickname"
@@ -93,7 +119,7 @@ const UserCard = () => {
             }
           >
             <div className={styles.user__info_line}>
-              <div>Email:</div>
+              <div>{`${t("email")}:`}</div>
               <div
                 className={`${styles.push_right} ${styles.right__text__container}`}
               >
@@ -101,7 +127,8 @@ const UserCard = () => {
                 <div className={styles.feather_container}>
                   <button
                     onClick={() => {
-                      setchangedField("email");
+                      // setchangedField("email");
+                      setchangedField(t("changeEmail") as string);
                       setModal((prev) => !prev);
                       const setValue = editEmailFields.find(
                         (field) => field.name === "Email"
@@ -119,13 +146,14 @@ const UserCard = () => {
               </div>
             </div>
             <div className={styles.user__info_last_line}>
-              <p>Change password</p>
+              <p>{`${t("changePassword")}`}</p>
               <div
                 className={`${styles.feather_container} ${styles.push_right}`}
               >
                 <button
                   onClick={() => {
-                    setchangedField("password");
+                    // setchangedField("password");
+                    setchangedField(t("changePassword") as string);
                     setModal((prev) => !prev);
                     setInputFields(editPasswordFields);
                     console.log(editPasswordFields);
@@ -140,26 +168,11 @@ const UserCard = () => {
               className={`${styles.user__info_last_line} ${styles.delete_wrapper}`}
             >
               <BasicButton
-                text="Delete acount"
+                text={t("deleteAccount")}
                 handleClick={() => {
                   setDeleteModal((prev) => !prev);
                 }}
               />
-              {/* <p>Change password</p>
-              <div
-                className={`${styles.feather_container} ${styles.push_right}`}
-              >
-                <button
-                  onClick={() => {
-                    setchangedField("password");
-                    setModal((prev) => !prev);
-                    setInputFields(editPasswordFields);
-                    console.log(editPasswordFields);
-                  }}
-                >
-                  <FaFeatherAlt className={styles.feather} />
-                </button>
-              </div> */}
             </div>
           </div>
         </div>

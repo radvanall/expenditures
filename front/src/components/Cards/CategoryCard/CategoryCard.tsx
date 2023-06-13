@@ -12,6 +12,7 @@ import usePost from "../../../services/hooks/usePost";
 import styles from "./CategoryCard.module.css";
 import ImgButton from "../../Buttons/ImgButton/ImgButton";
 import { FiRefreshCcw } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 type categoriesT = {
   id: number;
@@ -25,9 +26,10 @@ type CategoryTableT = {
 
 type categoriesElementsT = {
   id: number;
-  "Category name": string;
-  "Number of items": number;
-  "Total price": JSX.Element;
+  // "Category name": string;
+  // "Number of items": number;
+  // "Total price": JSX.Element;
+  [key: string]: string | number | JSX.Element;
 };
 
 const CategoryCard = () => {
@@ -47,6 +49,7 @@ const CategoryCard = () => {
   const [categoryId, setCategoryId] = useState(-1);
   const [requestType, setRequestType] = useState("insert");
   const hasTransitionedIn = useMountTransition(modal, 300);
+  const { t } = useTranslation(["CategoryCard"]);
 
   useEffect(() => {
     if (data?.categories.length) {
@@ -54,8 +57,12 @@ const CategoryCard = () => {
       const newArray: categoriesElementsT[] = data?.categories.map(
         (category, index) => {
           return {
-            ...category,
-            ["Total price"]: (
+            // ...category,
+            id: category.id,
+            [t("categoryName")]: category["Category name"],
+            [t("numberOfItems")]: category["Number of items"],
+
+            [t("totalPrice")]: (
               <ProgressBar
                 value={category["Total price"] as number}
                 max={totalPrice as number}
@@ -69,7 +76,7 @@ const CategoryCard = () => {
       setCategories(newArray);
     }
     console.log(data);
-  }, [data]);
+  }, [data, t]);
   const handleEdit = (id: number) => {
     const category = data?.categories.find((category) => category.id === id);
     console.log("fetched:", category);
@@ -102,7 +109,7 @@ const CategoryCard = () => {
   return (
     <Card>
       <div className={styles.add__category__wrapper}>
-        <BasicButton text="Add category" handleClick={handleAdd} />
+        <BasicButton text={t("addCategory")} handleClick={handleAdd} />
         <ImgButton
           color="pink"
           handleClick={() => {
@@ -120,7 +127,7 @@ const CategoryCard = () => {
         cancelButton={true}
         handleCancel={handleCancel}
       >
-        Are you sure you want to delete this category?
+        {t("deleteMessage")}
       </MessageModal>
       {(modal || hasTransitionedIn) && (
         <AddCategoryModal
@@ -134,12 +141,12 @@ const CategoryCard = () => {
       )}
       {cateogries && (
         <Table<categoriesElementsT>
-          tableTitle="Categories"
+          tableTitle={t("categories") as string}
           tableFields={cateogries}
           buttonPading="10px"
           handleEdit={handleEdit}
           handleDelete={handleOpenDeleteMessage}
-          customColumnWidth={{ columnName: "Total price", width: 40 }}
+          customColumnWidth={{ columnName: t("totalPrice"), width: 40 }}
         />
       )}
     </Card>

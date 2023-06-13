@@ -1,0 +1,12 @@
+{
+  "nickname": "Пользователь",
+  "email": "Почта",
+  "changePassword": "Изменить пароль",
+  "deleteAccount": "Удалить аккаунт",
+  "changeNickname": "Изменить имя",
+  "changeEmail": "Изменить почту",
+  "enterPassword": "Введите пароль",
+  "oldPassword": "Старый пароль",
+  "newPassword": "Новый пароль",
+  "confirmNewPass": "Потвердить новый пароль"
+}

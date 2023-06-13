@@ -1,0 +1,13 @@
+{
+  "title": "Înscrieri",
+  "item": "Produs/ serviciu",
+  "category": "Categorie",
+  "price": "Preț",
+  "quantity": "Cantitate",
+  "unit": "Unitate",
+  "total": "Total",
+  "totalPrice": "Prețul total",
+  "save": "Salvați",
+  "delete": "Ștergeți toate înscrierele",
+  "deleteMessage": "Toate înscrierele vor fi șterse"
+}

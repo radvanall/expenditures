@@ -1,0 +1,13 @@
+{
+  "loginTitle": "Авторизация",
+  "registerTitle": "Регистрация",
+  "nick": "Имя",
+  "email": "Почта",
+  "password": "Пароль",
+  "confirm_password": "Подтвердите пароль",
+  "loginMessage": "У вас уже есть аккаунт? ",
+  "loginButtonText": "Войти",
+  "registerMessage": "У вас нет аккаунта? ",
+  "registerButtonText": "Создать",
+  "send": "Отправить"
+}

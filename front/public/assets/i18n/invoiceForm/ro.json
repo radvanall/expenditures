@@ -1,0 +1,14 @@
+{
+  "title": "Introduce-ți cheltuiala",
+  "titleEdit": "Editați câmpul",
+  "date": "Data",
+  "category": "Selectați categoria",
+  "item": "Selectați prod/serv",
+  "quantity": "Cantitatea",
+  "price": "Preț per unitate",
+  "newButton": "Nou",
+  "all": "Tot",
+  "addRecord": "Adaugă cheltuiala",
+  "edit": "Editați",
+  "cancel": "Anulează"
+}

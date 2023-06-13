@@ -1,0 +1,8 @@
+{
+  "addCategory": "Add category",
+  "categories": "Categories",
+  "categoryName": "Category name",
+  "numberOfItems": "Number of items",
+  "totalPrice": "Total price",
+  "deleteMessage": "Are you sure you want to delete this category?"
+}

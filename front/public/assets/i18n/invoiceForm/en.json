@@ -1,0 +1,14 @@
+{
+  "title": "Enter the record",
+  "titleEdit": "Edit the field",
+  "date": "Date",
+  "category": "Select category",
+  "item": "Select item",
+  "quantity": "Quantity",
+  "price": "Price per unit",
+  "newButton": "New",
+  "all": "All",
+  "addRecord": "Add record",
+  "edit": "Edit",
+  "cancel": "Cancel"
+}

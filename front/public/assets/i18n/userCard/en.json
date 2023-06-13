@@ -1,0 +1,12 @@
+{
+  "nickname": "Nickname",
+  "email": "Email",
+  "changePassword": "Change password",
+  "deleteAccount": "Delete account",
+  "changeNickname": "Change nickname",
+  "changeEmail": "Change email",
+  "enterPassword": "Enter password",
+  "oldPassword": "Old password",
+  "newPassword": "New password",
+  "confirmNewPass": "Confirm new password"
+}
