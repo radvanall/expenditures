@@ -10,6 +10,7 @@ import Select from "../../Select/Select";
 import { categoryTypes } from "../../../Interfaces/keyConversionTypes";
 import styles from "../../Forms/Form/Form.module.css";
 import useGetRequest from "../../../services/hooks/useGetRequest";
+import { useTranslation } from "react-i18next";
 type FormData = Record<string, string | number>;
 
 const AddItemModal: FC<AddModalI> = ({
@@ -17,12 +18,13 @@ const AddItemModal: FC<AddModalI> = ({
   setVisible,
   inputFields,
   fetchData,
-  request,
+  request = "insert",
   Id,
 }) => {
   const [displayedCategories, setDisplayedCategories] = useState<
     SelectI[] | null
   >(null);
+  const { t } = useTranslation(["addItemModal"]);
   const {
     data: categories,
     loading: categoriesLoading,
@@ -34,6 +36,13 @@ const AddItemModal: FC<AddModalI> = ({
     console.log("in useEffect");
     setDisplayedCategories(categories);
   }, [categories]);
+
+  useEffect(() => {
+    inputFields[0].label = t("item") as string;
+    inputFields[1].label = t("unit") as string;
+    inputFields[2].label = t("Select category") as string;
+    inputFields[3].label = t("Select category") as string;
+  }, [t]);
   const {
     error,
     pending,
@@ -50,12 +59,27 @@ const AddItemModal: FC<AddModalI> = ({
     await makePostRequest(data);
     fetchData();
   };
+
+  const { register, errors, setValue, trigger, handleSubmit } =
+    useValidate(inputFields);
   const [selectValue, setSelectValue] = useState<SelectI>({
     id: inputFields[2].defaultValue as number,
     name: inputFields[3].defaultValue as string,
   });
-  const { register, errors, setValue, trigger, handleSubmit } =
-    useValidate(inputFields);
+  useEffect(() => {
+    if (request !== "insert") {
+      setValue("category_id", Number(inputFields[2].defaultValue) ?? -1);
+      setValue("category_name", inputFields[3].defaultValue ?? "");
+      trigger("category_name");
+      console.log(
+        "category_id",
+        inputFields[2].defaultValue,
+        "category_name",
+        inputFields[3].defaultValue
+      );
+    }
+  }, []);
+
   const submit = handleSubmit(submitData);
   const handleChangeItem = (item: SelectI) => {
     console.log(item);
@@ -78,7 +102,7 @@ const AddItemModal: FC<AddModalI> = ({
   return (
     <Modal visible={visible} setVisible={setVisible}>
       <Form
-        formName={request === "insert" ? "Add new item" : "Edit item"}
+        formName={request === "insert" ? t("inserTitle") : t("editTitle")}
         Input={BasicInput}
         inputFields={filteredFields}
         register={register}
@@ -92,7 +116,7 @@ const AddItemModal: FC<AddModalI> = ({
           <Select
             options={categories}
             name="Select category"
-            label="Select category"
+            label={t("select")}
             displayedOptions={displayedCategories}
             defaultValue={request === "insert" ? undefined : selectValue}
             handleCallback={handleChangeItem}
