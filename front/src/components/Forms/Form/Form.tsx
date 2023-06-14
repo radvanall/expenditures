@@ -3,6 +3,7 @@ import styles from "./Form.module.css";
 import InputProps from "../../../Interfaces/InputProps";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { InputType } from "../../../Interfaces/InputType";
+import { useTranslation } from "react-i18next";
 type FormData = Record<string, string | number>;
 
 interface Props {
@@ -34,6 +35,7 @@ const Form: FC<Props> = ({
   modal = false,
 }) => {
   console.log("form", inputFields);
+  const { t } = useTranslation(["logreg"]);
   return (
     <div
       className={
@@ -73,7 +75,11 @@ const Form: FC<Props> = ({
         <div className={styles.form__end}>
           {serverError && <span>{serverError}</span>}
           {serverAnswer && <span>{serverAnswer}</span>}
-          <input className={styles.submit__button} type="submit" value="Send" />
+          <input
+            className={styles.submit__button}
+            type="submit"
+            value={t("send") as string}
+          />
         </div>
       </form>
     </div>

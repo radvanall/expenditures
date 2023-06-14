@@ -7,12 +7,13 @@ import TextButton from "../../Buttons/Button/TextButton";
 import Modal from "../../Modals/Modal/Modal";
 import usePost from "../../../services/hooks/usePost";
 import Pending from "../../Pending/Pending";
-
+import { useTranslation } from "react-i18next";
 type FormData = Record<string, string | number>;
 interface Props {
   setForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const RegistrationForm: FC<Props> = ({ setForm }) => {
+  const { t } = useTranslation(["logreg"]);
   const [visible, setVisible] = useState<boolean>(false);
   const {
     error,
@@ -35,8 +36,8 @@ const RegistrationForm: FC<Props> = ({ setForm }) => {
   };
   const { register, errors, handleSubmit } = useValidate(inputFields);
   const submit = handleSubmit(submitData);
-  const message: string = "Already have an account? ";
-  const buttonText: string = "Login";
+  const message: string = t("loginMessage");
+  const buttonText: string = t("loginButtonText");
   const formHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setForm((prev) => !prev);
@@ -58,7 +59,7 @@ const RegistrationForm: FC<Props> = ({ setForm }) => {
         )}
       </Modal>
       <Form
-        formName={"Registration"}
+        formName={t("registerTitle")}
         Input={BasicInput}
         inputFields={inputFields}
         register={register}

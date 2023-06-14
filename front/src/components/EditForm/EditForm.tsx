@@ -9,6 +9,7 @@ import {
 import InputFormField from "../InputFormField/InputFormField";
 import { useEditForm } from "./useEditForm";
 import { recordType } from "../../Interfaces/RecordType";
+import { useTranslation } from "react-i18next";
 export interface Props {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,14 +55,14 @@ const EditForm: FC<Props> = ({
   );
   const regQuantity = getReg("quantity");
   const regPrice = getReg("price");
-
+  const { t } = useTranslation(["invoiceForm"]);
   return (
     <Modal visible={visible} setVisible={closeModal}>
       <div>
         <form>
           <SelectFormField
             name={"Select category"}
-            label={"Select category"}
+            label={t("category")}
             options={categories}
             displayedOptions={displayedCategories}
             handleCallback={modifyCategory}
@@ -73,7 +74,7 @@ const EditForm: FC<Props> = ({
           ></SelectFormField>
           <SelectFormField
             name={"Select item"}
-            label={"Select item"}
+            label={t("item")}
             options={items}
             displayedOptions={displayedItems}
             handleCallback={modifyItem}
@@ -82,7 +83,7 @@ const EditForm: FC<Props> = ({
             color="pink"
             errors={getError("item_name")}
           >
-            <BasicButton text="All" handleClick={showAll} color="pink" />
+            <BasicButton text={t("all")} handleClick={showAll} color="pink" />
           </SelectFormField>
 
           <InputFormField
@@ -91,7 +92,7 @@ const EditForm: FC<Props> = ({
             onChange={regQuantity?.onChange}
             onBlur={regQuantity?.onBlur}
             inputRef={regQuantity?.ref}
-            label="Quantity"
+            label={t("quantity") as string}
             errors={getError("quantity")}
             color="pink"
             afterText={defaultItem?.unit}
@@ -105,7 +106,7 @@ const EditForm: FC<Props> = ({
             onBlur={regPrice?.onBlur}
             inputRef={regPrice?.ref}
             width="75%"
-            label="Price per unit"
+            label={t("price") as string}
             color="pink"
             errors={getError("price")}
             afterText={"lei"}
@@ -115,7 +116,7 @@ const EditForm: FC<Props> = ({
 
           {formState === "create" ? (
             <BasicButton
-              text="Add record"
+              text={t("addRecord")}
               type="submit"
               color="blue"
               handleClick={submitRecord}
@@ -123,13 +124,13 @@ const EditForm: FC<Props> = ({
           ) : (
             <div style={{ display: "flex", gap: "5px" }}>
               <BasicButton
-                text="Edit"
+                text={t("edit")}
                 type="submit"
                 handleClick={submit}
                 color="blue"
               />
               <BasicButton
-                text="Cancel"
+                text={t("cancel")}
                 type="button"
                 color="pink"
                 handleClick={closeModal}

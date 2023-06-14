@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DateTime } from "luxon";
 import styles from "./MoneyPerDayChart.module.css";
 import {
@@ -26,10 +27,17 @@ type moneyPerDay = {
   fields: chartDataT[];
 };
 const MoneyPerDayChart = () => {
+  const { t } = useTranslation(["chart"]);
   const { theme } = useTheme();
   //const firstDate = DateTime.now().minus({ months: 1 }).toISODate();
+
+  //  DateTime.local().setLocale(t("luxonLocale"));
+
   const [firstDate, setFirstDate] = useState<string>(
-    DateTime.now().minus({ months: 1 }).toISODate() as string
+    DateTime.now()
+      .setLocale(t("luxonLocale"))
+      .minus({ months: 1 })
+      .toISODate() as string
   );
   const [activeButton, setActiveButton] = useState(1);
   const [range, setRange] = useState(7);
@@ -44,7 +52,11 @@ const MoneyPerDayChart = () => {
 
       if (data?.fields) console.log(data);
       for (let day = activeButton * 30; day >= 0; day--) {
-        const newDate = DateTime.now().minus({ day: day }).toISODate();
+        // const newDate = DateTime.now().minus({ day: day }).toISODate();
+        const newDate = DateTime.now()
+          .setLocale(t("luxonLocale"))
+          .minus({ day: day })
+          .toISODate();
         console.log(fields?.find((field) => field.date === newDate));
         const field = fields?.find((field) => field.date === newDate);
         const moneyValue = field ? parseFloat(field.money.toString()) : 0;
@@ -63,27 +75,35 @@ const MoneyPerDayChart = () => {
   }, [data]);
   const handleChangeDate = (buttonId: number) => {
     setFirstDate(
-      DateTime.now().minus({ months: buttonId }).toISODate() as string
+      // DateTime.now().minus({ months: buttonId }).toISODate() as string
+      DateTime.now()
+        .setLocale(t("luxonLocale"))
+        .minus({ months: buttonId })
+        .toISODate() as string
     );
     setActiveButton(buttonId);
     fetchData();
     //changeChart();
   };
+  console.log("t:", t);
   return (
     <div className={styles.chart__wrapper}>
       <div className={styles.button__wrapper}>
         <BasicButton
-          text="Last month"
+          // text="Last month"
+          text={t("oneM")}
           color={activeButton === 1 ? "pink" : "blue"}
           handleClick={() => handleChangeDate(1)}
         />
         <BasicButton
-          text="Last three months"
+          // text="Last three months"
+          text={t("threeM")}
           color={activeButton === 3 ? "pink" : "blue"}
           handleClick={() => handleChangeDate(3)}
         />
         <BasicButton
-          text="Last six months"
+          // text="Last six months"
+          text={t("sixM")}
           color={activeButton === 6 ? "pink" : "blue"}
           handleClick={() => handleChangeDate(6)}
         />
@@ -106,10 +126,12 @@ const MoneyPerDayChart = () => {
             tick={{ fill: theme ? "black" : "#bfa181", fillOpacity: 0.8 }}
             // interval={6}
             tickFormatter={(str) => {
+              // const datef = DateTime.fromISO(str);
               const datef = DateTime.fromISO(str);
               if (datef.day % range === 0) {
                 console.log(datef.toFormat("MMM,d"));
-                return datef.toFormat("MMM,d");
+                // return datef.toFormat("MMM,d");
+                return datef.setLocale(t("luxonLocale")).toFormat("MMM,d");
               } else return "";
             }}
           />
@@ -138,17 +160,25 @@ const MoneyPerDayChart = () => {
 };
 
 export default MoneyPerDayChart;
+// interface CustomTooltipProps<ValueType, NameType> extends TooltipProps<ValueType, NameType> {
+//   t: TFunction;
+// }
 function CustomTooltip({
   active,
   payload,
   label,
 }: TooltipProps<ValueType, NameType>) {
+  const { t } = useTranslation(["chart"]);
   if (active && payload) {
     const value = Number(payload[0]?.value);
     const formattedValue = isNaN(value) ? "" : value.toFixed(2);
     return (
       <div className={styles.tooltip}>
-        <h4>{DateTime.fromISO(label).toFormat("cccc, d MMM, yyyy")}</h4>
+        <h4>
+          {DateTime.fromISO(label)
+            .setLocale(t("luxonLocale"))
+            .toFormat("cccc, d MMM, yyyy")}
+        </h4>
         <p>{formattedValue} lei</p>
       </div>
     );
