@@ -7,6 +7,7 @@ import { InputType } from "../../../Interfaces/InputType";
 import usePost from "../../../services/hooks/usePost";
 import useGetUser from "../../../services/hooks/useGetUser";
 import Form from "../../Forms/Form/Form";
+
 type FormData = Record<string, string | number>;
 interface Props {
   changedField: string;
@@ -30,6 +31,7 @@ const EditUserModal: FC<Props> = ({
     "http://localhost:84/expenditures/public/userController.php",
     "update"
   );
+
   console.log("modal:", inputFields);
   const { getRequest } = useGetUser();
   const submitData = (data: FormData) => {
@@ -58,7 +60,7 @@ const EditUserModal: FC<Props> = ({
     <Modal visible={visible} setVisible={resetForm}>
       <Form
         ref={ref}
-        formName={`Change ${changedField}`}
+        formName={changedField}
         Input={BasicInput}
         inputFields={inputFields}
         register={register}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import styles from "./InvoiceForm.module.css";
 import { SelectI } from "../../Interfaces/SelectI";
 import { itemTypes, categoryTypes } from "../../Interfaces/keyConversionTypes";
@@ -16,6 +16,7 @@ import BasicButton from "../Buttons/BasicButton/BasicButton";
 import SelectFormField from "../SelectFormField/SelectFormField";
 import InputFormField from "../InputFormField/InputFormField";
 import { useInvoice } from "../../context/InvoiceContext/InvoiceContext";
+import { useTranslation } from "react-i18next";
 const InvoiceForm = () => {
   const {
     getReg,
@@ -39,6 +40,7 @@ const InvoiceForm = () => {
   const [displayedCategories, setDisplayedCategories] = useState<
     SelectI[] | null
   >(null);
+  const { t } = useTranslation(["invoiceForm"]);
   const {
     data: items,
     loading: itemsLoading,
@@ -89,7 +91,7 @@ const InvoiceForm = () => {
   return (
     <div className={styles.form__wrapper}>
       <h4 className={styles.form__title}>
-        {formState === "create" ? "Enter the expenditure:" : "Edit the field"}
+        {formState === "create" ? t("title") : t("titleEdit")}
       </h4>
       {(modal || hasTransitionedIn) && (
         <AddCategoryModal
@@ -110,7 +112,7 @@ const InvoiceForm = () => {
       <div className={styles.input__wrapper}>
         <BasicInput
           type="date"
-          label="Date"
+          label={t("date") as string}
           name="date"
           value={
             dateState?.toISOString().split("T")[0] ||
@@ -122,7 +124,7 @@ const InvoiceForm = () => {
       <form onSubmit={submit}>
         <SelectFormField
           name={"Select category"}
-          label={"Select category"}
+          label={t("category")}
           options={categories}
           displayedOptions={displayedCategories}
           handleCallback={modifyCategory}
@@ -131,11 +133,11 @@ const InvoiceForm = () => {
           z_index={4}
           errors={getError("category_name")}
         >
-          <BasicButton text="New" handleClick={createNewCategory} />
+          <BasicButton text={t("newButton")} handleClick={createNewCategory} />
         </SelectFormField>
         <SelectFormField
           name={"Select item"}
-          label={"Select item"}
+          label={t("item")}
           options={items}
           displayedOptions={displayedItems}
           handleCallback={modifyItem}
@@ -143,8 +145,8 @@ const InvoiceForm = () => {
           setDisplayedOptions={setDisplayedItems}
           errors={getError("item_name")}
         >
-          <BasicButton text="All" handleClick={showAll} />
-          <BasicButton text="New" handleClick={createNewItem} />
+          <BasicButton text={t("all")} handleClick={showAll} />
+          <BasicButton text={t("newButton")} handleClick={createNewItem} />
         </SelectFormField>
 
         <InputFormField
@@ -153,7 +155,7 @@ const InvoiceForm = () => {
           onChange={regQuantity?.onChange}
           onBlur={regQuantity?.onBlur}
           inputRef={regQuantity?.ref}
-          label="Quantity"
+          label={t("quantity") as string}
           errors={getError("quantity")}
           afterText={defaultItem?.unit}
         >
@@ -167,7 +169,7 @@ const InvoiceForm = () => {
           onBlur={regPrice?.onBlur}
           inputRef={regPrice?.ref}
           width="75%"
-          label="Price per unit"
+          label={t("price") as string}
           errors={getError("price")}
           afterText={"lei"}
         >
@@ -175,17 +177,18 @@ const InvoiceForm = () => {
         </InputFormField>
 
         {formState === "create" ? (
-          <BasicButton text="Add record" type="submit" />
+          <BasicButton text={t("addRecord")} type="submit" />
         ) : (
           <div>
             <BasicButton
-              text="Edit"
+              text={t("edit")}
               type="submit"
               handleClick={submitChanges}
             />{" "}
             <BasicButton
-              text="Cancel"
+              text={t("cancel")}
               type="button"
+              color="pink"
               handleClick={() => setFormState("create")}
             />
           </div>

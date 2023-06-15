@@ -4,15 +4,16 @@ import Table from "../Table/Table";
 import { useInvoice } from "../../context/InvoiceContext/InvoiceContext";
 import Pending from "../Pending/Pending";
 import BasicButton from "../Buttons/BasicButton/BasicButton";
-import { useMountTransition } from "../../services/hooks/useMountTransition";
 import MessageModal from "../Modals/MessageModal/MessageModal";
+import { useTranslation } from "react-i18next";
 interface tableField {
   id: number;
-  category: string;
-  item: string;
-  price: number;
-  quantity: number;
-  total: number;
+  [key: string]: string | number;
+  // category: string;
+  // item: string;
+  // price: number;
+  // quantity: number;
+  // total: number;
 }
 const InvoiceTable = () => {
   const {
@@ -26,6 +27,7 @@ const InvoiceTable = () => {
     answer,
   } = useInvoice();
   const [visible, setVisible] = useState(false);
+  const { t } = useTranslation(["invoiceTable"]);
   const [serverAnswer, setServerAnswer] = useState(false);
   const tableTitle = "Records";
   const submitRecords = () => {
@@ -37,7 +39,7 @@ const InvoiceTable = () => {
     setTotalPrice(
       tableData
         ? tableData?.reduce((accumulator, field) => {
-            return accumulator + field.total;
+            return accumulator + Number(field[t("total")]);
           }, 0)
         : 0
     );
@@ -50,7 +52,7 @@ const InvoiceTable = () => {
         handleOk={handleResetRecords}
         cancelButton={true}
       >
-        <h4>{"The records will be lost."}</h4>
+        <h4>{t("deleteMessage")}</h4>
       </MessageModal>
 
       <MessageModal
@@ -62,23 +64,23 @@ const InvoiceTable = () => {
       </MessageModal>
 
       <Table<tableField>
-        tableTitle={tableTitle}
+        tableTitle={t("title") as string}
         tableFields={tableData}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
       <div className={styles.footer}>
-        <h4>{`Total price: ${totalPrice}`}</h4>
+        <h4>{`${t("totalPrice")}: ${totalPrice}`}</h4>
       </div>
       <div className={styles.buttons__wrapper}>
         <BasicButton
-          text="Save"
+          text={t("save")}
           height="26px"
           color="blue"
           handleClick={submitRecords}
         />
         <BasicButton
-          text="Delete all records"
+          text={t("delete")}
           height="26px"
           color="pink"
           handleClick={() => setVisible(true)}

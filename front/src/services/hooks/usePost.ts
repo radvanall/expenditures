@@ -1,9 +1,12 @@
 import { useAuth } from "./../../context/Provider";
 import { useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { blob } from "stream/consumers";
 
 function usePost(url: string, request: string) {
   const { setAuth } = useAuth();
+  const { t } = useTranslation(["serverResponse"]);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);

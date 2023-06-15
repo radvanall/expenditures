@@ -11,6 +11,7 @@ import { deleteAccount } from "../../../data/loginInputFields";
 import { useNavigate } from "react-router-dom";
 import { useAuth, useUserData } from "../../../context/Provider";
 import { useModal } from "../../../context/Provider";
+import { useTranslation } from "react-i18next";
 
 type FormData = Record<string, string | number>;
 interface Props {
@@ -28,6 +29,7 @@ const DeleteUserModal: FC<Props> = ({ visible, setVisible }) => {
     "http://localhost:84/expenditures/public/userController.php",
     "delete_user"
   );
+  const { t } = useTranslation(["userCard"]);
   const navigate = useNavigate();
   const { setVisible: setDeleteVisible, setDeleteMessage } = useModal();
   const { setAuth } = useAuth();
@@ -50,6 +52,9 @@ const DeleteUserModal: FC<Props> = ({ visible, setVisible }) => {
       navigate("/");
     }
   }, [answer]);
+  useEffect(() => {
+    deleteAccount[0].label = t("enterPassword");
+  }, [t]);
   const { register, errors, handleSubmit } = useValidate(deleteAccount);
   const submit = handleSubmit(submitData);
   const ref = useRef<HTMLFormElement>(null);
@@ -62,7 +67,7 @@ const DeleteUserModal: FC<Props> = ({ visible, setVisible }) => {
     <Modal visible={visible} setVisible={resetForm}>
       <Form
         ref={ref}
-        formName={`Delete account`}
+        formName={t("deleteAccount")}
         Input={BasicInput}
         inputFields={deleteAccount}
         register={register}

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import Form from "../Form/Form";
 import BasicInput from "../../Inputs/BasicInput/BasicInput";
 import { LoginInputFields as inputFields } from "../../../data/loginInputFields";
@@ -7,6 +7,7 @@ import TextButton from "../../Buttons/Button/TextButton";
 import useAuthorization from "../../../services/hooks/useAuthorization";
 import Modal from "../../Modals/Modal/Modal";
 import Pending from "../../Pending/Pending";
+import { useTranslation } from "react-i18next";
 type FormData = Record<string, string | number>;
 interface Props {
   setForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,13 +24,18 @@ const LoginForm: FC<Props> = ({ setForm }) => {
     setVisible(true);
   };
   const { register, errors, handleSubmit } = useValidate(inputFields);
+  const { t } = useTranslation(["logreg"]);
   const submit = handleSubmit(submitData);
-  const message: string = "Don't have an account? ";
-  const buttonText: string = "Register";
+  const message: string = t("registerMessage");
+  const buttonText: string = t("registerButtonText");
   const formHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setForm((prev) => !prev);
   };
+  useEffect(() => {
+    inputFields[0].label = t("email");
+    inputFields[1].label = t("password");
+  }, [t]);
   return (
     <div>
       <Modal visible={visible} setVisible={setVisible}>
@@ -42,7 +48,7 @@ const LoginForm: FC<Props> = ({ setForm }) => {
         )}
       </Modal>
       <Form
-        formName={"Login"}
+        formName={t("loginTitle")}
         Input={BasicInput}
         inputFields={inputFields}
         register={register}

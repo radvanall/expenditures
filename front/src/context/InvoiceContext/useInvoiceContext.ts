@@ -1,10 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { useEffect, useReducer } from "react";
 import { record as inputFields, record } from "../../data/loginInputFields";
 import { SelectI } from "../../Interfaces/SelectI";
 import usePost from "../../services/hooks/usePost";
 import useValidate from "../../services/hooks/useValidate";
 import { invoiceReducer, TYPE, initState } from "./invoiceReducer";
-
 type FormData = Record<string, string | number>;
 interface RecordI {
   [index: string]: string | number;
@@ -19,27 +19,36 @@ interface RecordI {
 }
 interface tableField {
   id: number;
-  category: string;
-  item: string;
-  price: number;
-  quantity: number;
-  unit: string;
-  total: number;
+  [key: string]: string | number;
+  // category: string;
+  // item: string;
+  // price: number;
+  // quantity: number;
+  // unit: string;
+  // total: number;
 }
 
 export const useInvoiceContext = () => {
+  const { t } = useTranslation(["invoiceTable"]);
   const [state, dispatch] = useReducer(invoiceReducer, initState);
   const { register, errors, setValue, trigger, handleSubmit } =
     useValidate(inputFields);
 
   const tableData: tableField[] | undefined = state.records?.map((record) => ({
     id: record.id,
-    item: record.item_name,
-    category: record.category_name,
-    price: record.price,
-    quantity: record.quantity,
-    unit: record.unit,
-    total: record.quantity * record.price,
+    [t("item")]: record.item_name,
+    [t("category")]: record.category_name,
+    [t("price")]: record.price,
+    [t("quantity")]: record.quantity,
+    [t("unit")]: record.unit,
+    [t("total")]: record.quantity * record.price,
+
+    // item: record.item_name,
+    // category: record.category_name,
+    // price: record.price,
+    // quantity: record.quantity,
+    // unit: record.unit,
+    // total: record.quantity * record.price,
   }));
   const handleEdit = (id: number) => {
     dispatch({ type: TYPE.SET_FORM_TO_EDIT });

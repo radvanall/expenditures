@@ -8,6 +8,7 @@ import usePost from "../../services/hooks/usePost";
 import styles from "./Invoice.module.css";
 import BasicButton from "../../components/Buttons/BasicButton/BasicButton";
 import MessageModal from "../../components/Modals/MessageModal/MessageModal";
+import { useTranslation } from "react-i18next";
 type InvoiceType = {
   id: number;
   date: string;
@@ -17,12 +18,13 @@ type InvoiceType = {
 };
 type TableType = {
   id: number;
-  item: string;
-  category: string;
-  quantity: number;
-  unit: string;
-  price: number;
-  "Total price": number;
+  [key: string]: string | number;
+  // item: string;
+  // category: string;
+  // quantity: number;
+  // unit: string;
+  // price: number;
+  // "Total price": number;
 };
 const Invoice = () => {
   const [modal, setModal] = useState<boolean>(false);
@@ -41,6 +43,7 @@ const Invoice = () => {
   } = usePost("http://localhost:84/expenditures/public/record.php", "delete");
   const [records, setRecords] = useState<TableType[] | undefined | null>();
   const [currentRecord, setCurrentRecord] = useState<recordType | null>(null);
+  const { t } = useTranslation(["invoice"]);
   useEffect(() => {
     if (!data?.records) {
       setRecords(null);
@@ -48,17 +51,24 @@ const Invoice = () => {
     }
     const tableData: TableType[] | undefined = data?.records.map((record) => {
       return {
+        // id: record.id,
+        // item: record.item_name,
+        // category: record.category_name,
+        // quantity: record.quantity,
+        // unit: record.unit,
+        // price: record.price,
+        // ["Total price"]: record.total_price,
         id: record.id,
-        item: record.item_name,
-        category: record.category_name,
-        quantity: record.quantity,
-        unit: record.unit,
-        price: record.price,
-        ["Total price"]: record.total_price,
+        [t("item")]: record.item_name,
+        [t("category")]: record.category_name,
+        [t("quantity")]: record.quantity,
+        [t("unit")]: record.unit,
+        [t("price")]: record.price,
+        [t("totalPrice")]: record.total_price,
       };
     });
     setRecords(tableData);
-  }, [data]);
+  }, [data, t]);
   const closeModal = () => {
     setCurrentRecord(null);
     setModal(false);
@@ -99,15 +109,11 @@ const Invoice = () => {
         cancelButton={true}
         handleCancel={handleCancel}
       >
-        <p>Are you sure you want to delete this record?</p>
+        <p>{t("deleteMessage")}</p>
         <br />
       </MessageModal>
       <div className={styles.new__record__button}>
-        <BasicButton
-          text="Add new record"
-          type="button"
-          handleClick={createRecord}
-        />
+        <BasicButton text={t("add")} type="button" handleClick={createRecord} />
       </div>
 
       <EditForm
@@ -120,12 +126,18 @@ const Invoice = () => {
       />
 
       <div className={styles.invoice__wrapper}>
-        <h4>Invoice</h4>
+        <h4>{t("title")}</h4>
         <div className={styles.invoice__data}>
           <div>
-            <p>Invoice id: {data?.id}</p>
-            <p>Date: {data?.date}</p>
-            <p>Invoice price: {data?.total_sum} lei</p>
+            <p>
+              {t("id")}: {data?.id}
+            </p>
+            <p>
+              {t("date")}: {data?.date}
+            </p>
+            <p>
+              {t("totalPrice")}: {data?.total_sum} lei
+            </p>
           </div>
         </div>
         {}
@@ -133,7 +145,7 @@ const Invoice = () => {
           tableFields={records ?? undefined}
           handleEdit={handleEdit}
           handleDelete={openDeleteModal}
-          tableTitle={"Records"}
+          tableTitle={t("records") as string}
         />
       </div>
     </div>

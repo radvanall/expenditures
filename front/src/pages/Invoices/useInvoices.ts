@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useGetReq from "../../services/hooks/useGetReq";
 import { usePagination } from "../../services/hooks/usePagination";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 export const defaultFormValues = {
   date_radio: "",
   date: new Date().toISOString().slice(0, 10),
@@ -25,9 +26,15 @@ export interface dataTable {
   row_count: number;
   max_price: number;
 }
+export interface tableData {
+  id: number;
+  [key: string]: string | number;
+}
 const useInvoices = () => {
+  const { t } = useTranslation(["invoicesTable"]);
   const navigate = useNavigate();
   const [formData, setFormData] = useState(defaultFormValues);
+  const [tableData, setTableData] = useState<tableData[]>([]);
   const [isChecked, setIsChecked] = useState({
     date: false,
     range: false,
@@ -113,13 +120,23 @@ const useInvoices = () => {
   console.log(isChecked);
   useEffect(() => {
     if (data?.row_count) setRowCount(data?.row_count);
-    console.log(data);
-  }, [data]);
+    if (data?.invoices) {
+      const newArray = data.invoices.map((invoice) => ({
+        id: invoice.id,
+        [t("date")]: invoice.date,
+        [t("quantity")]: invoice.quantity,
+        [t("nrOfRecords")]: invoice.nr_of_records,
+        [t("totalPrice")]: invoice.total_price,
+      }));
+      setTableData(newArray);
+    }
+  }, [data, t]);
   useEffect(() => {
     fetchData();
   }, [firstRow, offset]);
   return {
-    data,
+    tableData,
+    maxPrice: data?.max_price,
     nrOfPages,
     selected,
     formData,

@@ -2,8 +2,10 @@ import axios, { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuth, useUserData } from "../../context/Provider";
 import api from "./api";
+import { useTranslation } from "react-i18next";
 
 export const useGetReq = <T,>(url: string) => {
+  const { t } = useTranslation(["serverResponse"]);
   const [data, setData] = useState<T>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +21,7 @@ export const useGetReq = <T,>(url: string) => {
       setError(null);
     } catch (err) {
       if (!axios.isAxiosError(err)) {
-        setError("Server does not answer");
+        setError(t("netWorkError"));
         return;
       }
       const axiosError = err as AxiosError<{
@@ -34,9 +36,11 @@ export const useGetReq = <T,>(url: string) => {
         }
 
         console.log(axiosError.response);
-        setError(axiosError.response.data?.error);
+        // setError(axiosError.response.data?.error);
+        setError(t(axiosError.response.data?.error));
       } else {
-        setError("Network Error");
+        // setError("Network Error");
+        setError(t("netWorkError"));
       }
     } finally {
       setLoading(false);

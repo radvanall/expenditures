@@ -1,7 +1,7 @@
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import styles from "./Table.module.css";
 import BasicButton from "../Buttons/BasicButton/BasicButton";
-
+import { useTranslation } from "react-i18next";
 interface Props<T> {
   tableFields: T[] | undefined;
   tableTitle?: string;
@@ -20,6 +20,7 @@ function Table<T extends { id: number }>({
   handleEdit,
   handleDetails,
 }: PropsWithChildren<Props<T>>) {
+  const { t } = useTranslation(["table"]);
   const tableHeader = tableFields?.length ? Object.keys(tableFields[0]) : null;
   const [columnWidth, setColumnWidth] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,7 @@ function Table<T extends { id: number }>({
   }, [tableFields]);
 
   if (loading) {
-    return <div style={{ textAlign: "center" }}>No data.</div>;
+    return <div style={{ textAlign: "center" }}>XXXX</div>;
   }
   return (
     <table className={styles.table}>
@@ -57,7 +58,7 @@ function Table<T extends { id: number }>({
                 {columnName}
               </th>
             ))}
-          <th style={{ width: `${columnWidth}%` }}>Actions</th>
+          <th style={{ width: `${columnWidth}%` }}>{t("actions")}</th>
         </tr>
       </thead>
       <tbody>
@@ -88,7 +89,7 @@ function Table<T extends { id: number }>({
             >
               {handleDetails && (
                 <BasicButton
-                  text="Details"
+                  text={t("details")}
                   handleClick={() => handleDetails(row["id"])}
                   height="26px"
                 />
@@ -96,14 +97,14 @@ function Table<T extends { id: number }>({
 
               {handleEdit && (
                 <BasicButton
-                  text="Edit"
+                  text={t("edit")}
                   handleClick={() => handleEdit(row["id"])}
                   height="26px"
                 />
               )}
               {handleDelete && (
                 <BasicButton
-                  text="Delete"
+                  text={t("delete")}
                   height="26px"
                   color="pink"
                   handleClick={() => handleDelete(row["id"])}

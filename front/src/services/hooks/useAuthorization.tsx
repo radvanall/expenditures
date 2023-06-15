@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useAuth } from "../../context/Provider";
 import { useUserData } from "../../context/Provider";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 function useAuthorization() {
   const { setAuth } = useAuth();
+  const { t } = useTranslation(["serverResponse"]);
   const { setUserData } = useUserData();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<boolean>(false);
@@ -24,7 +26,8 @@ function useAuthorization() {
         if (response.status === 200) {
           console.log(response.data);
           setError(null);
-          setMessage(response.data.success);
+          // setMessage(response.data.success);
+          setMessage(t(response.data.success));
           //   window.localStorage.removeItem("isAuth");
 
           setAuth(false);
@@ -35,7 +38,7 @@ function useAuthorization() {
       .catch((error) => {
         console.log(error.response.data.error);
         setMessage(null);
-        setError(error.response.data.error);
+        setError(t(error.response.data.error));
         setAuth(false);
         setUserData(null);
         // window.localStorage.removeItem("isAuth");
@@ -59,7 +62,7 @@ function useAuthorization() {
         if (response.status === 200) {
           console.log(response.data.success);
           setError(null);
-          setMessage(response.statusText);
+          setMessage(t(response.statusText));
           setUserData(response.data);
           //   window.localStorage.removeItem("isAuth");
           setAuth(true);
@@ -69,7 +72,7 @@ function useAuthorization() {
       .catch((error) => {
         console.log(error.response);
         setMessage(null);
-        setError(error.response.data.error);
+        setError(t(error.response.data.error));
         setAuth(false);
         setUserData(null);
         // window.localStorage.removeItem("isAuth");
