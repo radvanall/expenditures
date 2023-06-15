@@ -16,6 +16,7 @@ import {
 import { useTranslation } from "react-i18next";
 import BasicButton from "../../Buttons/BasicButton/BasicButton";
 import AddImgModal from "../../Modals/AddImgModal/AddImgModal";
+
 const UserCard = () => {
   const { t } = useTranslation(["userCard"]);
   const { userData } = useUserData();
@@ -64,11 +65,19 @@ const UserCard = () => {
       <AddImgModal
         visible={imgModal}
         setVisible={setImgModal}
-        img="/img/user.jpg"
+        // img={userData?.avatar ?? "/img/avatar.jpg"}
+        // img={require(userData?.avatar ?? "../../../images/avatar.jpg")}
+        // img={require("/img/avatar.jpg")}
+        img="img/avatar.jpg"
       />
 
       <div className={styles.img__wrapper}>
-        <img src="/img/user.jpg" alt="img" />
+        {/* <img src={userData?.avatar ?? "/img/avatar.jpg"} alt="img" /> */}
+        <img
+          // src={require(userData?.avatar ?? "../../../images/avatar.jpg")}
+          src={userData?.avatar ?? "img/avatar.jpg"}
+          alt="img"
+        />
         <BsDownload className={styles.img_change} onClick={handleImgSelect} />
       </div>
       <div className={styles.user__info}>

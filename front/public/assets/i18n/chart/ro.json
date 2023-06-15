@@ -2,5 +2,8 @@
   "oneM": "O lună",
   "threeM": "Trei luni",
   "sixM": "Șase luni",
-  "luxonLocale": "ro"
+  "luxonLocale": "ro",
+  "lastMonth": "Сheltuieli în ultima lună:",
+  "last3Months": "Сheltuieli în ultimele 3 luni:",
+  "last6Months": "Сheltuieli in ultimele 6 luni:"
 }
