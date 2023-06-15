@@ -56,6 +56,7 @@ i18n
       "logreg",
       "validation",
       "serverResponse",
+      "addImg",
     ],
   });
 
