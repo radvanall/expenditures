@@ -22,3 +22,11 @@
   margin: 5px;
   margin-right: 10px;
 }
+.total {
+  color: var(--primary-text-color);
+}
+.total_money {
+  color: var(--primary-text-color);
+  font-weight: 700;
+  /* background-color: var(--secondary-background-color); */
+}

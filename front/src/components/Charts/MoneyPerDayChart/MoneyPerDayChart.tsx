@@ -29,10 +29,6 @@ type moneyPerDay = {
 const MoneyPerDayChart = () => {
   const { t } = useTranslation(["chart"]);
   const { theme } = useTheme();
-  //const firstDate = DateTime.now().minus({ months: 1 }).toISODate();
-
-  //  DateTime.local().setLocale(t("luxonLocale"));
-
   const [firstDate, setFirstDate] = useState<string>(
     DateTime.now()
       .setLocale(t("luxonLocale"))
@@ -41,6 +37,8 @@ const MoneyPerDayChart = () => {
   );
   const [activeButton, setActiveButton] = useState(1);
   const [range, setRange] = useState(7);
+  const [money, setMoney] = useState(0);
+  const [totalMessage, setTotalMessage] = useState("");
   const { data, loading, error, fetchData } = useGetReq<moneyPerDay>(
     `/invoice.php?request=money_per_date&first_date=${firstDate}`
   );
@@ -49,7 +47,7 @@ const MoneyPerDayChart = () => {
     if (data) {
       const { fields } = data;
       const chartArray: chartDataT[] = [];
-
+      let totalMoney = 0;
       if (data?.fields) console.log(data);
       for (let day = activeButton * 30; day >= 0; day--) {
         // const newDate = DateTime.now().minus({ day: day }).toISODate();
@@ -60,12 +58,15 @@ const MoneyPerDayChart = () => {
         console.log(fields?.find((field) => field.date === newDate));
         const field = fields?.find((field) => field.date === newDate);
         const moneyValue = field ? parseFloat(field.money.toString()) : 0;
+        if (field)
+          totalMoney = totalMoney + (parseFloat(field.money.toString()) ?? 0);
         chartArray.push({
           date: newDate as string,
           money: moneyValue,
         });
       }
       console.log(chartArray);
+      setMoney(totalMoney);
       setChartData(chartArray);
       setRange(7 * Math.ceil(activeButton / 2));
     }
@@ -73,6 +74,15 @@ const MoneyPerDayChart = () => {
   useEffect(() => {
     changeChart();
   }, [data]);
+  useEffect(() => {
+    setTotalMessage(
+      activeButton === 1
+        ? (t("lastMonth") as string)
+        : activeButton === 3
+        ? (t("last3Months") as string)
+        : (t("last6Months") as string)
+    );
+  }, [t]);
   const handleChangeDate = (buttonId: number) => {
     setFirstDate(
       // DateTime.now().minus({ months: buttonId }).toISODate() as string
@@ -80,6 +90,13 @@ const MoneyPerDayChart = () => {
         .setLocale(t("luxonLocale"))
         .minus({ months: buttonId })
         .toISODate() as string
+    );
+    setTotalMessage(
+      buttonId === 1
+        ? (t("lastMonth") as string)
+        : buttonId === 3
+        ? (t("last3Months") as string)
+        : (t("last6Months") as string)
     );
     setActiveButton(buttonId);
     fetchData();
@@ -89,6 +106,8 @@ const MoneyPerDayChart = () => {
   return (
     <div className={styles.chart__wrapper}>
       <div className={styles.button__wrapper}>
+        <span className={styles.total}>{totalMessage}</span>
+        <span className={styles.total_money}>{money} $</span>
         <BasicButton
           // text="Last month"
           text={t("oneM")}
