@@ -55,6 +55,8 @@
   color: grey;
   transition: 0.5s all;
   pointer-events: none;
+  word-wrap: none;
+  white-space: nowrap;
 }
 .wrapper input:focus ~ label,
 .wrapper input:not(:placeholder-shown) ~ label {
@@ -99,4 +101,29 @@
 }
 .wrapper.pink:focus-within .icon_container {
   color: var(--tertialy-border-color);
+}
+.wrapper input[type="file"] {
+  width: 0px;
+  height: 0px;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  /* position: absolute; */
+  /* z-index: -1; */
+}
+.wrapper input[type="file"] + label {
+  font: 1.25em;
+  font-weight: 700;
+  transform: translateY(0px);
+  left: 0px;
+  position: relative;
+  color: white;
+  pointer-events: all;
+  display: inline-block;
+  background-color: var(--tertialy--backgorund-color);
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
 }

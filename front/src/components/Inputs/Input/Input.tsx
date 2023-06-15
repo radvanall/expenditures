@@ -33,7 +33,9 @@ const Input: FC<Props> = ({
   return (
     <div className={styles.wrapper}>
       <input
+        id="in"
         defaultValue={defaultValue}
+        accept="image/*"
         value={value}
         min={min}
         key={defaultValue}
@@ -46,7 +48,7 @@ const Input: FC<Props> = ({
         autoComplete="off"
         onKeyDown={handleKeyDown}
       />
-      <label htmlFor="input">{label}</label>
+      <label htmlFor="in">{label}</label>
     </div>
   );
 };
