@@ -45,6 +45,8 @@ const MoneyPerDayChart = () => {
   const [chartData, setChartData] = useState<chartDataT[]>();
   const changeChart = () => {
     if (data) {
+      console.log("firstDate:", firstDate);
+      console.log("data:", data);
       const { fields } = data;
       const chartArray: chartDataT[] = [];
       let totalMoney = 0;
@@ -72,6 +74,7 @@ const MoneyPerDayChart = () => {
     }
   };
   useEffect(() => {
+    console.log("useEffect:", firstDate);
     changeChart();
   }, [data]);
   useEffect(() => {
@@ -83,13 +86,17 @@ const MoneyPerDayChart = () => {
         : (t("last6Months") as string)
     );
   }, [t]);
+  useEffect(() => {
+    fetchData();
+  }, [activeButton]);
   const handleChangeDate = (buttonId: number) => {
     setFirstDate(
       // DateTime.now().minus({ months: buttonId }).toISODate() as string
-      DateTime.now()
-        .setLocale(t("luxonLocale"))
-        .minus({ months: buttonId })
-        .toISODate() as string
+      () =>
+        DateTime.now()
+          .setLocale(t("luxonLocale"))
+          .minus({ months: buttonId })
+          .toISODate() as string
     );
     setTotalMessage(
       buttonId === 1
@@ -99,7 +106,8 @@ const MoneyPerDayChart = () => {
         : (t("last6Months") as string)
     );
     setActiveButton(buttonId);
-    fetchData();
+    console.log("handleChangeData:", firstDate);
+    // fetchData();
     //changeChart();
   };
   console.log("t:", t);
