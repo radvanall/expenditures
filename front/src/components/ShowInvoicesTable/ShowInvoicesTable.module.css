@@ -2,7 +2,7 @@
   box-sizing: border-box;
   border-radius: 10px;
   width: 100%;
-  border: 2px solid var(--secondary-border-color);
+  border: 2px solid var(--primary-border-color);
   box-shadow: var(--primary-box-shadow);
   overflow: hidden;
 }

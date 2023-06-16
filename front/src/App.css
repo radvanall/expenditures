@@ -73,7 +73,7 @@ input[type="number"] {
   --tertialy-border-color: #704214;
   --primary-box-shadow: 0px 0px 8px 4px rgba(10, 24, 40, 0.8);
   --secondary-box-shadow: 0px 0px 3px 1px rgba(102, 240, 235, 0.6);
-  --tertialy-box-shadow: 0px 3px 10px rgba(191, 161, 129, 0.5);
+  --tertialy-box-shadow: 0 0 10px hsl(71, 42%, 52%);
   --primary-text-color: #bfa181;
   --secondary-text-color: #704214;
   --caption-color: #178582;
