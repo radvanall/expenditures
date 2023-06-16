@@ -1,10 +1,13 @@
-import React, { FC, FormEventHandler, useState } from "react";
+import React, { FC, FormEventHandler, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Navlink.module.css";
-import { RiLogoutBoxRLine } from "react-icons/ri";
+import { RiLogoutBoxRLine, RiRestaurantLine } from "react-icons/ri";
 import ImgButton from "../Buttons/ImgButton/ImgButton";
 import ToggleSlider from "../ToggleSlider/ToggleSlider";
 import { useTheme } from "../../context/Provider";
+import i18next from "i18next";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 interface Props {
   links: {
     pathname: string;
@@ -23,9 +26,29 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
     return style;
   };
   const { theme, setTheme } = useTheme();
+  const [lang, setLang] = useState("en");
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.checked);
     setTheme(e.target.checked);
+    localStorage.setItem("theme", JSON.stringify(e.target.checked));
+  };
+  useEffect(() => {
+    if (localStorage.getItem("theme")) {
+      setTheme(JSON.parse(localStorage.getItem("theme") as string));
+    } else {
+      localStorage.setItem("theme", JSON.stringify(false));
+    }
+    if ((localStorage.getItem("i18nextLng")?.length ?? 0) > 2) {
+      i18next.changeLanguage("en");
+      setLang("en");
+    } else if (localStorage.getItem("i18nextLng"))
+      setLang(localStorage.getItem("i18nextLng") as string);
+  }, []);
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    i18n.changeLanguage(e.target.value);
+    localStorage.setItem("i18nextLng", e.target.value);
+    setLang(e.target.value);
+    console.log(i18n.language);
   };
   return (
     <ul>
@@ -52,6 +75,15 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
         </ImgButton>
       )}
       <ToggleSlider onChange={handleCheck} checked={theme} />
+      <select
+        onChange={handleLanguageChange}
+        value={lang}
+        className={styles.select}
+      >
+        <option value="en">En</option>
+        <option value="ro">Ro</option>
+        <option value="ru">Ru</option>
+      </select>
       {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
     </ul>
   );

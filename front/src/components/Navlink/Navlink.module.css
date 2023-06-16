@@ -51,3 +51,12 @@ li {
   transition: 0.3s;
   opacity: 1;
 }
+.select {
+  border: 2px solid var(--tertialy--backgorund-color);
+  border-radius: 5px;
+  font-size: 16px;
+}
+.select:focus {
+  outline: none;
+  box-shadow: var(--tertialy-box-shadow);
+}
