@@ -10,6 +10,7 @@ import {
 type userDataType = {
   nickname: string;
   email: string;
+  avatar: string;
 };
 interface AuthContextType {
   auth: boolean;
@@ -46,7 +47,7 @@ const ModalContext = createContext<ModalContextType>({
 });
 console.log("layout rerender");
 const UserDataContext = createContext<UserDataContextType>({
-  userData: { nickname: "", email: "" },
+  userData: { nickname: "", email: "", avatar: "" },
   setUserData: () => {},
 });
 const ThemeContext = createContext<themeI>({
@@ -79,7 +80,9 @@ const setInitialState = (): boolean => {
 export const Provider: FC<Props> = ({ children }) => {
   const [auth, setAuth] = useState(setInitialState);
   const [userData, setUserData] = useState(setInitialUserData);
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState(
+    JSON.parse(localStorage.getItem("theme") as string)
+  );
 
   const [visible, setVisible] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState<string | null>(null);
