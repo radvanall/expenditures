@@ -4,7 +4,7 @@ import { useAuth } from "../../context/Provider";
 import { useUserData } from "../../context/Provider";
 export const useGetUser = () => {
   const { setUserData } = useUserData();
-  function getRequest() {
+  async function getRequest() {
     axios
       .get(
         "http://localhost:84/expenditures/public/userController.php?request=getLoggedUser",

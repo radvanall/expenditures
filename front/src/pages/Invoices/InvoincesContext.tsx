@@ -2,6 +2,7 @@ import useInvoices, {
   defaultFormValues,
   defaultFormValuesType,
   dataTable,
+  tableData,
 } from "./useInvoices";
 import { createContext, FC, ReactNode, useContext } from "react";
 interface Props {
@@ -35,8 +36,9 @@ type InvoiceTable = {
 };
 
 type initDataType = {
-  data: undefined | dataTable;
+  tableData: undefined | tableData[];
   nrOfPages: number;
+  maxPrice: number | undefined;
   selected: number;
   formData: defaultFormValuesType;
   isChecked: { range: boolean; date: boolean };
@@ -50,7 +52,8 @@ type initDataType = {
 };
 
 const initData: initDataType = {
-  data: undefined,
+  tableData: undefined,
+  maxPrice: 0,
   nrOfPages: 0,
   selected: 1,
   formData: defaultFormValues,
