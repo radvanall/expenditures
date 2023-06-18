@@ -68,17 +68,27 @@ class CategoryRepository extends Repository{
         $stmt=$this->connection->prepare($sql);
         $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
         $stmt->execute();
-        $default_id=$stmt->fetch()->id;
+        $result = $stmt->fetch();
+        if(!isset($result->id)) {
+            $this->db::disconnect();
+            return null;
+         }
+         $default_id=$result->id;
+        // $default_id=$stmt->fetch()->id;
         $stmt->closeCursor();
-        
+        if($default_id==$id) {
+            $this->db::disconnect();
+            return null;
+         }
+     
         $sql="UPDATE item SET category_id=:default_id where $user_id=:user_id and category_id=:id";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(":default_id",htmlspecialchars(strip_tags($default_id)),PDO::PARAM_INT);
         $stmt->bindValue(":user_id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
         $stmt->bindValue(":id",htmlspecialchars(strip_tags($id)),PDO::PARAM_INT);
-        $stmt->execute();
+         $response=$stmt->execute();
         $this->db::disconnect();
-        
+        return $response;
     }
    
     
