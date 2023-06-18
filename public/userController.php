@@ -56,7 +56,7 @@ session_start();
     session_destroy();
     http_response_code(200);
 header('Content-Type: application/json');
-echo json_encode(array("success"=>"you logged out!"));
+echo json_encode(array("success"=>"loggedOut"));
  }else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="getLoggedUser"){
    $message=$userService->findById($_SESSION["user_id"]);
    if(property_exists($message,'error')){
@@ -68,10 +68,38 @@ echo json_encode(array("success"=>"you logged out!"));
       http_response_code(200);
       echo json_encode($message);
    }
+ }else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="delete_user"){
+   $form_data=$postVars["formData"];
+   $data = json_decode($form_data, true);
+   $password = $data['password'];
+   $message=$userService->delete_user($_SESSION["user_id"],$password);
+   if(property_exists($message,'error')){
+      http_response_code(400);
+      header('Content-Type: application/json');
+      echo json_encode($message);
+   }else {
+      // $message->set_password_hash("classified data");
+      http_response_code(200);
+      echo json_encode($message);
+      session_unset();
+      session_destroy();
+   }
+ }else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="set_avatar"){
+
+     $message=$userService->setAvatar($_SESSION["user_id"],$_FILES["formData"]);
+     if(property_exists($message,'error')){
+      http_response_code(400);
+      header('Content-Type: application/json');
+      echo json_encode($message);
+   }else {
+      http_response_code(200);
+      echo json_encode($message);
+
+   }
  }
  else
  CRUD_controller($userService,$method, $getVars, $postVars);
 
 }else {  http_response_code(400);
 header('Content-Type: application/json');
-echo json_encode(array("error"=>"you are not logged in!","status"=>false));}
+echo json_encode(array("error"=>"notLogged","status"=>false));}
