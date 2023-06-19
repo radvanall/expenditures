@@ -51,6 +51,33 @@ class ItemRepository extends Repository{
     return $result;
 }
 
+public function getItemChart($user_id){
+  $sql = "SELECT i.id,i.unit,i.category_id,c.category_name, i.item_name,SUM(r.quantity*r.price) as total_price FROM `item` i inner join record r on r.item_id=i.id inner join invoice inv on r.invoice_id=inv.id inner join category c on i.category_id=c.id WHERE i.user_id=:id and inv.date >= CURDATE() GROUP by i.item_name ORDER BY `total_price`  DESC;";
+  $this->connection=$this->db::connect();
+  $stmt=$this->connection->prepare($sql);
+  $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+  $stmt->execute();
+  $result=array();
+  while($row=$stmt->fetch()){
+      array_push($result,$row);
+  }
+  $this->db::disconnect();
+  return $result;
+}
+
+public function getItemChartWeek($user_id){
+  $sql = "SELECT i.id,i.unit,i.category_id,c.category_name, i.item_name,SUM(r.quantity*r.price) as total_price FROM `item` i inner join record r on r.item_id=i.id inner join invoice inv on r.invoice_id=inv.id inner join category c on i.category_id=c.id WHERE i.user_id=:id and inv.date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) GROUP by i.item_name  ORDER BY `total_price`  DESC;";
+  $this->connection=$this->db::connect();
+  $stmt=$this->connection->prepare($sql);
+  $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
+  $stmt->execute();
+  $result=array();
+  while($row=$stmt->fetch()){
+      array_push($result,$row);
+  }
+  $this->db::disconnect();
+  return $result;
+}
 
 
 }

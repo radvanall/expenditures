@@ -66,4 +66,35 @@ class ItemService extends Service{
             return $this->returnError( 'Connection failed: '. $e->getMessage());
         }
     }
+    
+    public function getItemChart($user_id){
+        try{
+            $result=$this->repository->getItemChart($user_id);
+            $items=array();
+            foreach($result as $item){
+                array_push($items,new ItemTableDTO($item->id,$item->item_name,$item->category_id,$item->category_name,$item->unit,$item->total_price));
+            }
+            $response=new stdClass();
+            $response->items=$items;
+            return $response;
+            
+        }catch(PDOException $e){
+            return $this->returnError( 'Connection failed: '. $e->getMessage());
+        }
+    }
+    public function getItemChartWeek($user_id){
+        try{
+            $result=$this->repository->getItemChartWeek($user_id);
+            $items=array();
+            foreach($result as $item){
+                array_push($items,new ItemTableDTO($item->id,$item->item_name,$item->category_id,$item->category_name,$item->unit,$item->total_price));
+            }
+            $response=new stdClass();
+            $response->items=$items;
+            return $response;
+            
+        }catch(PDOException $e){
+            return $this->returnError( 'Connection failed: '. $e->getMessage());
+        }
+    }
 }
