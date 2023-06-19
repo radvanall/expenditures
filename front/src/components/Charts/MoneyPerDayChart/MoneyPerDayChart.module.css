@@ -13,6 +13,7 @@
   overflow: hidden;
   box-shadow: var(--primary-box-shadow);
   background-color: var(--card-color);
+  height: 427px;
   /* color: var(--primary-text-color); */
 }
 .button__wrapper {
