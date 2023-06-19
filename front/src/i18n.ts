@@ -57,6 +57,7 @@ i18n
       "validation",
       "serverResponse",
       "addImg",
+      "pieChart",
     ],
   });
 
