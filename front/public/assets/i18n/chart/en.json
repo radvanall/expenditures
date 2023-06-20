@@ -1,7 +1,7 @@
 {
-  "oneM": "One month",
-  "threeM": "Three months",
-  "sixM": "Six months",
+  "oneM": "1 month",
+  "threeM": "3 months",
+  "sixM": "6 months",
   "luxonLocale": "en",
   "lastMonth": "Expenses this month:",
   "last3Months": "Expenses last 3 months:",
