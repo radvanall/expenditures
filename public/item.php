@@ -21,9 +21,7 @@ session_start();
         }else{
           http_response_code(200);
           echo json_encode($result);
-         
        }
-
     }else if($method=="GET" && isset($getVars["request"]) && $getVars['request']=="get_item_chart"){
       $result=$itemService->getItemChart($_SESSION["user_id"]);
       if(property_exists($result,'error')){
@@ -32,9 +30,7 @@ session_start();
       }else{
         http_response_code(200);
         echo json_encode($result);
-       
      }
-
   }
 else if($method=="GET" && isset($getVars["request"]) && $getVars['request']=="get_item_chart_week"){
    $result=$itemService->getItemChartWeek($_SESSION["user_id"]);
@@ -44,9 +40,7 @@ else if($method=="GET" && isset($getVars["request"]) && $getVars['request']=="ge
    }else{
      http_response_code(200);
      echo json_encode($result);
-    
   }
-
 }else
  CRUD_controller($itemService,$method, $getVars, $postVars);
  } else {  http_response_code(400);

@@ -17,7 +17,7 @@ class UserService extends Service{
         function findById($id){
             $data=parent::findById($id);
             if(property_exists($data,'error')){return $data;}
-            $user=new User($data->id,$data->nickname,$data->email,$data->password_hash);
+            $user=new User($data->id,$data->nickname,$data->email,$data->password_hash,$data->avatar);
             return $user;
         }
         function delete($id){
@@ -32,18 +32,27 @@ class UserService extends Service{
  }
     function delete_user($id,$password){
         $user=$this->findById($id);
-        if(!$user) return $this->returnError("no such user");
+        if(!$user) 
+        return $this->returnError("noUser");
+        // return $this->returnError("no such user");
         if(!password_verify($password,$user->get_password_hash())){
-            return $this->returnError('Password is incorrect!');
+            // return $this->returnError('Password is incorrect!');
+            return $this->returnError("password");
         }
         try{
             $message=$this->delete($id);
-            if(!$message) return $this->returnError('The account has not been deleted.');
-            $this->successMessage->success="The account has been deleted"; 
-            return $this->successMessage;
+            if(!$message) 
+            return $this->returnError("accountNotDeleted");
+            // return $this->returnError('The account has not been deleted.');
+            // $this->successMessage->success="The account has been deleted"; 
+            // return $this->successMessage;
+            return $this->returnSuccess("accountDeleted");
         }catch(PDOException $e){ 
             if ($e->getCode()==23000)
-            {return  $this->returnError('This email is already in use');}
+            {
+                // return  $this->returnError('This email is already in use');
+                return  $this->returnError("emailInUse");
+            }
              return  $this->returnError('Connection failed: '. $e->getMessage());
        }
     }
@@ -53,18 +62,31 @@ class UserService extends Service{
             if((!preg_match("/^(?=.*[a-zA-Z])(?=.*[0-9])(?!.*\s).+$/",$new_user->password))||strlen($new_user->password)<8){
                // return array('invaild'=>'Invalid password');
                //return $this->errorMessage->error='Invalid password';
-             return $this->returnError('Invalid password');
+            //  return $this->returnError('Invalid password');
+            return $this->returnError('invalidPassword');
             }
             if($new_user->password!==$new_user->password_confirm){return $this->errorMessage->error='Password should match';}
             $password_hash=password_hash($new_user->password,PASSWORD_DEFAULT);
             $user=new User(0,$new_user->nickname,$new_user->email,$password_hash);
             try{
             $message=$this->repository->Insert($user); 
-            if($message){ $this->successMessage->success="You have been successfully registered.Now you can log in.";return $this->successMessage;}
-              else{  $this->errorMessage->error='Something went wrong';
-                return $this->errorMessage;}}
+            if($message){
+                //  $this->successMessage->success="You have been successfully registered.Now you can log in.";return $this->successMessage;
+                return $this->returnSuccess("successReg");
+                
+                }
+              else{  
+                // $this->errorMessage->error='Something went wrong';
+                // return $this->errorMessage;
+                return $this->returnError("somethingWentWrong");
+
+            }}
             catch(PDOException $e){ 
-                 if ($e->getCode()==23000){ $this->errorMessage->error= 'This email is already in use';return $this->errorMessage;}
+                 if ($e->getCode()==23000){ 
+                    return  $this->returnError("emailInUse");
+                    // $this->errorMessage->error= 'This email is already in use';return $this->errorMessage;
+                
+                }
           $this->errorMessage->error='Connection failed: '. $e->getMessage();
             return $this->errorMessage;
             }
@@ -84,26 +106,66 @@ class UserService extends Service{
                $password_hash=$user->get_password_hash();
                if(!empty(trim($modified_user->new_password))){
                 if((!preg_match("/^(?=.*[a-zA-Z])(?=.*[0-9])(?!.*\s).+$/",$modified_user->new_password))||strlen($modified_user->new_password)<8){
-                       return $this->returnError('Invalid password');
+                    //    return $this->returnError('Invalid password');
+                    return $this->returnError("invalidPassword");
                }
                if($modified_user->new_password!==$modified_user->password_confirm){
-                return $this->returnError('Password should match!');}
+                return $this->returnError("password");
+            }
                $password_hash=password_hash($modified_user->new_password,PASSWORD_DEFAULT); 
             }
-            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){return $this->errorMessage->error='Invalid email!';}
+            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+                // return $this->errorMessage->error='Invalid email!';
+                return $this->returnError("invalidEmail");
+            }
             $prepared_user=new User($user->get_id(),$nickname,$email,$password_hash);
             try{
                  $message=$this->repository->update($prepared_user); 
-                 if($message){  $this->successMessage->success="You have been successfully updated"; 
-                    return $this->successMessage; }
-                     else{ return $this->returnError('Nothing changed.');}}
+                 if($message){  
+                    
+                    // $this->successMessage->success="You have been successfully updated"; 
+                    // return $this->successMessage; 
+                    return $this->returnSuccess("updateUser");
+                
+                }
+                     else{
+                        //  return $this->returnError('Nothing changed.');
+                        return $this->returnError("nothingChanged");
+
+                        }}
                  catch(PDOException $e){ 
-                        if ($e->getCode()==23000){return  $this->returnError('This email is already in use');}
+                        if ($e->getCode()==23000){
+                            // return  $this->returnError('This email is already in use');
+                            return $this->returnError( "emailInUse");
+                        }
                          return  $this->returnError('Connection failed: '. $e->getMessage());
                    }
 
            }}
-        else return $this->returnError('Password is incorrect!');
+        else 
+        return $this->returnError("password");
+        // return $this->returnError('Password is incorrect!');
+    }
+    function setAvatar($user_id,$uploadedImage){
+        $targetDirectory = "D:/programe/xp/htdocs/expenditures/front/public/";
+        $originalName=$uploadedImage["name"];
+        $temporaryPath=$uploadedImage["tmp_name"];
+        $uniqid=uniqid();
+        $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+        $dbname="img/" .  $uniqid . "." . $extension;
+        $targetPath = $targetDirectory . $dbname;
+        if (!move_uploaded_file($temporaryPath, $targetPath)) return $this->returnError("somethingWentWrong");
+        try{
+            $user=$this->repository->findById($user_id);
+            $deletePath=$targetDirectory . $user->avatar;
+            unlink($deletePath);
+            $response=$this->repository->setAvatar($user_id,$dbname);
+            if($response) {
+              return $this->returnSuccess("updateUser");  
+            } 
+        }catch(PDOException $e){
+            return $this->returnError('Connection failed: '. $e->getMessage());
+        }
     }
 
         function login($input){
@@ -114,20 +176,21 @@ class UserService extends Service{
                    return $this->errorMessage; 
                }
                if(!$data){
-                $this->errorMessage->error='no such user';
-                return $this->errorMessage;
+                // $this->errorMessage->error='no such user';
+                // return $this->errorMessage;
+                return $this->returnError("noUser");
             }
-            $user=new User($data->id,$data->nickname,$data->email,$data->password_hash);
+            $user=new User($data->id,$data->nickname,$data->email,$data->password_hash ,$data->avatar);
             if(password_verify($input->password,$user->get_password_hash())){
                 session_regenerate_id();
                 $_SESSION["user_id"]=$user->get_id();
                 $this->successMessage->success="You have been logged in!";
-                $sendUser=new User($data->id,$data->nickname,$data->email);
+                $sendUser=new User($data->id,$data->nickname,$data->email,"clasified data",$data->avatar);
                 return $sendUser;
                 // return $this->successMessage;
                 
             }else{
-               return $this->returnError('Password does not match!');
+               return $this->returnError("password");
                 // return $this->errorMessage->error='Password does not match!';
             }
 

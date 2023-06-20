@@ -23,7 +23,8 @@ class CategoryService extends Service{
         $user_id=$_SESSION["user_id"];        
         try{
           $response= $this->repository->changeCategoryToDelete($user_id,$id); 
-          if(!isset($response)) return $this->returnError('There is not a default_category for you');
+        //   if(!isset($response)) return $this->returnError('There is not a default_category for you');
+        if(!isset($response)) return $this->returnError('noDefaultCategory');
            return parent::delete($id);
          }catch(PDOException $e){
             return $this->returnError( $this->errorMessage->error='Connection failed: '. $e->getMessage());
@@ -38,9 +39,14 @@ class CategoryService extends Service{
        $message=$this->repository->insert($category);
     //   $this->repository->disconnect();
        if($message){
-        $this->successMessage->success="The category has been created.";
-        return  $this->successMessage;}
-       else{ $this->errorMessage->error='Something went wrong';return $this->errorMessage; }
+        // $this->successMessage->success="The category has been created.";
+        // return  $this->successMessage;
+        return $this->returnSuccess("createCategory");
+    }
+       else{ 
+        //$this->errorMessage->error='Something went wrong';
+        $this->errorMessage->error="somethingWentWrong";
+        return $this->errorMessage; }
     }catch(PDOException $e){
          $this->errorMessage->error="Connection failed: " . $e->getMessage();
         return $this->errorMessage;
@@ -51,8 +57,12 @@ class CategoryService extends Service{
     $category=new Category($modified_category->id,$modified_category->category_name,0);
     try{
         $message=$this->repository->update($category);
-        if($message){ $this->successMessage->success="The category has been updated.";
-        return  $this->successMessage;}
+        if($message){ 
+        //     $this->successMessage->success="The category has been updated.";
+        // return  $this->successMessage;
+        return returnSuccess("updateCategory");
+    
+    }
          else{
              return $this->returnError('Something went wrong');}
     }   catch(PDOException $e){ 

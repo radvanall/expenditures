@@ -151,7 +151,7 @@ class InvoiceRepository extends Repository{
                 $where=true; 
             }
         }
-        $sql .=" LIMIT :firstRow, :offset";
+        $sql .=" ORDER BY date DESC LIMIT :firstRow, :offset";
 
         // SELECT * FROM (SELECT i.id as id,i.date as 'date', COUNT(r.id) as nr_of_records,SUM(r.quantity) as quantity, SUM(r.price*r.quantity) as total_price,user_id FROM `invoice` i inner join record r on i.id=r.invoice_id WHERE i.user_id=1 GROUP BY i.id) as s2 WHERE s2.date BETWEEN "2023-04-01" and "2023-04-17";
         //  echo $sql;

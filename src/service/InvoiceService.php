@@ -104,8 +104,11 @@ class InvoiceService extends Service{
  
 
     function insertRecords($records,$date,$user_id,$recordRepository,$categoryRepository,$itemRepository){
-        if (empty($records)) {$this->errorMessage->error='There is no records!';
-            return $this->errorMessage;}
+        if (empty($records)) {
+            // $this->errorMessage->error='There is no records!';
+            // return $this->errorMessage;
+           return $this->returnError("noRecords");
+        }
         try {
                 $this->repository->getConnection();
                 $this->repository->beginTransaction();
@@ -126,8 +129,9 @@ class InvoiceService extends Service{
                 } 
                 $this->repository->commit();
                 $this->repository->disconnect();
-                $this->successMessage->success='The invoice has been added';
-                return  $this->successMessage;
+                // $this->successMessage->success='The invoice has been added';
+                // return $this->successMessage; 
+                 return $this->returnSuccess('invoiceAdded');
             } 
         catch (PDOException $e){ return $this->error('Connection failed: '. $e->getMessage());}
     }  

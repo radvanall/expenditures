@@ -29,8 +29,15 @@ class ItemService extends Service{
          //   $this->repository->getConnection();
            $message=$this->repository->insert($item);
         //   $this->repository->disconnect();
-           if($message){ $this->successMessage->success="The category has been created";return $this->successMessage;}
-           else{ return $this->errorMessage->error='Something went wrong';}
+           if($message){ 
+            // $this->successMessage->success="The category has been created";return $this->successMessage;
+            return $this->returnSuccess("createItem");
+        }
+           else{ 
+            // return $this->errorMessage->error='Something went wrong';
+            // return $this->errorMessage->error="somethingWentWrong";
+            return $this->returnError("somethingWentWrong");
+        }
         }catch(PDOException $e){
             $this->errorMessage->error="Connection failed: " . $e->getMessage();
             return $this->errorMessage;
@@ -42,11 +49,16 @@ class ItemService extends Service{
         $item=new Item($modified->id,$modified->item_name,$modified->unit,$modified->category_id,$user_id);
         try{
             $message=$this->repository->update($item);
-            if($message){ $this->successMessage->success="The item has been updated.";
-                return $this->successMessage;
+            if($message){
+                //  $this->successMessage->success="The item has been updated.";
+                // return $this->successMessage;
+              return  $this->returnSuccess("updateItem");
             }
              else{
-                 return $this->returnError( 'Something went wrong'); }
+                //  return $this->returnError( 'Something went wrong'); 
+                return $this->returnError( "somethingWentWrong");
+                
+                }
         }   catch(PDOException $e){ 
        return $this->returnError( 'Connection failed: '. $e->getMessage());
        }}

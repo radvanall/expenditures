@@ -16,6 +16,10 @@ abstract class Service {
         $this->errorMessage->error=$message;
         return $this->errorMessage;
      }
+     function returnSuccess($message){
+        $this->successMessage->success=$message;
+        return $this->successMessage;
+     }
 
     function findAll($user_id){
         try{

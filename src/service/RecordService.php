@@ -40,7 +40,10 @@ class RecordService extends Service{
            if($message){
             $this->successMessage->success="The record has been added.";
             return $this->successMessage;}
-           else{ return $this->errorMessage->error='Something went wrong';}
+           else{ 
+            // return $this->errorMessage->error='Something went wrong';
+            return $this->errorMessage->error="somethingWentWrong";
+        }
         }catch(PDOException $e){
             return $this->errorMessage->error="Connection failed: " . $e->getMessage();
         }
@@ -67,7 +70,10 @@ class RecordService extends Service{
                 return $this->successMessage;
             }
              else{
-                return $this->returnError('Data has not changed!');}
+                // return $this->returnError('Data has not changed!');
+                return $this->returnError("dataNotChanged");
+
+            }
         }   catch(PDOException $e){ 
        return $this->returnError('Connection failed: '. $e->getMessage()); 
        }
