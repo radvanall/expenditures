@@ -24,7 +24,8 @@
   pointer-events: all;
 }
 .modal__content {
-  margin: 60px;
+  /* box-sizing: border-box; */
+  /* margin: 5px; */
   /* background-color: white; */
   background-color: var(--primary-background-color);
   padding: 20px;
@@ -32,12 +33,11 @@
   /* border: solid 2px #f07f93; */
   border: solid 2px var(--tertialy--backgorund-color);
   width: max-content;
-  min-width: 100px;
+
   min-height: 100px;
   transition: 0.5s all;
   transform: scale(0.5);
-
-  /* display: flex; */
+  /* min-width: 270px; */
 }
 
 .modal__content.active {

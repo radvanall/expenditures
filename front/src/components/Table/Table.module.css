@@ -27,7 +27,7 @@
 .table tbody {
   display: block;
   /* box-sizing: border-box; */
-  max-height: 420px;
+  /* max-height: 420px; */
   /* padding-right: 5px; */
   width: 100%;
   overflow: auto;
@@ -79,6 +79,7 @@ th {
 .table th {
   white-space: wrap;
   padding-left: 4px;
+  /* font-weight: 500; */
 }
 
 .table thead {
@@ -93,37 +94,3 @@ th {
   font-size: 18px;
   font-weight: 600;
 }
-/* .table tfoot {
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-}
-.table tfoot tr {
-  margin-top: 10px;
-  margin-right: 40px;
-  width: fit-content;
-} */
-/* 
-.table__wrapper {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-.table__wrapper tbody {
-  display: block;
-  width: 100%;
-  overflow: auto;
-  height: 100px;
-}
-.table__wrapper thead tr {
-  display: block;
-}
-.table__wrapper thead {
-  background: black;
-  color: #fff;
-}
-.table__wrapper th,
-.table__wrapper td {
-  padding: 5px;
-  text-align: left;
-  /* width: 200px; */

@@ -9,6 +9,8 @@ import styles from "./Invoice.module.css";
 import BasicButton from "../../components/Buttons/BasicButton/BasicButton";
 import MessageModal from "../../components/Modals/MessageModal/MessageModal";
 import { useTranslation } from "react-i18next";
+import { DateTime } from "luxon";
+
 type InvoiceType = {
   id: number;
   date: string;
@@ -44,6 +46,7 @@ const Invoice = () => {
   const [records, setRecords] = useState<TableType[] | undefined | null>();
   const [currentRecord, setCurrentRecord] = useState<recordType | null>(null);
   const { t } = useTranslation(["invoice"]);
+  const { t: t2 } = useTranslation(["chart"]);
   useEffect(() => {
     if (!data?.records) {
       setRecords(null);
@@ -133,7 +136,10 @@ const Invoice = () => {
               {t("id")}: {data?.id}
             </p>
             <p>
-              {t("date")}: {data?.date}
+              {t("date")}:{" "}
+              {DateTime.fromISO(data?.date as string)
+                .setLocale(t2("luxonLocale"))
+                .toFormat("d,MMM,yyyy")}
             </p>
             <p>
               {t("totalPrice")}: {data?.total_sum} lei

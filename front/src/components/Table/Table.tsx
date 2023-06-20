@@ -7,6 +7,7 @@ interface Props<T> {
   tableTitle?: string;
   customColumnWidth?: { columnName: string; width: number };
   buttonPading?: string;
+  bodyHeight?: string;
   handleEdit?: (id: number) => void;
   handleDelete?: (id: number) => void;
   handleDetails?: (id: number) => void;
@@ -16,6 +17,7 @@ function Table<T extends { id: number }>({
   tableTitle,
   customColumnWidth,
   buttonPading,
+  bodyHeight,
   handleDelete,
   handleEdit,
   handleDetails,
@@ -61,7 +63,9 @@ function Table<T extends { id: number }>({
           <th style={{ width: `${columnWidth}%` }}>{t("actions")}</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody
+        style={bodyHeight ? { maxHeight: bodyHeight } : { maxHeight: "420px" }}
+      >
         {tableFields?.map((row, index = 1) => (
           <tr key={row.id}>
             {Object.keys(row).map((cell) => (

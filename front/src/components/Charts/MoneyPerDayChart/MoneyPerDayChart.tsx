@@ -114,26 +114,30 @@ const MoneyPerDayChart = () => {
   return (
     <div className={styles.chart__wrapper}>
       <div className={styles.button__wrapper}>
-        <span className={styles.total}>{totalMessage}</span>
-        <span className={styles.total_money}>{money} $</span>
-        <BasicButton
-          // text="Last month"
-          text={t("oneM")}
-          color={activeButton === 1 ? "pink" : "blue"}
-          handleClick={() => handleChangeDate(1)}
-        />
-        <BasicButton
-          // text="Last three months"
-          text={t("threeM")}
-          color={activeButton === 3 ? "pink" : "blue"}
-          handleClick={() => handleChangeDate(3)}
-        />
-        <BasicButton
-          // text="Last six months"
-          text={t("sixM")}
-          color={activeButton === 6 ? "pink" : "blue"}
-          handleClick={() => handleChangeDate(6)}
-        />
+        <div className={styles.message}>
+          <span className={styles.total}>{totalMessage}</span>
+          <span className={styles.total_money}>{money} $</span>
+        </div>
+        <div className={styles.buttons}>
+          <BasicButton
+            // text="Last month"
+            text={t("oneM")}
+            color={activeButton === 1 ? "pink" : "blue"}
+            handleClick={() => handleChangeDate(1)}
+          />
+          <BasicButton
+            // text="Last three months"
+            text={t("threeM")}
+            color={activeButton === 3 ? "pink" : "blue"}
+            handleClick={() => handleChangeDate(3)}
+          />
+          <BasicButton
+            // text="Last six months"
+            text={t("sixM")}
+            color={activeButton === 6 ? "pink" : "blue"}
+            handleClick={() => handleChangeDate(6)}
+          />
+        </div>
       </div>
       <ResponsiveContainer width={"100%"} height={400}>
         <AreaChart data={chartData}>
