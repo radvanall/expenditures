@@ -40,7 +40,7 @@ const AddCategoryModal: FC<AddModalI> = ({
     inputFields[0].label = t("input") as string;
   }, [t]);
   return (
-    <Modal visible={visible} setVisible={setVisible}>
+    <Modal visible={visible} setVisible={setVisible} minWidth="270px">
       <Form
         formName={request === "insert" ? t("title") : t("editTitle")}
         Input={BasicInput}

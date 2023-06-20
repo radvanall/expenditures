@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useGetReq from "../../services/hooks/useGetReq";
 import { usePagination } from "../../services/hooks/usePagination";
+import { DateTime } from "luxon";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 export const defaultFormValues = {
@@ -32,6 +33,7 @@ export interface tableData {
 }
 const useInvoices = () => {
   const { t } = useTranslation(["invoicesTable"]);
+  const { t: t2 } = useTranslation(["chart"]);
   const navigate = useNavigate();
   const [formData, setFormData] = useState(defaultFormValues);
   const [tableData, setTableData] = useState<tableData[]>([]);
@@ -123,7 +125,9 @@ const useInvoices = () => {
     if (data?.invoices) {
       const newArray = data.invoices.map((invoice) => ({
         id: invoice.id,
-        [t("date")]: invoice.date,
+        [t("date")]: DateTime.fromISO(invoice.date)
+          .setLocale(t2("luxonLocale"))
+          .toFormat("d,MMM,yyyy"),
         [t("quantity")]: invoice.quantity,
         [t("nrOfRecords")]: invoice.nr_of_records,
         [t("totalPrice")]: invoice.total_price,

@@ -69,6 +69,7 @@ const InvoiceTable = () => {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
+
       <div className={styles.footer}>
         <h4>{`${t("totalPrice")}: ${totalPrice}`}</h4>
       </div>

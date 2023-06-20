@@ -6,3 +6,18 @@
   gap: 10px;
   background-color: var(--card-color);
 }
+.table__wrapper {
+  width: 100%;
+}
+@media (max-width: 1100px) {
+  .table__wrapper table th {
+    /* word-break: break-all; */
+    font-size: 14px;
+  }
+}
+@media (max-width: 600px) {
+  .table__wrapper table th {
+    word-break: break-all;
+    font-size: 12px;
+  }
+}

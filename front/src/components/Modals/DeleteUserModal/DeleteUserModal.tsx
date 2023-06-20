@@ -64,7 +64,7 @@ const DeleteUserModal: FC<Props> = ({ visible, setVisible }) => {
     ref.current?.reset();
   };
   return (
-    <Modal visible={visible} setVisible={resetForm}>
+    <Modal visible={visible} setVisible={resetForm} minWidth="270px">
       <Form
         ref={ref}
         formName={t("deleteAccount")}

@@ -140,14 +140,17 @@ const CategoryCard = () => {
         />
       )}
       {cateogries && (
-        <Table<categoriesElementsT>
-          tableTitle={t("categories") as string}
-          tableFields={cateogries}
-          buttonPading="10px"
-          handleEdit={handleEdit}
-          handleDelete={handleOpenDeleteMessage}
-          customColumnWidth={{ columnName: t("totalPrice"), width: 40 }}
-        />
+        <div className={styles.table__wrapper}>
+          <Table<categoriesElementsT>
+            tableTitle={t("categories") as string}
+            tableFields={cateogries}
+            bodyHeight="320px"
+            buttonPading="10px"
+            handleEdit={handleEdit}
+            handleDelete={handleOpenDeleteMessage}
+            customColumnWidth={{ columnName: t("totalPrice"), width: 40 }}
+          />
+        </div>
       )}
     </Card>
   );

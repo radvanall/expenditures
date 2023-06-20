@@ -7,7 +7,7 @@
   text-align: center;
 }
 .chart__wrapper {
-  width: 100%;
+  /* width: 100%; */
   border: var(--primary-border-color) solid 2px;
   border-radius: 20px;
   overflow: hidden;
@@ -23,6 +23,10 @@
   margin: 5px;
   margin-right: 10px;
 }
+.buttons {
+  display: flex;
+  gap: 5px;
+}
 .total {
   color: var(--primary-text-color);
 }
@@ -30,4 +34,13 @@
   color: var(--primary-text-color);
   font-weight: 700;
   /* background-color: var(--secondary-background-color); */
+}
+@media (max-width: 800px) {
+  .chart__wrapper {
+    height: 460px;
+  }
+  .button__wrapper {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
 }

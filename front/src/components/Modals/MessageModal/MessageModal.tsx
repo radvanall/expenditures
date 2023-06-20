@@ -27,7 +27,7 @@ const MessageModal: FC<Props> = ({
     handleOk();
   };
   return (
-    <Modal visible={visible} setVisible={setVisible}>
+    <Modal visible={visible} setVisible={setVisible} minWidth="270px">
       <div className={styles.message__modal}>
         {children}
         <div className={styles.buttons__wrapper}>

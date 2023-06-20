@@ -155,14 +155,17 @@ const ItemCard = () => {
         />
       )}
       {items && (
-        <Table<ItemsT>
-          tableTitle={t("items") as string}
-          tableFields={items}
-          buttonPading="10px"
-          handleEdit={handleEdit}
-          handleDelete={handleOpenDeleteMessage}
-          customColumnWidth={{ columnName: t("totalPrice"), width: 30 }}
-        />
+        <div className={styles.table__wrapper}>
+          <Table<ItemsT>
+            tableTitle={t("items") as string}
+            tableFields={items}
+            bodyHeight="320px"
+            buttonPading="10px"
+            handleEdit={handleEdit}
+            handleDelete={handleOpenDeleteMessage}
+            customColumnWidth={{ columnName: t("totalPrice"), width: 30 }}
+          />
+        </div>
       )}
     </Card>
   );

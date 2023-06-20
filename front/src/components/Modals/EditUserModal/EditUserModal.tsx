@@ -57,7 +57,7 @@ const EditUserModal: FC<Props> = ({
     ref.current?.reset();
   };
   return (
-    <Modal visible={visible} setVisible={resetForm}>
+    <Modal visible={visible} setVisible={resetForm} minWidth="270px">
       <Form
         ref={ref}
         formName={changedField}

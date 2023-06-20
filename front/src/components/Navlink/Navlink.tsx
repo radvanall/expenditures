@@ -6,7 +6,7 @@ import ImgButton from "../Buttons/ImgButton/ImgButton";
 import ToggleSlider from "../ToggleSlider/ToggleSlider";
 import { useTheme } from "../../context/Provider";
 import i18next from "i18next";
-import { useTranslation } from "react-i18next";
+import Burger from "../Burger/Burger";
 import i18n from "../../i18n";
 interface Props {
   links: {
@@ -17,6 +17,7 @@ interface Props {
   auth: boolean;
 }
 const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
+  const [burger, setBurger] = useState(false);
   const location = useLocation();
   const getLinkClass = (pathname: string) => {
     const style =
@@ -50,40 +51,56 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
     setLang(e.target.value);
     console.log(i18n.language);
   };
+  const handleBurger = () => {
+    setBurger((prev) => !prev);
+  };
   return (
-    <ul>
+    <ul className={styles.navlink_list}>
+      <div className={styles.burger}>
+        <Burger burger={burger} setBurger={handleBurger} />
+      </div>
+
       {/* <button onClick={handleLogout}>Logout</button> */}
 
       {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
-      {links.map((link) => (
-        <Link
-          key={link.pathname}
-          className={getLinkClass(link.pathname)}
-          to={link.pathname}
-        >
-          {link.name}
-        </Link>
-      ))}
-      {auth && (
-        <ImgButton
-          handleClick={handleLogout}
-          color="pink"
-          fontSize="18px"
-          title="Logout"
-        >
-          <RiLogoutBoxRLine />
-        </ImgButton>
-      )}
-      <ToggleSlider onChange={handleCheck} checked={theme} />
-      <select
-        onChange={handleLanguageChange}
-        value={lang}
-        className={styles.select}
+      <div
+        className={
+          burger ? `${styles.links} ${styles.links_visible}` : styles.links
+        }
       >
-        <option value="en">En</option>
-        <option value="ro">Ro</option>
-        <option value="ru">Ru</option>
-      </select>
+        {links.map((link) => (
+          <Link
+            key={link.pathname}
+            className={getLinkClass(link.pathname)}
+            to={link.pathname}
+          >
+            {link.name}
+          </Link>
+        ))}
+        {auth && (
+          <ImgButton
+            handleClick={handleLogout}
+            color="pink"
+            fontSize="18px"
+            title="Logout"
+          >
+            <RiLogoutBoxRLine />
+          </ImgButton>
+        )}
+      </div>
+      <div className={styles.link__buttons}>
+        <ToggleSlider onChange={handleCheck} checked={theme} />
+        <select
+          onChange={handleLanguageChange}
+          value={lang}
+          className={styles.select}
+        >
+          <option value="en">En</option>
+          <option value="ro">Ro</option>
+          <option value="ru">Ru</option>
+        </select>
+      </div>
+
       {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
     </ul>
   );
