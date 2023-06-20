@@ -3,13 +3,14 @@ import styles from "./Modal.module.css";
 
 interface Props {
   visible: boolean;
+  minWidth?: string;
   setVisible:
     | React.Dispatch<React.SetStateAction<boolean>>
     | ((val: boolean) => void)
     | (() => void);
   children?: ReactNode;
 }
-const Modal: FC<Props> = ({ visible, setVisible, children }) => {
+const Modal: FC<Props> = ({ visible, setVisible, minWidth, children }) => {
   return (
     <div
       className={
@@ -24,6 +25,7 @@ const Modal: FC<Props> = ({ visible, setVisible, children }) => {
             ? `${styles.modal__content} ${styles.active}`
             : styles.modal__content
         }
+        style={minWidth ? { minWidth: minWidth } : {}}
       >
         <div className={styles.btn__wrapper}>
           <button className={styles.btn} onClick={() => setVisible(false)}>

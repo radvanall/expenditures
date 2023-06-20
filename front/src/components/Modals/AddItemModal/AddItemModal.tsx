@@ -100,7 +100,7 @@ const AddItemModal: FC<AddModalI> = ({
   );
 
   return (
-    <Modal visible={visible} setVisible={setVisible}>
+    <Modal visible={visible} setVisible={setVisible} minWidth="270px">
       <Form
         formName={request === "insert" ? t("inserTitle") : t("editTitle")}
         Input={BasicInput}
