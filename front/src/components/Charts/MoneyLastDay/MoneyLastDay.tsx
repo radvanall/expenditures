@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
-import useGetReq from "../../../services/hooks/useGetReq";
+import { FC } from "react";
 import Card from "../../Cards/Card/Card";
 import styles from "./MoneyLastDay.module.css";
 import { Tooltip, PieChart, Pie, Cell, TooltipProps } from "recharts";
@@ -19,23 +18,10 @@ interface Props {
   top?: boolean;
 }
 const MoneyLastDay: FC<Props> = ({ chartData, totalPrice, title, top }) => {
-  const [activeIndex, setActiveIndex] = useState<number>(-1);
-
-  const handleMouseEnter = (index: number) => {
-    setActiveIndex(index);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveIndex(-1);
-  };
-
   const COLORS = ["#178582", "#bfa181", "#f07f93", "#297497"];
-
   return (
     <Card>
       {chartData && (
-        // <ResponsiveContainer width="100%" height={195}>
-        // <ResponsiveContainer>
         <div className={styles.chart__wrapper}>
           <PieChart height={210} width={170}>
             <Pie
@@ -48,28 +34,11 @@ const MoneyLastDay: FC<Props> = ({ chartData, totalPrice, title, top }) => {
               outerRadius={80}
               stroke="none"
               strokeWidth={0}
-              //   onMouseEnter={handleMouseEnter}
-              //   onMouseLeave={handleMouseLeave}
-              //   activeIndex={activeIndex}
-
-              // fill="#8884d8"
             >
               {chartData.map((entry, index) => (
                 <Cell
-                  //   onMouseEnter={handleMouseEnter}
-                  //   onMouseLeave={handleMouseLeave}
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
-                  style={
-                    index === activeIndex
-                      ? {
-                          filter: `drop-shadow(0px 0px 5px ${
-                            COLORS[index % COLORS.length]
-                          }`,
-                          cursor: "pointer",
-                        }
-                      : {}
-                  }
                   stroke="0"
                 />
               ))}
@@ -78,19 +47,6 @@ const MoneyLastDay: FC<Props> = ({ chartData, totalPrice, title, top }) => {
               wrapperStyle={{ zIndex: 1000 }}
               content={<CustomTooltip />}
             />
-            {/* <Legend verticalAlign="middle" layout="vertical" align="right" /> */}
-
-            {/* <Pie
-              data={data?.items}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              fill="#82ca9d"
-              label
-            /> */}
           </PieChart>
           <div
             className={
@@ -100,12 +56,10 @@ const MoneyLastDay: FC<Props> = ({ chartData, totalPrice, title, top }) => {
             }
           >
             <span>{title}</span>
-            {/* <span>Expenses last 7 days:</span> */}
-            {/* <br /> */}
+
             <span>{totalPrice}$</span>
           </div>
         </div>
-        // {/* </ResponsiveContainer> */}
       )}
     </Card>
   );
@@ -120,11 +74,7 @@ function CustomTooltip({
 }: TooltipProps<ValueType, NameType>) {
   const { t } = useTranslation(["pieChart"]);
   if (active && payload) {
-    const value = Number(payload[0]?.value);
-    console.log("label", label);
-    console.log("value", payload[0].payload);
     const color: string = payload[0].payload.fill;
-    //   const formattedValue = isNaN(value) ? "" : value.toFixed(2);
     return (
       <div className={styles.tooltip}>
         <p style={{ color: color }}>
@@ -137,13 +87,6 @@ function CustomTooltip({
           {t("category")}
           {payload[0].payload.Category}
         </p>
-
-        {/* <h4>
-            {DateTime.fromISO(label)
-              .setLocale(t("luxonLocale"))
-              .toFormat("cccc, d MMM, yyyy")}
-          </h4>
-          <p>{formattedValue} lei</p> */}
       </div>
     );
   }

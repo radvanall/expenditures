@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, ReactNode } from "react";
+import React, { FC, ReactNode } from "react";
 import styles from "./ImgButton.module.css";
 interface Props {
   children: ReactNode;

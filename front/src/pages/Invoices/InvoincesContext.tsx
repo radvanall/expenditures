@@ -1,39 +1,13 @@
 import useInvoices, {
   defaultFormValues,
   defaultFormValuesType,
-  dataTable,
   tableData,
 } from "./useInvoices";
+
 import { createContext, FC, ReactNode, useContext } from "react";
 interface Props {
   children: ReactNode;
 }
-// const defaultFormValues = {
-//   date_radio: "",
-//   date: new Date().toISOString().slice(0, 10),
-//   first_date: new Date().toISOString().slice(0, 10),
-//   last_date: new Date().toISOString().slice(0, 10),
-//   min_price_checkbox: false,
-//   min_price: 0,
-//   max_price_checkbox: false,
-//   max_price: 0,
-// };
-// const { data,
-//     nrOfPages,
-//     selected,
-//     formData,
-//     changeFirstRow,
-//     goToStart,
-//     goToEnd,
-//     handleSubmit,
-//     handleFormChange}=useInvoices();
-type InvoiceTable = {
-  id: number;
-  date: string;
-  quantity: number;
-  nr_of_records: number;
-  total_price: number;
-};
 
 type initDataType = {
   tableData: undefined | tableData[];

@@ -67,7 +67,6 @@ const useInvoices = () => {
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "min_price_checkbox" || name === "max_price_checkbox") {
-      console.log(e.target.checked);
       setFormData((prevValues) => ({
         ...prevValues,
         [name]: e.target.checked,
@@ -86,7 +85,6 @@ const useInvoices = () => {
         date: false,
       }));
     }
-    console.log(name, value);
     setFormData((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -94,10 +92,7 @@ const useInvoices = () => {
   };
   const handleRadioClick = (e: React.MouseEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
-    console.log(name, value);
-    console.log(formData.date_radio);
     if (formData.date_radio === value) {
-      console.log("isEqual");
       setFormData((prevValues) => ({
         ...prevValues,
         [name]: "",
@@ -112,14 +107,10 @@ const useInvoices = () => {
     e.preventDefault();
     fetchData();
     goToStart();
-    console.log(formData);
   };
   const handleDetails = (id: number) => {
-    console.log("click");
-    console.log(id);
     navigate(id);
   };
-  console.log(isChecked);
   useEffect(() => {
     if (data?.row_count) setRowCount(data?.row_count);
     if (data?.invoices) {

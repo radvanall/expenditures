@@ -16,7 +16,6 @@ export const useGetReq = <T,>(url: string) => {
     try {
       setLoading(true);
       const response = await api.get(url);
-      console.log("USEGETREQ:", response.data);
       setData(() => response.data);
       setError(null);
     } catch (err) {
@@ -29,17 +28,12 @@ export const useGetReq = <T,>(url: string) => {
         error: string;
       }>;
       if (axiosError.response) {
-        // console.log("axiosError:", axiosError);
         if (!axiosError.response.data?.status) {
           setAuth(false);
           setUserData(null);
         }
-
-        console.log(axiosError.response);
-        // setError(axiosError.response.data?.error);
         setError(t(axiosError.response.data?.error));
       } else {
-        // setError("Network Error");
         setError(t("netWorkError"));
       }
     } finally {

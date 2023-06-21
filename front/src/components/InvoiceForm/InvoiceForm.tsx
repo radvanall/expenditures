@@ -41,18 +41,12 @@ const InvoiceForm = () => {
     SelectI[] | null
   >(null);
   const { t } = useTranslation(["invoiceForm"]);
-  const {
-    data: items,
-    loading: itemsLoading,
-    error: itemsError,
-    fetchData: fetchItems,
-  } = useGetRequest<SelectI>("/item.php?id=all", itemTypes);
-  const {
-    data: categories,
-    loading: categoriesLoading,
-    error: categoriesError,
-    fetchData: fetchCategories,
-  } = useGetRequest<SelectI>("/category.php?id=all", categoryTypes);
+  const { data: items, fetchData: fetchItems } = useGetRequest<SelectI>(
+    "/item.php?id=all",
+    itemTypes
+  );
+  const { data: categories, fetchData: fetchCategories } =
+    useGetRequest<SelectI>("/category.php?id=all", categoryTypes);
   useEffect(() => {
     setDisplayedItems(items);
   }, [items]);
@@ -87,7 +81,6 @@ const InvoiceForm = () => {
   const modifyItem = (item: SelectI) => {
     handleChangeItem(item, items, categories);
   };
-  console.log("invoiceformUp");
   return (
     <div className={styles.form__wrapper}>
       <h4 className={styles.form__title}>
@@ -171,7 +164,7 @@ const InvoiceForm = () => {
           width="75%"
           label={t("price") as string}
           errors={getError("price")}
-          afterText={"lei"}
+          afterText={"$"}
         >
           <MdPriceCheck />
         </InputFormField>

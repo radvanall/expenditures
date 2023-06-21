@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const usePagination = () => {
   const [rowCount, setRowCount] = useState(0);
@@ -9,8 +9,6 @@ export const usePagination = () => {
   const changeFirstRow = (nr: number) => {
     setFistRow(nr * offset - offset);
     setSelected(nr);
-    console.log("first row:", firstRow);
-    console.log("rowCount:", rowCount);
   };
   const goToStart = () => {
     setSelected(1);

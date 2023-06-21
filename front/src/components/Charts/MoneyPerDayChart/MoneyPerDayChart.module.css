@@ -7,14 +7,12 @@
   text-align: center;
 }
 .chart__wrapper {
-  /* width: 100%; */
   border: var(--primary-border-color) solid 2px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--primary-box-shadow);
   background-color: var(--card-color);
   height: 427px;
-  /* color: var(--primary-text-color); */
 }
 .button__wrapper {
   display: flex;
@@ -33,7 +31,6 @@
 .total_money {
   color: var(--primary-text-color);
   font-weight: 700;
-  /* background-color: var(--secondary-background-color); */
 }
 @media (max-width: 800px) {
   .chart__wrapper {

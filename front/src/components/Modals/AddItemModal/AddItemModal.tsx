@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { SelectI } from "../../../Interfaces/SelectI";
 import { AddModalI } from "../../../Interfaces/AddModal";
 import BasicInput from "../../Inputs/BasicInput/BasicInput";
@@ -25,15 +25,12 @@ const AddItemModal: FC<AddModalI> = ({
     SelectI[] | null
   >(null);
   const { t } = useTranslation(["addItemModal"]);
-  const {
-    data: categories,
-    loading: categoriesLoading,
-    error: categoriesError,
-    fetchData: fetchCategories,
-  } = useGetRequest<SelectI>("/category.php?id=all", categoryTypes);
+  const { data: categories } = useGetRequest<SelectI>(
+    "/category.php?id=all",
+    categoryTypes
+  );
 
   useEffect(() => {
-    console.log("in useEffect");
     setDisplayedCategories(categories);
   }, [categories]);
 
@@ -45,16 +42,13 @@ const AddItemModal: FC<AddModalI> = ({
   }, [t]);
   const {
     error,
-    pending,
     message: answer,
     makePostRequest,
-    resetPost,
   } = usePost(
     "http://localhost:84/expenditures/public/item.php",
     request ? request : "insert"
   );
   const submitData = async (data: FormData) => {
-    console.log("SUBMITED", data);
     if (Id && request === "update") data.id = Id;
     await makePostRequest(data);
     fetchData();
@@ -71,21 +65,13 @@ const AddItemModal: FC<AddModalI> = ({
       setValue("category_id", Number(inputFields[2].defaultValue) ?? -1);
       setValue("category_name", inputFields[3].defaultValue ?? "");
       trigger("category_name");
-      console.log(
-        "category_id",
-        inputFields[2].defaultValue,
-        "category_name",
-        inputFields[3].defaultValue
-      );
     }
   }, []);
 
   const submit = handleSubmit(submitData);
   const handleChangeItem = (item: SelectI) => {
-    console.log(item);
     setValue("category_id", Number(item.id) ?? "");
     setValue("category_name", item.name ?? "");
-    console.log("newArray:");
     setTimeout(() => setDisplayedCategories(categories), 300);
     trigger("category_name");
     setSelectValue({

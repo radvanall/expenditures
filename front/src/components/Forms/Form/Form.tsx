@@ -34,7 +34,6 @@ const Form: FC<Props> = ({
   serverAnswer,
   modal = false,
 }) => {
-  console.log("form", inputFields);
   const { t } = useTranslation(["logreg"]);
   return (
     <div

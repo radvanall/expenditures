@@ -3,13 +3,6 @@ import Pagination from "../Pagination/Pagination";
 import styles from "./ShowInvoicesTable.module.css";
 import { useInvoicesContext } from "../../pages/Invoices/InvoincesContext";
 import { useTranslation } from "react-i18next";
-// type InvoiceTable = {
-//   id: number;
-//   date: string;
-//   quantity: number;
-//   nr_of_records: number;
-//   total_price: number;
-// };
 export interface tableData {
   id: number;
   [key: string]: string | number;

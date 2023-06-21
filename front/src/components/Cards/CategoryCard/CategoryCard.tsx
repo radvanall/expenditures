@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useGetReq from "../../../services/hooks/useGetReq";
 import AddCategoryModal from "../../Modals/AddCategoryModal/AddCategoryModal";
-import ProgressBar, { ProgressBarI } from "../../ProgressBar/ProgressBar";
+import ProgressBar from "../../ProgressBar/ProgressBar";
 import Table from "../../Table/Table";
 import { newCategory } from "../../../data/loginInputFields";
 import Card from "../Card/Card";
@@ -26,23 +26,17 @@ type CategoryTableT = {
 
 type categoriesElementsT = {
   id: number;
-  // "Category name": string;
-  // "Number of items": number;
-  // "Total price": JSX.Element;
   [key: string]: string | number | JSX.Element;
 };
 
 const CategoryCard = () => {
-  const { data, loading, error, fetchData } = useGetReq<CategoryTableT>(
+  const { data, fetchData } = useGetReq<CategoryTableT>(
     "http://localhost:84/expenditures/public/category.php?request=get_category_table"
   );
-  const {
-    error: postError,
-    pending,
-    message: answer,
-    makePostRequest,
-    resetPost,
-  } = usePost("http://localhost:84/expenditures/public/category.php", "delete");
+  const { makePostRequest } = usePost(
+    "http://localhost:84/expenditures/public/category.php",
+    "delete"
+  );
   const [cateogries, setCategories] = useState<categoriesElementsT[]>([]);
   const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -57,7 +51,6 @@ const CategoryCard = () => {
       const newArray: categoriesElementsT[] = data?.categories.map(
         (category, index) => {
           return {
-            // ...category,
             id: category.id,
             [t("categoryName")]: category["Category name"],
             [t("numberOfItems")]: category["Number of items"],
@@ -66,7 +59,7 @@ const CategoryCard = () => {
               <ProgressBar
                 value={category["Total price"] as number}
                 max={totalPrice as number}
-                additionalLabel="lei"
+                additionalLabel="$"
                 key={index}
               />
             ),
@@ -75,11 +68,9 @@ const CategoryCard = () => {
       );
       setCategories(newArray);
     }
-    console.log(data);
   }, [data, t]);
   const handleEdit = (id: number) => {
     const category = data?.categories.find((category) => category.id === id);
-    console.log("fetched:", category);
     setRequestType("update");
     newCategory[0].defaultValue = category?.["Category name"] ?? "";
     if (category?.id) setCategoryId(category?.id);
@@ -105,7 +96,11 @@ const CategoryCard = () => {
     newCategory[0].defaultValue = "";
     setCategoryId(-1);
   };
-
+  useEffect(() => {
+    if (!modal) {
+      newCategory[0].defaultValue = "";
+    }
+  }, [modal]);
   return (
     <Card>
       <div className={styles.add__category__wrapper}>

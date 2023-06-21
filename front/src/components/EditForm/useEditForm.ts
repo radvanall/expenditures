@@ -34,15 +34,9 @@ export const useEditForm = (
   const [displayedCategories, setDisplayedCategories] = useState<
     SelectI[] | null
   >(null);
-  const {
-    data: items,
-    loading: itemsLoading,
-    error: itemsError,
-    fetchData: fetchItems,
-  } = useGetRequest<SelectI>("/item.php?id=all", itemTypes);
+  const { data: items } = useGetRequest<SelectI>("/item.php?id=all", itemTypes);
   const {
     error,
-    pending,
     message: answer,
     makePostRequest,
     resetPost,
@@ -57,12 +51,10 @@ export const useEditForm = (
     setError("quantity", { type: "", message: "" });
     setError("price", { type: "", message: "" });
   };
-  const {
-    data: categories,
-    loading: categoriesLoading,
-    error: categoriesError,
-    fetchData: fetchCategories,
-  } = useGetRequest<SelectI>("/category.php?id=all", categoryTypes);
+  const { data: categories } = useGetRequest<SelectI>(
+    "/category.php?id=all",
+    categoryTypes
+  );
   useEffect(() => {
     setDisplayedItems(items);
   }, [items]);
@@ -209,7 +201,6 @@ export const useEditForm = (
   const submitData = (data: FormData) => {
     if (record) {
       data.id = record?.id;
-      console.log("SUBMITED", data);
       makePostRequest(data);
       fetchData();
     }
@@ -220,7 +211,6 @@ export const useEditForm = (
       data.invoice_id = invoice_id;
       makePostRequest(data);
       fetchData();
-      console.log("SUBMITED", data);
     }
   };
   const submitRecord = handleSubmit(createRecord);

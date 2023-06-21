@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./InvoiceTable.module.css";
 import Table from "../Table/Table";
 import { useInvoice } from "../../context/InvoiceContext/InvoiceContext";
@@ -9,11 +9,6 @@ import { useTranslation } from "react-i18next";
 interface tableField {
   id: number;
   [key: string]: string | number;
-  // category: string;
-  // item: string;
-  // price: number;
-  // quantity: number;
-  // total: number;
 }
 const InvoiceTable = () => {
   const {
@@ -29,7 +24,6 @@ const InvoiceTable = () => {
   const [visible, setVisible] = useState(false);
   const { t } = useTranslation(["invoiceTable"]);
   const [serverAnswer, setServerAnswer] = useState(false);
-  const tableTitle = "Records";
   const submitRecords = () => {
     setServerAnswer(true);
     handleSave();
@@ -71,7 +65,7 @@ const InvoiceTable = () => {
       />
 
       <div className={styles.footer}>
-        <h4>{`${t("totalPrice")}: ${totalPrice}`}</h4>
+        <h4>{`${t("totalPrice")}: ${totalPrice}`} $</h4>
       </div>
       <div className={styles.buttons__wrapper}>
         <BasicButton

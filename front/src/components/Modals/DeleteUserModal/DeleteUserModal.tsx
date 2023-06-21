@@ -1,11 +1,8 @@
 import React, { FC, useEffect, useRef } from "react";
-import styles from "./DeleteUserModal.module.css";
 import Modal from "../Modal/Modal";
 import BasicInput from "../../Inputs/BasicInput/BasicInput";
 import useValidate from "../../../services/hooks/useValidate";
-import { InputType } from "../../../Interfaces/InputType";
 import usePost from "../../../services/hooks/usePost";
-import useGetUser from "../../../services/hooks/useGetUser";
 import Form from "../../Forms/Form/Form";
 import { deleteAccount } from "../../../data/loginInputFields";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +18,6 @@ interface Props {
 const DeleteUserModal: FC<Props> = ({ visible, setVisible }) => {
   const {
     error,
-    pending,
     message: answer,
     makePostRequest,
     resetPost,
@@ -35,16 +31,10 @@ const DeleteUserModal: FC<Props> = ({ visible, setVisible }) => {
   const { setAuth } = useAuth();
   const { setUserData } = useUserData();
   const submitData = async (data: FormData) => {
-    console.log("SUBMITED", data);
-
     await makePostRequest(data);
-
-    // getRequest();
-    console.log("data", data);
   };
   useEffect(() => {
     if (answer) {
-      console.log("answer is true", answer);
       setAuth(false);
       setUserData(null);
       setDeleteVisible(true);

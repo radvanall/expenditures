@@ -22,23 +22,15 @@ export const useGetRequest = <T>(url: string, typeObject?: object) => {
       setData(response.data);
     } catch (err) {
       if (!axios.isAxiosError(err)) {
-        // setError("Server does not answer");
         setError(t("netWorkError"));
-        console.log(err);
         return;
       }
       const axiosError = err as AxiosError<{ error: string }>;
       if (!axiosError.response) {
-        // setError("Network Error");
         setError(t("netWorkError"));
-        console.log("Networkt answer");
         return;
       }
-
-      console.log("axiosError:", axiosError);
-      // setError(axiosError.response.data?.error);
       setError(t(axiosError.response.data?.error));
-      console.log(t(axiosError.response.data?.error));
     } finally {
       setLoading(false);
     }

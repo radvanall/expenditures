@@ -43,7 +43,6 @@ const UserCard = () => {
     editPasswordFields[2].label = t("confirmNewPass");
   }, [t]);
   const handleImgSelect = () => {
-    console.log("img click");
     setImgModal(true);
   };
   return (
@@ -65,19 +64,11 @@ const UserCard = () => {
       <AddImgModal
         visible={imgModal}
         setVisible={setImgModal}
-        // img={userData?.avatar ?? "/img/avatar.jpg"}
-        // img={require(userData?.avatar ?? "../../../images/avatar.jpg")}
-        // img={require("/img/avatar.jpg")}
         img="img/avatar.jpg"
       />
 
       <div className={styles.img__wrapper}>
-        {/* <img src={userData?.avatar ?? "/img/avatar.jpg"} alt="img" /> */}
-        <img
-          // src={require(userData?.avatar ?? "../../../images/avatar.jpg")}
-          src={userData?.avatar ?? "img/avatar.jpg"}
-          alt="img"
-        />
+        <img src={userData?.avatar ?? "img/avatar.jpg"} alt="img" />
         <BsDownload className={styles.img_change} onClick={handleImgSelect} />
       </div>
       <div className={styles.user__info}>
@@ -91,7 +82,6 @@ const UserCard = () => {
               <FaFeatherAlt
                 className={styles.feather}
                 onClick={() => {
-                  // setchangedField("nickname");
                   setchangedField(t("changeNickname") as string);
                   setModal((prev) => !prev);
                   const setValue = editNicknameFields.find(
@@ -100,8 +90,6 @@ const UserCard = () => {
                   if (setValue)
                     setValue.defaultValue = userData?.nickname ?? "";
                   setInputFields(editNicknameFields);
-
-                  console.log(editNicknameFields);
                 }}
               />
             </div>
@@ -136,7 +124,6 @@ const UserCard = () => {
                 <div className={styles.feather_container}>
                   <button
                     onClick={() => {
-                      // setchangedField("email");
                       setchangedField(t("changeEmail") as string);
                       setModal((prev) => !prev);
                       const setValue = editEmailFields.find(
@@ -145,7 +132,6 @@ const UserCard = () => {
                       if (setValue)
                         setValue.defaultValue = userData?.email ?? "";
                       setInputFields(editEmailFields);
-                      console.log(editEmailFields);
                     }}
                     className={styles.button_feather}
                   >
@@ -161,11 +147,9 @@ const UserCard = () => {
               >
                 <button
                   onClick={() => {
-                    // setchangedField("password");
                     setchangedField(t("changePassword") as string);
                     setModal((prev) => !prev);
                     setInputFields(editPasswordFields);
-                    console.log(editPasswordFields);
                   }}
                   className={styles.button_feather}
                 >

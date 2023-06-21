@@ -9,16 +9,10 @@
 }
 .total__price {
   position: absolute;
-  /* top: 80px;
-  left: 28px; */
   width: 128px;
   top: 33%;
   left: 50%;
   transform: translate(-50%, 0);
-  /* transform: translateX(30%); */
-  /* top: 75px;
-  left: -50%; */
-  /* transform: translate(-50%, 0); */
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -35,5 +29,4 @@
   color: #fff;
   padding: 1rem;
   box-shadow: 15px 30px 40px 5px rgba(0, 0, 0, 0.5);
-  /* text-align: center; */
 }

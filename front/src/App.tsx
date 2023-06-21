@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import RequireAuth from "./pages/ProtectedRoutesWrapper/RequireAuth";
 import "./App.css";
 import Login from "./pages/Login/Login";
-import About from "./pages/About";
+import About from "./pages/About/About";
 import Missing from "./pages/Missing/Missing";
 import Home from "./pages/Home/Home";
 import NewInvoice from "./pages/NewInvoice/NewInvoice";
@@ -15,7 +15,6 @@ import { useTheme } from "./context/Provider";
 
 function App() {
   const { theme } = useTheme();
-  console.log("app rerender");
   return (
     <Suspense fallback={null}>
       <div className={theme ? "App" : "App dark"}>
@@ -29,10 +28,8 @@ function App() {
             </Route>
 
             <Route element={<RequireAuth />}>
-              {/* <Route index element={<Home />} /> */}
               <Route index element={<Missing address="home" />} />
               <Route path="home" element={<Home />} />
-
               <Route path="new_invoice" element={<NewInvoice />} />
               <Route path="invoices">
                 <Route index element={<Invoices />} />

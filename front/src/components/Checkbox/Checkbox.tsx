@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes } from "react";
+import { FC, HTMLAttributes } from "react";
 import styles from "./Checkbox.module.css";
 interface Checkbox extends HTMLAttributes<HTMLInputElement> {
   name: string;

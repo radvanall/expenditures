@@ -1,5 +1,4 @@
 import React, { FC, useRef } from "react";
-import styles from "./EditUserModal.module.css";
 import Modal from "../Modal/Modal";
 import BasicInput from "../../Inputs/BasicInput/BasicInput";
 import useValidate from "../../../services/hooks/useValidate";
@@ -23,7 +22,6 @@ const EditUserModal: FC<Props> = ({
 }) => {
   const {
     error,
-    pending,
     message: answer,
     makePostRequest,
     resetPost,
@@ -32,10 +30,8 @@ const EditUserModal: FC<Props> = ({
     "update"
   );
 
-  console.log("modal:", inputFields);
   const { getRequest } = useGetUser();
   const submitData = (data: FormData) => {
-    console.log("SUBMITED", data);
     const objectData = {
       nickname: data?.Nickname ?? "",
       email: data?.Email ?? "",
@@ -45,12 +41,10 @@ const EditUserModal: FC<Props> = ({
     };
     makePostRequest(objectData);
     getRequest();
-    console.log("objectdata", objectData);
   };
   const { register, errors, handleSubmit } = useValidate(inputFields);
   const submit = handleSubmit(submitData);
   const ref = useRef<HTMLFormElement>(null);
-  console.log(inputFields[0].value);
   const resetForm = (val: boolean) => {
     setVisible(val);
     resetPost();

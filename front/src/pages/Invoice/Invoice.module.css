@@ -2,11 +2,6 @@
   box-sizing: border-box;
   width: 100%;
   padding: 5px;
-
-  /* display: flex;
-  flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
 }
 .new__record__button {
   display: flex;
@@ -15,25 +10,18 @@
   justify-content: flex-end;
   margin: 10px auto;
   padding-right: 10px;
-  /* margin-bottom: 10px; */
 }
 .invoice__wrapper {
   border: 2px solid var(--primary-border-color);
   box-sizing: border-box;
   border-radius: 20px;
   max-width: 900px;
-  /* flex-shrink: 1; */
-  /* flex-basis: 870px; */
   min-width: 320px;
   height: fit-content;
   padding-top: 10px;
   margin: 0 auto;
-
-  /* padding: 10px; */
   display: flex;
   flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
   background-color: #f2f2f2;
   box-shadow: var(--primary-box-shadow);
   overflow: hidden;

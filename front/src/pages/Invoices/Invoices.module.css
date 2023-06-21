@@ -12,7 +12,6 @@
 }
 .invoice_table {
   flex: 1 1 75%;
-  /* min-width: 400px; */
 }
 @media (max-width: 850px) {
   .invoice_wrapper {

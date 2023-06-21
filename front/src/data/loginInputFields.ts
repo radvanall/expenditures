@@ -1,18 +1,7 @@
 import { MdOutlineAlternateEmail } from "react-icons/md";
-import { IconType } from "react-icons";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { BiUser } from "react-icons/bi";
 
-// interface InputFieldsInterface {
-//   id: number;
-//   name: "Email" | "Password";
-//   icon: IconType;
-//   type: string;
-// }
-// export const LoginInputFields: InputFieldsInterface[] = [
-//   { id: 1, name: "Email", icon: MdOutlineAlternateEmail, type: "text" },
-//   { id: 2, name: "Password", icon: RiLockPasswordLine, type: "password" },
-// ];
 export const LoginInputFields = [
   {
     id: 1,

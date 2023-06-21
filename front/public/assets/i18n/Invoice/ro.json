@@ -9,7 +9,7 @@
   "category": "Categorie",
   "quantity": "Cantitate",
   "unit": "Unitate",
-  "price": "Preț",
+  "price": "Preț $",
   "totalPrice": "Preț total",
   "deleteMessage": "Sigur doriți să ștergeți această înregistrare?"
 }

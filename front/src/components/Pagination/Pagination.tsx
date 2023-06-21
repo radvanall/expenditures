@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC } from "react";
 import PaginButton from "../Buttons/PaginButton/PaginButton";
 import styles from "./Pagination.module.css";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
@@ -16,11 +16,6 @@ const Pagination: FC<PaginationI> = ({
   nr_of_pages,
   selected,
 }) => {
-  //   const [selected, setSelected] = useState(1);
-  //   const handlePangeSelect = (index: number) => {
-  //     changeFirstRow(index + 1);
-  //     setSelected(index + 1);
-  //   };
   return (
     <div className={styles.pagination__container}>
       <PaginButton onClick={goToStart}>

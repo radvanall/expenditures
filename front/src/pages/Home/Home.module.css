@@ -7,10 +7,7 @@
   grid-template-areas:
     "card card lineChart lineChart lineChart lineChart lineChart pieWrapper"
     "categories categories categories categories items items items items";
-  /* width: 100%; */
   overflow: hidden;
-  /* height: 100%; */
-  /* background-color: var(--primary-background-color); */
 }
 .card {
   grid-area: card;
@@ -27,18 +24,6 @@
 .categories {
   grid-area: categories;
 }
-/* .grid_col_span_3 {
-  grid-column: span 3;
-}
-.grid_col_span_2 {
-  grid-column: span 2;
-}
-.grid_col_span_5 {
-  grid-column: span 5;
-}
-.grid_col_span_4 {
-  grid-column: span 4;
-} */
 @media (max-width: 970px) {
   .home__wrapper {
     grid-template-columns: repeat(4, 1fr);

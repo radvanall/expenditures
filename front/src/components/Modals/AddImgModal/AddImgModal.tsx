@@ -17,16 +17,13 @@ const AddImgModal: FC<Props> = ({ visible, setVisible, img }) => {
   const [imageFile, setImageFile] = useState<null | Blob>(null);
   const [noImg, setNoImg] = useState<boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (e.target.files?.[0]) {
       setImageFile(e.target.files[0]);
-      console.log(e.target.files[0]);
       setNoImg(false);
     }
   };
   const {
     error,
-    pending,
     message: answer,
     makePostRequest,
     resetPost,
@@ -50,14 +47,12 @@ const AddImgModal: FC<Props> = ({ visible, setVisible, img }) => {
   return (
     <Modal visible={visible} setVisible={setVisible}>
       <div className={styles.modal__wrapper}>
-        {/* <h3>Select avatar</h3> */}
         <div className={styles.input__file}>
           <BasicInput
             type="file"
             name="img"
             label={t("selectImg") as string}
             borderColor="pink"
-            // value={imageFile ?? undefined}
             onChange={handleChange}
           />
         </div>

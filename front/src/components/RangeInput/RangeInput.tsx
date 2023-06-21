@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, InputHTMLAttributes } from "react";
+import { FC, HTMLAttributes } from "react";
 import styles from "./RangeInput.module.css";
 interface RangeInput extends HTMLAttributes<HTMLInputElement> {
   name: string;

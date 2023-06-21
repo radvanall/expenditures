@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { useEffect, useReducer } from "react";
-import { record as inputFields, record } from "../../data/loginInputFields";
+import { useCallback, useReducer } from "react";
+import { record as inputFields } from "../../data/loginInputFields";
 import { SelectI } from "../../Interfaces/SelectI";
 import usePost from "../../services/hooks/usePost";
 import useValidate from "../../services/hooks/useValidate";
@@ -20,12 +20,6 @@ interface RecordI {
 interface tableField {
   id: number;
   [key: string]: string | number;
-  // category: string;
-  // item: string;
-  // price: number;
-  // quantity: number;
-  // unit: string;
-  // total: number;
 }
 
 export const useInvoiceContext = () => {
@@ -42,13 +36,6 @@ export const useInvoiceContext = () => {
     [t("quantity")]: record.quantity,
     [t("unit")]: record.unit,
     [t("total")]: record.quantity * record.price,
-
-    // item: record.item_name,
-    // category: record.category_name,
-    // price: record.price,
-    // quantity: record.quantity,
-    // unit: record.unit,
-    // total: record.quantity * record.price,
   }));
   const handleEdit = (id: number) => {
     dispatch({ type: TYPE.SET_FORM_TO_EDIT });
@@ -72,14 +59,11 @@ export const useInvoiceContext = () => {
       });
       setValue("item_id", Number(field.item_id) ?? null);
       setValue("item_name", field.item_name ?? "");
-      console.log(id);
       setValue("quantity", field.quantity);
       setValue("price", field.price);
     }
   };
   const changeRecord = (data: FormData) => {
-    console.log(data);
-    // data.unit = state.defaultItem?.unit as string;
     dispatch({
       type: TYPE.UPDATE_RECORD,
       payload: data as RecordI,
@@ -95,90 +79,90 @@ export const useInvoiceContext = () => {
     pending,
     message: answer,
     makePostRequest,
-    resetPost,
   } = usePost(
     "http://localhost:84/expenditures/public/invoice.php",
     "insert_full"
   );
   const handleSave = () => {
-    console.log(state.dateState?.toISOString().slice(0, 10));
     makePostRequest({
       date: state.dateState?.toISOString().slice(0, 10),
       records: state.records ? [...state.records] : null,
     });
   };
-  const handleChangeCategory = (
-    item: SelectI,
-    items: SelectI[] | null,
-    categories: SelectI[] | null,
-    setDisplayedItems: (value: React.SetStateAction<SelectI[] | null>) => void,
-    setDisplayedCategories: (
-      value: React.SetStateAction<SelectI[] | null>
-    ) => void
-  ) => {
-    setValue("category_id", Number(item.id) ?? null);
-    setValue("category_name", item.name ?? "");
-    trigger("category_name");
-    const newArray = items?.filter(
-      (value) => Number(value.links) === Number(item.id)
-    );
-    setDisplayedItems(
-      newArray?.length
-        ? newArray
-        : [{ id: null, name: "No item for this category", links: null }]
-    );
-    if (
-      !newArray?.some(
-        (field) => Number(field.links) === Number(state.defaultItem?.links)
-      )
-    ) {
-      dispatch({
-        type: TYPE.SET_DEFAULT_ITEM,
-        payload: {
-          id: null,
-          name: "",
-          unit: "",
-          links: null,
-        },
-      });
-      setValue("item_id", -1);
-      setValue("item_name", "");
-    }
-    setTimeout(() => setDisplayedCategories(categories), 300);
-  };
-  const handleChangeItem = (
-    item: SelectI,
-    items: SelectI[] | null,
-    categories: SelectI[] | null
-  ) => {
-    const unit = items?.find((field) => Number(item.id) === Number(field.id));
-    setValue("item_id", Number(item.id) ?? null);
-    setValue("item_name", item.name ?? "");
-    trigger("item_name");
-    dispatch({ type: TYPE.SET_DEFAULT_ITEM, payload: unit });
-    const newArray = categories?.filter(
-      (category) => Number(category.id) === Number(item.links)
-    );
-    if (newArray?.length) {
-      dispatch({
-        type: TYPE.SET_DEFAULT_CATEGORY,
-        payload: {
-          id: newArray[0].id,
-          name: newArray[0].name,
-          links: newArray[0]?.links,
-        } as SelectI,
-      });
-      setValue("category_id", Number(newArray[0].id) ?? null);
-      setValue("category_name", newArray[0].name ?? "");
+  const handleChangeCategory = useCallback(
+    (
+      item: SelectI,
+      items: SelectI[] | null,
+      categories: SelectI[] | null,
+      setDisplayedItems: (
+        value: React.SetStateAction<SelectI[] | null>
+      ) => void,
+      setDisplayedCategories: (
+        value: React.SetStateAction<SelectI[] | null>
+      ) => void
+    ) => {
+      setValue("category_id", Number(item.id) ?? null);
+      setValue("category_name", item.name ?? "");
       trigger("category_name");
-    } else {
-      setValue("category_id", -1);
-      setValue("category_name", "");
-    }
-  };
+      const newArray = items?.filter(
+        (value) => Number(value.links) === Number(item.id)
+      );
+      setDisplayedItems(
+        newArray?.length
+          ? newArray
+          : [{ id: null, name: "No item for this category", links: null }]
+      );
+      if (
+        !newArray?.some(
+          (field) => Number(field.links) === Number(state.defaultItem?.links)
+        )
+      ) {
+        dispatch({
+          type: TYPE.SET_DEFAULT_ITEM,
+          payload: {
+            id: null,
+            name: "",
+            unit: "",
+            links: null,
+          },
+        });
+        setValue("item_id", -1);
+        setValue("item_name", "");
+      }
+      setTimeout(() => setDisplayedCategories(categories), 300);
+    },
+    []
+  );
+  const handleChangeItem = useCallback(
+    (item: SelectI, items: SelectI[] | null, categories: SelectI[] | null) => {
+      const unit = items?.find((field) => Number(item.id) === Number(field.id));
+      setValue("item_id", Number(item.id) ?? null);
+      setValue("item_name", item.name ?? "");
+      trigger("item_name");
+      dispatch({ type: TYPE.SET_DEFAULT_ITEM, payload: unit });
+      const newArray = categories?.filter(
+        (category) => Number(category.id) === Number(item.links)
+      );
+      if (newArray?.length) {
+        dispatch({
+          type: TYPE.SET_DEFAULT_CATEGORY,
+          payload: {
+            id: newArray[0].id,
+            name: newArray[0].name,
+            links: newArray[0]?.links,
+          } as SelectI,
+        });
+        setValue("category_id", Number(newArray[0].id) ?? null);
+        setValue("category_name", newArray[0].name ?? "");
+        trigger("category_name");
+      } else {
+        setValue("category_id", -1);
+        setValue("category_name", "");
+      }
+    },
+    []
+  );
   const submitData = (data: FormData) => {
-    console.log("SUBMITED", data);
-    console.log("state:", state.records);
     data.id = state.recordsId;
     if (
       !state?.records?.some(
@@ -188,7 +172,6 @@ export const useInvoiceContext = () => {
       )
     )
       dispatch({ type: TYPE.INCREASE_RECORD_ID });
-    console.log(data);
     data.unit = state.defaultItem?.unit as string;
     dispatch({ type: TYPE.SUBMIT_RECORD, payload: data as RecordI });
   };

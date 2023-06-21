@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useReducer, useRef } from "react";
+import React, { FC } from "react";
 import styles from "./Select.module.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { SelectI } from "../../Interfaces/SelectI";

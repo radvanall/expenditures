@@ -20,5 +20,9 @@
   "createItem": "The item has been created.",
   "updateItem": "The item has been updated.",
   "createCategory": "The category has been created.",
-  "updateCategory": "The category has been updated."
+  "updateCategory": "The category has been updated.",
+  "updateRecord": "The record has been updated.",
+  "deleteRecord": "The record has been deleted.",
+  "addRecord": "The record has been added",
+  "defaultCategory": "The default category cannot be modified"
 }

@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes } from "react";
+import { FC, HTMLAttributes } from "react";
 import styles from "./Radiobox.module.css";
 interface Radiobox extends HTMLAttributes<HTMLInputElement> {
   name: string;

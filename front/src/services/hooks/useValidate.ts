@@ -44,7 +44,6 @@ function useValidate(inputFields: InputType[]) {
       ])
     )
   );
-  console.log("Z:", z.number());
   const fullSchema = inputFields.some(
     (field) => field.name === "Confirm password"
   )
@@ -53,7 +52,6 @@ function useValidate(inputFields: InputType[]) {
         path: ["Confirm password"],
       })
     : schema;
-  console.log(fullSchema);
   const {
     register,
     setValue,

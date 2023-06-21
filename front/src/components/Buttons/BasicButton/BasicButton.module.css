@@ -19,12 +19,9 @@
   padding: 3px;
   cursor: pointer;
   overflow: hidden;
-
-  /* margin: 5px; */
 }
 .basic__button:hover {
   box-shadow: var(--box-shadow);
   background-color: white;
-  /* background-color: var(--primary-background-color); */
   color: var(--background-color);
 }

@@ -42,7 +42,6 @@ const useSelect = (
   }, [visible]);
   useEffect(() => {
     if (arrowUpPressed && displayedOptions) {
-      console.log("pressUp", state.selected);
       visible && dispatch({ type: TYPE.MOVE_UP });
       if (listRef.current) {
         listRef.current.scrollTop -= 25;
@@ -52,7 +51,6 @@ const useSelect = (
   useEffect(() => {
     if (arrowDownPressed && displayedOptions) {
       if (state.selected < displayedOptions?.length - 1) {
-        console.log(displayedOptions.length);
         visible && dispatch({ type: TYPE.MOVE_DOWN });
         if (listRef.current) {
           listRef.current.scrollTop += 25;
@@ -65,7 +63,6 @@ const useSelect = (
   }, [defaultValue]);
 
   const toggleOptions = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("STATE.SELETET", state.selected);
     e.preventDefault();
     setVisible((prev) => !prev);
   };
@@ -102,8 +99,6 @@ const useSelect = (
     newArray?.length ? setVisible(true) : setVisible(false);
   };
   const handleBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    console.log(e);
-
     const firstMatch = options
       ?.filter((item) => item.name !== null)
       .find(

@@ -56,6 +56,7 @@ const EditForm: FC<Props> = ({
   const regQuantity = getReg("quantity");
   const regPrice = getReg("price");
   const { t } = useTranslation(["invoiceForm"]);
+  const { t: t2 } = useTranslation(["serverResponse"]);
   return (
     <Modal visible={visible} setVisible={closeModal}>
       <div>
@@ -139,7 +140,7 @@ const EditForm: FC<Props> = ({
           )}
         </form>
         {error && <p>{error}</p>}
-        {answer && <p>{answer}</p>}
+        {answer && <p>{t2(answer)}</p>}
       </div>
     </Modal>
   );

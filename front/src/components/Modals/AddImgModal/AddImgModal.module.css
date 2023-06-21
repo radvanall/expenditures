@@ -22,7 +22,6 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* width: 220px; */
   margin: 30px;
   text-align: center;
 }
@@ -32,8 +31,4 @@ img {
 .input__file {
   position: relative;
   width: fit-content;
-  /* width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center; */
 }

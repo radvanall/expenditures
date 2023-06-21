@@ -1,11 +1,8 @@
-import { useAuth } from "./../../context/Provider";
 import { useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { blob } from "stream/consumers";
 
 function usePost(url: string, request: string, isFile?: boolean) {
-  const { setAuth } = useAuth();
   const { t } = useTranslation(["serverResponse"]);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<boolean>(false);
@@ -24,26 +21,15 @@ function usePost(url: string, request: string, isFile?: boolean) {
         .post(url, formData, { withCredentials: true })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response);
             setError(null);
-            // setMessage(response.data.success);
             setMessage(t(response.data.success));
-            // setMessage(response.data);
-            //   window.localStorage.setItem("isAuth", "true");
-            //setAuth(true);
             resolve(true);
           }
-          console.log(response.data);
         })
         .catch((error) => {
-          console.log(error.response.data.error);
-          console.log(error.response);
           setMessage(null);
           setError(t(error.response.data.error));
           reject(false);
-          // setError(error.response.data.error);
-          //setAuth(false);
-          // window.localStorage.removeItem("isAuth");
         })
         .finally(() => {
           setPending(false);

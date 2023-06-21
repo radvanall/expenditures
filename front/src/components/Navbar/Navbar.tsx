@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { links, protectedLinks } from "../../services/links";
 import { useAuth, useModal } from "../../context/Provider";
 import useAuthorization from "../../services/hooks/useAuthorization";
@@ -17,7 +16,6 @@ const Navbar = () => {
     setVisible(true);
     logout();
   };
-  console.log("render");
   return (
     <div>
       <Modal visible={visible} setVisible={setVisible}>

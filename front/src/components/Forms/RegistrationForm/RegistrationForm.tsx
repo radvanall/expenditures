@@ -44,7 +44,6 @@ const RegistrationForm: FC<Props> = ({ setForm }) => {
   };
   return (
     <div>
-      {/* <button onClick={() => setVisible(true)}>x</button> */}
       <Modal visible={visible} setVisible={setVisible}>
         {pending ? (
           <Pending />

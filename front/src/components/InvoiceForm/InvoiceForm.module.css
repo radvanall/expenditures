@@ -3,11 +3,9 @@
   display: flex;
   flex-direction: column;
   padding: 20px 10px 40px 10px;
-  /* border: 2px solid var(--pale-blue); */
   border: 2px solid var(--primary-border-color);
   border-radius: 10px;
   box-shadow: var(--primary-box-shadow);
-  /* background-color: var(--pale-blue); */
   background-color: var(--card-color);
   color: var(--primary-text-color);
 }

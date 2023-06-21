@@ -1,4 +1,4 @@
-import React, { ReactNode, FC } from "react";
+import { FC } from "react";
 import styles from "./BasicInput.module.css";
 import Input from "../Input/Input";
 import InputProps from "../../../Interfaces/InputProps";
@@ -17,7 +17,6 @@ const BasicInput: FC<InputProps> = ({
   inputRef,
   min,
 }) => {
-  console.log("bi", defaultValue);
   return (
     <div
       style={{ width: width ?? "100%" }}

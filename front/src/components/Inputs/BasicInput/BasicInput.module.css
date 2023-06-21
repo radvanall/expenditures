@@ -8,7 +8,6 @@
   width: 100%;
   outline: none;
   border: 2px solid var(--tertialy--backgorund-color);
-  /* border: 2px solid var(--secondary-border-color); */
   font-size: 18px;
   box-shadow: none;
   padding-left: 10px;
@@ -23,27 +22,19 @@
   width: 100%;
   outline: none;
   border: 2px solid #4898bd;
-  /* border: 2px solid var(--secondary-border-color); */
   font-size: 18px;
   box-shadow: none;
   padding-left: 10px;
   border-radius: 5px;
-  /* color: var(--primary-text-color); */
 }
 .wrapper input:focus {
-  /* border-color: #297497; */
-  /* border-color: var(--secondary-border-color); */
   border-color: var(--input-border);
-
   box-shadow: var(--secondary-box-shadow);
-  /* /* box-shadow: 0px 0px 3px 1px rgba(102, 240, 235, 0.6);
-  box-shadow: 0px 0px 3px 1px rgba(102, 240, 235, 0.6); */
 }
 .wrapper input::placeholder {
   color: transparent;
 }
 .wrapper input[type="date"]::-webkit-calendar-picker-indicator {
-  /* background-color: var(--secondary-border-color); */
   filter: invert(38%) sepia(55%) saturate(575%) hue-rotate(154deg)
     brightness(93%) contrast(89%);
 }
@@ -60,9 +51,7 @@
 }
 .wrapper input:focus ~ label,
 .wrapper input:not(:placeholder-shown) ~ label {
-  /* background-color: white; */
   transform: translateY(-30px);
-  /* color: black; */
   color: var(--primary-text-color);
 }
 
@@ -111,8 +100,6 @@
   opacity: 0;
   overflow: hidden;
   padding: 0;
-  /* position: absolute; */
-  /* z-index: -1; */
 }
 .wrapper input[type="file"] + label {
   font: 1.25em;

@@ -54,13 +54,14 @@ class CategoryService extends Service{
    }
    function update($modified_category){
     if(empty($modified_category->category_name)){ return $this->errorMessage->error='Invalid category name!';}
+    if($modified_category->category_name=="default_category"){ return $this->returnError('defaultCategory');}
     $category=new Category($modified_category->id,$modified_category->category_name,0);
     try{
         $message=$this->repository->update($category);
         if($message){ 
         //     $this->successMessage->success="The category has been updated.";
         // return  $this->successMessage;
-        return returnSuccess("updateCategory");
+        return $this->returnSuccess("updateCategory");
     
     }
          else{

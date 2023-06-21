@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 type Props = {
   styles: { [key: string]: string };
   name: string;
@@ -24,7 +24,6 @@ const Input: FC<Props> = ({
   inputRef,
   type,
 }) => {
-  console.log("i", defaultValue);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();

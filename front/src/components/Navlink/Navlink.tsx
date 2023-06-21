@@ -1,7 +1,7 @@
-import React, { FC, FormEventHandler, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Navlink.module.css";
-import { RiLogoutBoxRLine, RiRestaurantLine } from "react-icons/ri";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import ImgButton from "../Buttons/ImgButton/ImgButton";
 import ToggleSlider from "../ToggleSlider/ToggleSlider";
 import { useTheme } from "../../context/Provider";
@@ -29,7 +29,6 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
   const { theme, setTheme } = useTheme();
   const [lang, setLang] = useState("en");
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.checked);
     setTheme(e.target.checked);
     localStorage.setItem("theme", JSON.stringify(e.target.checked));
   };
@@ -49,7 +48,6 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
     i18n.changeLanguage(e.target.value);
     localStorage.setItem("i18nextLng", e.target.value);
     setLang(e.target.value);
-    console.log(i18n.language);
   };
   const handleBurger = () => {
     setBurger((prev) => !prev);
@@ -59,10 +57,6 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
       <div className={styles.burger}>
         <Burger burger={burger} setBurger={handleBurger} />
       </div>
-
-      {/* <button onClick={handleLogout}>Logout</button> */}
-
-      {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
       <div
         className={
           burger ? `${styles.links} ${styles.links_visible}` : styles.links
@@ -100,8 +94,6 @@ const Navlink: FC<Props> = ({ links, handleLogout, auth }) => {
           <option value="ru">Ru</option>
         </select>
       </div>
-
-      {/* {auth && <button onClick={handleLogout}>Logout</button>} */}
     </ul>
   );
 };

@@ -1,16 +1,12 @@
 .burger {
   width: 30px;
   height: 30px;
-  /* background-color: white; */
   display: flex;
   flex-direction: column;
-  /* gap: 5px; */
   justify-content: space-around;
   cursor: pointer;
 }
 .line {
-  /* background-color: black; */
-  /* width: 5px; */
   height: 5px;
   display: flex;
 }
@@ -30,7 +26,6 @@
   transform: translateX(-20px);
   width: 15px;
   opacity: 0;
-  /* transition: 1s all; */
 }
 .middle_right {
   background-color: var(--tertialy--backgorund-color);

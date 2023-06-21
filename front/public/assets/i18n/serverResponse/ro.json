@@ -20,5 +20,9 @@
   "createItem": "Produsul/serviciul a fost creat.",
   "updateItem": "Produsul/serviciul a fost modificat.",
   "createCategory": "Categoria a fost creată.",
-  "updateCategory": "Categoria a fost modificată."
+  "updateCategory": "Categoria a fost modificată.",
+  "updateRecord": "Înscriere a fost modificată",
+  "deleteRecord": "Înscriere a fost ștearsă",
+  "addRecord": "Înscriere a fost adăugată",
+  "defaultCategory": "Categoria implicită nu poate fi modificată"
 }

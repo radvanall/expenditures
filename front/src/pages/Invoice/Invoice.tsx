@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditForm from "../../components/EditForm/EditForm";
 import { recordType } from "../../Interfaces/RecordType";
@@ -21,12 +21,6 @@ type InvoiceType = {
 type TableType = {
   id: number;
   [key: string]: string | number;
-  // item: string;
-  // category: string;
-  // quantity: number;
-  // unit: string;
-  // price: number;
-  // "Total price": number;
 };
 const Invoice = () => {
   const [modal, setModal] = useState<boolean>(false);
@@ -36,13 +30,10 @@ const Invoice = () => {
   const { data, loading, error, fetchData } = useGetReq<InvoiceType>(
     `/invoice.php?request=get_full_invoice&invoice_id=${id}`
   );
-  const {
-    error: postError,
-    pending,
-    message: answer,
-    makePostRequest,
-    resetPost,
-  } = usePost("http://localhost:84/expenditures/public/record.php", "delete");
+  const { message, makePostRequest } = usePost(
+    "http://localhost:84/expenditures/public/record.php",
+    "delete"
+  );
   const [records, setRecords] = useState<TableType[] | undefined | null>();
   const [currentRecord, setCurrentRecord] = useState<recordType | null>(null);
   const { t } = useTranslation(["invoice"]);
@@ -54,13 +45,6 @@ const Invoice = () => {
     }
     const tableData: TableType[] | undefined = data?.records.map((record) => {
       return {
-        // id: record.id,
-        // item: record.item_name,
-        // category: record.category_name,
-        // quantity: record.quantity,
-        // unit: record.unit,
-        // price: record.price,
-        // ["Total price"]: record.total_price,
         id: record.id,
         [t("item")]: record.item_name,
         [t("category")]: record.category_name,
@@ -71,7 +55,7 @@ const Invoice = () => {
       };
     });
     setRecords(tableData);
-  }, [data, t]);
+  }, [data, t, message]);
   const closeModal = () => {
     setCurrentRecord(null);
     setModal(false);
@@ -79,8 +63,6 @@ const Invoice = () => {
   const handleEdit = (id: number) => {
     setFormState("edit");
     const record = data?.records.find((record) => record.id === id);
-
-    console.log(record);
     if (record) setCurrentRecord(record);
     setModal(true);
   };
@@ -142,7 +124,7 @@ const Invoice = () => {
                 .toFormat("d,MMM,yyyy")}
             </p>
             <p>
-              {t("totalPrice")}: {data?.total_sum} lei
+              {t("totalPrice")}: {data?.total_sum} $
             </p>
           </div>
         </div>

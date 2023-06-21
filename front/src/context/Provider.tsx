@@ -45,7 +45,6 @@ const ModalContext = createContext<ModalContextType>({
   deleteMessage: "",
   setDeleteMessage: () => {},
 });
-console.log("layout rerender");
 const UserDataContext = createContext<UserDataContextType>({
   userData: { nickname: "", email: "", avatar: "" },
   setUserData: () => {},

@@ -24,24 +24,17 @@ function useAuthorization() {
       )
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
           setError(null);
-          // setMessage(response.data.success);
           setMessage(t(response.data.success));
-          //   window.localStorage.removeItem("isAuth");
-
           setAuth(false);
           setUserData(null);
         }
-        console.log(response.data);
       })
       .catch((error) => {
-        console.log(error.response.data.error);
         setMessage(null);
         setError(t(error.response.data.error));
         setAuth(false);
         setUserData(null);
-        // window.localStorage.removeItem("isAuth");
       })
       .finally(() => {
         setPending(false);
@@ -60,22 +53,17 @@ function useAuthorization() {
       )
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.success);
           setError(null);
           setMessage(t(response.statusText));
           setUserData(response.data);
-          //   window.localStorage.removeItem("isAuth");
           setAuth(true);
         }
-        console.log(response.data);
       })
       .catch((error) => {
-        console.log(error.response);
         setMessage(null);
         setError(t(error.response.data.error));
         setAuth(false);
         setUserData(null);
-        // window.localStorage.removeItem("isAuth");
       })
       .finally(() => {
         setPending(false);

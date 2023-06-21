@@ -1,7 +1,5 @@
-import React, { FC, useContext } from "react";
-// import styles from "./Layout.module.css";
-import { links } from "../../services/links";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { FC } from "react";
+import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 
 const Layout: FC = () => {

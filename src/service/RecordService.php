@@ -38,7 +38,7 @@ class RecordService extends Service{
            $message=$this->repository->insert($record);
          //  $this->repository->disconnect();
            if($message){
-            $this->successMessage->success="The record has been added.";
+            $this->successMessage->success="addRecord";
             return $this->successMessage;}
            else{ 
             // return $this->errorMessage->error='Something went wrong';
@@ -66,7 +66,7 @@ class RecordService extends Service{
         $record=new Record($new->id,$new->quantity,$new->price,0,$new->item_id);
         try{
             $message=$this->repository->update($record);
-            if($message){$this->successMessage->success="The record has been updated.";
+            if($message){$this->successMessage->success="updateRecord";
                 return $this->successMessage;
             }
              else{

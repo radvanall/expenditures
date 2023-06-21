@@ -2,7 +2,6 @@
   display: flex;
   width: 100%;
   align-items: center;
-  /* justify-content: space-between; */
   justify-content: flex-end;
   gap: 5px;
   flex-wrap: wrap;
@@ -11,7 +10,6 @@
   width: 65%;
   height: 15px;
   flex-grow: 1;
-  /* border: 1px solid var(--secondary-border-color); */
   -webkit-appearance: none;
 }
 .progress__bar::-webkit-progress-bar {
@@ -21,7 +19,6 @@
   background: var(--secondary-border-color);
 }
 .progress__bar__wrapper label {
-  /* white-space: wrap; */
   word-break: normal;
   width: 30%;
   text-align: right;

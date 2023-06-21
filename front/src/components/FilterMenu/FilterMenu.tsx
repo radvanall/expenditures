@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import BasicInput from "../Inputs/BasicInput/BasicInput";
 import styles from "./FilterMenu.module.css";
 import Radiobox from "../Radiobox/Radiobox";
@@ -17,7 +16,6 @@ const FilterMenu = () => {
     maxPrice,
     isChecked,
   } = useInvoicesContext();
-  console.log(isChecked);
   return (
     <div className={styles.menu__wrapper}>
       <form onSubmit={handleSubmit}>
@@ -86,7 +84,7 @@ const FilterMenu = () => {
             name="min_price"
             value={formData.min_price}
             max={maxPrice}
-            unit="Lei"
+            unit="$"
             onChange={handleFormChange}
           />
         </div>
@@ -104,7 +102,7 @@ const FilterMenu = () => {
             name="max_price"
             value={formData.max_price}
             max={maxPrice}
-            unit="Lei"
+            unit="$"
             onChange={handleFormChange}
           />
         </div>

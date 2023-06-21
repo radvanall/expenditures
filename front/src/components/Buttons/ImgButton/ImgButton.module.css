@@ -22,12 +22,9 @@
   font-size: 16px;
   text-align: center;
   height: 20px;
-
-  /* margin: 5px; */
 }
 .basic__button:hover {
   box-shadow: var(--box-shadow);
-  /* background-color: var(--primary-background-color); */
   background-color: white;
   color: var(--background-color);
 }

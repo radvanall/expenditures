@@ -18,19 +18,15 @@ const AddCategoryModal: FC<AddModalI> = ({
 }) => {
   const {
     error,
-    pending,
     message: answer,
     makePostRequest,
-    resetPost,
   } = usePost(
     "http://localhost:84/expenditures/public/category.php",
     request ? request : "insert"
   );
   const { t } = useTranslation(["addCategoryModal"]);
   const submitData = async (data: FormData) => {
-    console.log("SUBMITED", data);
     if (Id && request === "update") data.id = Id;
-
     await makePostRequest(data);
     fetchData();
   };

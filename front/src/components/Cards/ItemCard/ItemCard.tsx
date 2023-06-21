@@ -17,33 +17,19 @@ import { useTranslation } from "react-i18next";
 type ItemsT = {
   id: number;
   [key: string]: string | number | JSX.Element;
-  // category_id?: number;
-  // Item: string;
-  // "Category name": string;
-  // Unit: string;
-  // "Total price": number | JSX.Element;
 };
 type ItemTableT = {
   items: ItemsT[];
 };
 
-// type itemsElementsT = {
-//   id: number;
-//   "Category name": string;
-//   "Number of items": number;
-//   "Total price": JSX.Element;
-// };
 const ItemCard = () => {
-  const { data, loading, error, fetchData } = useGetReq<ItemTableT>(
+  const { data, fetchData } = useGetReq<ItemTableT>(
     "http://localhost:84/expenditures/public/item.php?request=get_item_table"
   );
-  const {
-    error: postError,
-    pending,
-    message: answer,
-    makePostRequest,
-    resetPost,
-  } = usePost("http://localhost:84/expenditures/public/item.php", "delete");
+  const { makePostRequest } = usePost(
+    "http://localhost:84/expenditures/public/item.php",
+    "delete"
+  );
   const [items, setItems] = useState<ItemsT[]>([]);
   const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -57,9 +43,6 @@ const ItemCard = () => {
       const newArray: ItemsT[] = data?.items.map((item, index) => {
         return {
           id: item.id,
-          // Item: item["Item"],
-          // "Category name": item["Category name"],
-          // Unit: item["Unit"],
           [t("items")]: item["Item"],
           [t("categoryName")]: item["Category name"],
           [t("unit")]: item["Unit"],
@@ -67,7 +50,7 @@ const ItemCard = () => {
             <ProgressBar
               value={item["Total price"] as number}
               max={totalPrice as number}
-              additionalLabel="lei"
+              additionalLabel="$"
               key={index}
             />
           ),
@@ -75,14 +58,12 @@ const ItemCard = () => {
       });
       setItems(newArray);
     }
-    console.log(data);
   };
   useEffect(() => {
     getItems();
   }, [data, t]);
   const handleEdit = (id: number) => {
     const item = data?.items.find((item) => item.id === id);
-    console.log("fetched:", item);
     setRequestType("update");
     newItem[0].defaultValue = (item?.["Item"] as string) ?? "";
     newItem[1].defaultValue = (item?.Unit as string) ?? "";

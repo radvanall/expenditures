@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, ReactNode } from "react";
+import { FC, HTMLAttributes } from "react";
 import styles from "./PaginButton.module.css";
 interface PaginButton extends HTMLAttributes<HTMLButtonElement> {}
 const PaginButton: FC<PaginButton> = ({ className, children, ...props }) => {

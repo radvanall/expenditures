@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useGetReq from "../../services/hooks/useGetReq";
 import MoneyLastDay from "../Charts/MoneyLastDay/MoneyLastDay";
 import styles from "./PieChartsWrapper.module.css";
@@ -16,18 +16,12 @@ type chartDataT = {
 };
 const PieChartsWrapper = () => {
   const { t } = useTranslation(["pieChart"]);
-  const { data, loading, error, fetchData } = useGetReq<ItemTableT>(
-    `/item.php?request=get_item_chart`
+  const { data } = useGetReq<ItemTableT>(`/item.php?request=get_item_chart`);
+  const { data: dataWeek } = useGetReq<ItemTableT>(
+    `/item.php?request=get_item_chart_week`
   );
-  const {
-    data: dataWeek,
-    loading: loadingWeek,
-    error: errorWeek,
-    fetchData: fetchDataWeek,
-  } = useGetReq<ItemTableT>(`/item.php?request=get_item_chart_week`);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalPriceWeek, setTotalPriceWeek] = useState<number>(0);
-  console.log("moneylastdate:", data);
   const [chartData, setChartData] = useState<chartDataT[]>();
   const [chartDataWeek, setChartDataWeek] = useState<chartDataT[]>();
   useEffect(() => {
