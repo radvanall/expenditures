@@ -26,12 +26,20 @@ function Table<T extends { id: number }>({
   const tableHeader = tableFields?.length ? Object.keys(tableFields[0]) : null;
   const [columnWidth, setColumnWidth] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [hasTableId, setHasTableId] = useState(false);
   useEffect(() => {
     const restWidth = customColumnWidth ? 95 - customColumnWidth.width : 95;
     const lenghtMin = customColumnWidth ? 1 : 0;
-    if (tableHeader !== null)
-      setColumnWidth(restWidth / (tableHeader?.length - lenghtMin));
-    tableFields?.length ? setLoading(false) : setLoading(true);
+    if (tableFields && tableHeader !== null) {
+      if (tableFields[0]?.hasOwnProperty("table_id")) {
+        setColumnWidth(restWidth / (tableHeader?.length - lenghtMin - 1));
+        setHasTableId(true);
+      } else {
+        setColumnWidth(restWidth / (tableHeader?.length - lenghtMin));
+        setHasTableId(false);
+      }
+      tableFields?.length ? setLoading(false) : setLoading(true);
+    }
   }, [tableFields]);
 
   if (loading) {
@@ -43,23 +51,25 @@ function Table<T extends { id: number }>({
       <thead>
         <tr>
           {tableHeader &&
-            tableHeader.map((columnName) => (
-              <th
-                key={columnName}
-                style={
-                  columnName === "id"
-                    ? { width: "5%" }
-                    : columnName === customColumnWidth?.columnName
-                    ? {
-                        width: `${customColumnWidth.width}%`,
-                        textAlign: "center",
-                      }
-                    : { width: `${columnWidth}%` }
-                }
-              >
-                {columnName}
-              </th>
-            ))}
+            tableHeader.map((columnName) =>
+              columnName === "table_id" ? null : (
+                <th
+                  key={columnName}
+                  style={
+                    columnName === "id"
+                      ? { width: "5%" }
+                      : columnName === customColumnWidth?.columnName
+                      ? {
+                          width: `${customColumnWidth.width}%`,
+                          textAlign: "center",
+                        }
+                      : { width: `${columnWidth}%` }
+                  }
+                >
+                  {columnName}
+                </th>
+              )
+            )}
           <th style={{ width: `${columnWidth}%` }}>{t("actions")}</th>
         </tr>
       </thead>
@@ -68,22 +78,28 @@ function Table<T extends { id: number }>({
       >
         {tableFields?.map((row, index = 1) => (
           <tr key={row.id}>
-            {Object.keys(row).map((cell) => (
-              <td
-                key={cell}
-                style={
-                  cell === "id"
-                    ? { width: "5%" }
-                    : cell === customColumnWidth?.columnName
-                    ? { width: `${customColumnWidth.width}%` }
-                    : { width: `${columnWidth}%` }
-                }
-              >
-                {cell === "id"
-                  ? index + 1
-                  : (row[cell as keyof typeof row] as unknown as ReactNode)}
-              </td>
-            ))}
+            {Object.keys(row).map((cell) =>
+              cell === "table_id" ? null : (
+                <td
+                  key={cell}
+                  style={
+                    cell === "id"
+                      ? { width: "5%" }
+                      : cell === customColumnWidth?.columnName
+                      ? { width: `${customColumnWidth.width}%` }
+                      : { width: `${columnWidth}%` }
+                  }
+                >
+                  {cell === "id"
+                    ? hasTableId
+                      ? (row[
+                          "table_id" as keyof typeof row
+                        ] as unknown as ReactNode)
+                      : index + 1
+                    : (row[cell as keyof typeof row] as unknown as ReactNode)}
+                </td>
+              )
+            )}
             <td
               className={styles.actions__cell}
               style={{
@@ -98,7 +114,6 @@ function Table<T extends { id: number }>({
                   height="26px"
                 />
               )}
-
               {handleEdit && (
                 <BasicButton
                   text={t("edit")}

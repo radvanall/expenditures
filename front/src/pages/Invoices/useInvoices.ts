@@ -114,7 +114,8 @@ const useInvoices = () => {
   useEffect(() => {
     if (data?.row_count) setRowCount(data?.row_count);
     if (data?.invoices) {
-      const newArray = data.invoices.map((invoice) => ({
+      const newArray = data.invoices.map((invoice, index) => ({
+        table_id: firstRow + index + 1,
         id: invoice.id,
         [t("date")]: DateTime.fromISO(invoice.date)
           .setLocale(t2("luxonLocale"))

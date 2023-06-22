@@ -21,15 +21,18 @@ const Pagination: FC<PaginationI> = ({
       <PaginButton onClick={goToStart}>
         <AiOutlineLeft />
       </PaginButton>
-      {Array.from({ length: nr_of_pages }, (_, index) => (
-        <PaginButton
-          key={index + 1}
-          onClick={() => changeFirstRow(index + 1)}
-          className={selected === index + 1 ? styles.active__button : ""}
-        >
-          {index + 1}
-        </PaginButton>
-      ))}
+      {Array.from({ length: nr_of_pages }, (_, index) => {
+        if (index + 1 >= selected - 3 && index + 1 <= selected + 3)
+          return (
+            <PaginButton
+              key={index + 1}
+              onClick={() => changeFirstRow(index + 1)}
+              className={selected === index + 1 ? styles.active__button : ""}
+            >
+              {index + 1}
+            </PaginButton>
+          );
+      })}
       <PaginButton onClick={goToEnd}>
         <AiOutlineRight />
       </PaginButton>
