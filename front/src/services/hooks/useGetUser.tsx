@@ -5,7 +5,7 @@ export const useGetUser = () => {
   async function getRequest() {
     axios
       .get(
-        "http://localhost:84/expenditures/public/userController.php?request=getLoggedUser",
+        "http://localhost:84/expenditures/back/public/userController.php?request=getLoggedUser",
         { withCredentials: true }
       )
       .then((response) => {

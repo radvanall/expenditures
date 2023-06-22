@@ -21,7 +21,7 @@ const RegistrationForm: FC<Props> = ({ setForm }) => {
     message: answer,
     makePostRequest,
   } = usePost(
-    "http://localhost:84/expenditures/public/userController.php",
+    "http://localhost:84/expenditures/back/public/userController.php",
     "create"
   );
   const submitData = (data: FormData) => {

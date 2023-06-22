@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth, useUserData } from "../../context/Provider";
 import api from "./api";
 import { useTranslation } from "react-i18next";

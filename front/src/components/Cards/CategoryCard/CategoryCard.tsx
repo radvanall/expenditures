@@ -31,10 +31,10 @@ type categoriesElementsT = {
 
 const CategoryCard = () => {
   const { data, fetchData } = useGetReq<CategoryTableT>(
-    "http://localhost:84/expenditures/public/category.php?request=get_category_table"
+    "http://localhost:84/expenditures/back/public/category.php?request=get_category_table"
   );
   const { makePostRequest } = usePost(
-    "http://localhost:84/expenditures/public/category.php",
+    "http://localhost:84/expenditures/back/public/category.php",
     "delete"
   );
   const [cateogries, setCategories] = useState<categoriesElementsT[]>([]);

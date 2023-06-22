@@ -26,7 +26,7 @@ const EditUserModal: FC<Props> = ({
     makePostRequest,
     resetPost,
   } = usePost(
-    "http://localhost:84/expenditures/public/userController.php",
+    "http://localhost:84/expenditures/back/public/userController.php",
     "update"
   );
 

@@ -24,10 +24,10 @@ type ItemTableT = {
 
 const ItemCard = () => {
   const { data, fetchData } = useGetReq<ItemTableT>(
-    "http://localhost:84/expenditures/public/item.php?request=get_item_table"
+    "http://localhost:84/expenditures/back/public/item.php?request=get_item_table"
   );
   const { makePostRequest } = usePost(
-    "http://localhost:84/expenditures/public/item.php",
+    "http://localhost:84/expenditures/back/public/item.php",
     "delete"
   );
   const [items, setItems] = useState<ItemsT[]>([]);

@@ -22,7 +22,7 @@ const DeleteUserModal: FC<Props> = ({ visible, setVisible }) => {
     makePostRequest,
     resetPost,
   } = usePost(
-    "http://localhost:84/expenditures/public/userController.php",
+    "http://localhost:84/expenditures/back/public/userController.php",
     "delete_user"
   );
   const { t } = useTranslation(["userCard"]);

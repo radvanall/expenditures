@@ -18,7 +18,7 @@ function useAuthorization() {
     formData.append("request", "logout");
     axios
       .post(
-        "http://localhost:84/expenditures/public/userController.php",
+        "http://localhost:84/expenditures/back/public/userController.php",
         formData,
         { withCredentials: true }
       )
@@ -47,7 +47,7 @@ function useAuthorization() {
     formData.append("request", "login");
     axios
       .post(
-        "http://localhost:84/expenditures/public/userController.php",
+        "http://localhost:84/expenditures/back/public/userController.php",
         formData,
         { withCredentials: true }
       )

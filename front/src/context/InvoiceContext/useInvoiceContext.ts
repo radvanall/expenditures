@@ -80,7 +80,7 @@ export const useInvoiceContext = () => {
     message: answer,
     makePostRequest,
   } = usePost(
-    "http://localhost:84/expenditures/public/invoice.php",
+    "http://localhost:84/expenditures/back/public/invoice.php",
     "insert_full"
   );
   const handleSave = () => {

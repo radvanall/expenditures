@@ -23,12 +23,14 @@ function usePost(url: string, request: string, isFile?: boolean) {
           if (response.status === 200) {
             setError(null);
             setMessage(t(response.data.success));
+            console.log(response);
             resolve(true);
           }
         })
         .catch((error) => {
           setMessage(null);
           setError(t(error.response.data.error));
+          console.log(error);
           reject(false);
         })
         .finally(() => {

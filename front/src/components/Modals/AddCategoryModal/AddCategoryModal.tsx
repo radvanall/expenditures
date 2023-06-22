@@ -21,7 +21,7 @@ const AddCategoryModal: FC<AddModalI> = ({
     message: answer,
     makePostRequest,
   } = usePost(
-    "http://localhost:84/expenditures/public/category.php",
+    "http://localhost:84/expenditures/back/public/category.php",
     request ? request : "insert"
   );
   const { t } = useTranslation(["addCategoryModal"]);

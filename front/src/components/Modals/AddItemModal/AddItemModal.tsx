@@ -45,7 +45,7 @@ const AddItemModal: FC<AddModalI> = ({
     message: answer,
     makePostRequest,
   } = usePost(
-    "http://localhost:84/expenditures/public/item.php",
+    "http://localhost:84/expenditures/back/public/item.php",
     request ? request : "insert"
   );
   const submitData = async (data: FormData) => {

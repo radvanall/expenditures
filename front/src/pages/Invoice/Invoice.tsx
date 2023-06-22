@@ -31,7 +31,7 @@ const Invoice = () => {
     `/invoice.php?request=get_full_invoice&invoice_id=${id}`
   );
   const { message, makePostRequest } = usePost(
-    "http://localhost:84/expenditures/public/record.php",
+    "http://localhost:84/expenditures/back/public/record.php",
     "delete"
   );
   const [records, setRecords] = useState<TableType[] | undefined | null>();

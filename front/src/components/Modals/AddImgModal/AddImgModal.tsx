@@ -28,7 +28,7 @@ const AddImgModal: FC<Props> = ({ visible, setVisible, img }) => {
     makePostRequest,
     resetPost,
   } = usePost(
-    "http://localhost:84/expenditures/public/userController.php",
+    "http://localhost:84/expenditures/back/public/userController.php",
     "set_avatar",
     true
   );

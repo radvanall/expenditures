@@ -41,7 +41,7 @@ export const useEditForm = (
     makePostRequest,
     resetPost,
   } = usePost(
-    "http://localhost:84/expenditures/public/record.php",
+    "http://localhost:84/expenditures/back/public/record.php",
     formState === "edit" ? "update" : "insert"
   );
   const resetErrors = () => {
