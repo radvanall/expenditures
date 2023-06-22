@@ -23,7 +23,22 @@ class CategoryRepository extends Repository{
         return $response;
     }
     public function update($data){
+        $sql="SELECT category_name FROM category WHERE id=:id";
         $this->connection=$this->db::connect();
+        $stmt=$this->connection->prepare($sql);
+        $stmt->bindValue(":id",htmlspecialchars(strip_tags($data->get_id())),PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if(!isset($result->category_name)) {
+            $this->db::disconnect();
+            return null;
+         }
+         $category_name=$result->category_name;
+         $stmt->closeCursor();
+         if($category_name=='default_category'){
+            $this->db::disconnect();
+            return "defaultCategory";
+         }
         $sql="UPDATE category SET category_name=:category_name  WHERE id=:id";
         $stmt=$this->connection->prepare($sql);
         $stmt->bindValue(":category_name",htmlspecialchars(strip_tags($data->get_category_name())),PDO::PARAM_STR);

@@ -24,5 +24,6 @@
   "updateRecord": "Înscriere a fost modificată",
   "deleteRecord": "Înscriere a fost ștearsă",
   "addRecord": "Înscriere a fost adăugată",
-  "defaultCategory": "Categoria implicită nu poate fi modificată"
+  "defaultCategory": "Categoria implicită nu poate fi modificată",
+  "reservedName": "Acest nume este rezervat"
 }

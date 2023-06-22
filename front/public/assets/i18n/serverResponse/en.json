@@ -24,5 +24,6 @@
   "updateRecord": "The record has been updated.",
   "deleteRecord": "The record has been deleted.",
   "addRecord": "The record has been added",
-  "defaultCategory": "The default category cannot be modified"
+  "defaultCategory": "The default category cannot be modified",
+  "reservedName": "This name is reserved"
 }
