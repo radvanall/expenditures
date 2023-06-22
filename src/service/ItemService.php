@@ -23,39 +23,30 @@ class ItemService extends Service{
            return parent::delete($id);
        }
        function insert($new){
-        if(empty($new->item_name)){ return $this->errorMessage->error='Invalid item name!';}
+        if(empty($new->item_name)){ return $this->returnError('Invalid item name!');}
         $item=new Item(0,$new->item_name,$new->unit,$new->category_id,$new->user_id);
         try{
-         //   $this->repository->getConnection();
            $message=$this->repository->insert($item);
-        //   $this->repository->disconnect();
            if($message){ 
-            // $this->successMessage->success="The category has been created";return $this->successMessage;
             return $this->returnSuccess("createItem");
         }
            else{ 
-            // return $this->errorMessage->error='Something went wrong';
-            // return $this->errorMessage->error="somethingWentWrong";
             return $this->returnError("somethingWentWrong");
         }
         }catch(PDOException $e){
-            $this->errorMessage->error="Connection failed: " . $e->getMessage();
-            return $this->errorMessage;
+            return $this->returnError( "Connection failed: " . $e->getMessage());
         }
        }
        function update($modified){
-        if(empty($modified->item_name)){ return $this->errorMessage->error='Invalid category name!';}
+        if(empty($modified->item_name)){ return $this->returnError( 'Invalid category name!');}
         $user_id=$_SESSION["user_id"];
         $item=new Item($modified->id,$modified->item_name,$modified->unit,$modified->category_id,$user_id);
         try{
             $message=$this->repository->update($item);
             if($message){
-                //  $this->successMessage->success="The item has been updated.";
-                // return $this->successMessage;
               return  $this->returnSuccess("updateItem");
             }
              else{
-                //  return $this->returnError( 'Something went wrong'); 
                 return $this->returnError( "somethingWentWrong");
                 
                 }

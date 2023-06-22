@@ -20,14 +20,12 @@ class InvoiceRepository extends Repository{
     }
     function countRows($user_id,$date,$firstDate,$lastDate,$maxPrice,$minPrice){
         $this->connection=$this->db::connect();
-        // $sql="SELECT COUNT(*) AS row_count FROM ( SELECT i.id FROM invoice i INNER JOIN record r ON i.id = r.invoice_id WHERE i.user_id = :id GROUP BY i.id ) AS subquery;";
         $dateFlag=false;
         $firstDateFlag=false;
         $lastDateFlag=false;
         $minPriceFlag=false;
         $maxPriceFlag=false;
         $sql="SELECT COUNT(*) AS row_count FROM ( SELECT i.id,i.date,SUM(r.price*r.quantity) as total_price  FROM invoice i INNER JOIN record r ON i.id = r.invoice_id WHERE i.user_id = :id" ;
-        // and i.date > "2023-04-01" and i.date <"2023-04-17" GROUP BY i.id ) as s2";
         if($date!='0'){
            $dateFlag=true;
            $sql .=" and i.date=:date";
@@ -52,11 +50,9 @@ class InvoiceRepository extends Repository{
             $sql .=" and total_price <:max_price";   
            }else{
             $sql .=" HAVING total_price <:max_price";  
-           }
-                 
+           }      
        }
        $sql .=") as s2";
-
         $stmt=$this->connection->prepare($sql);
         $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
         if($dateFlag){
@@ -82,7 +78,6 @@ class InvoiceRepository extends Repository{
         $response= $stmt->fetch();
         $this->db::disconnect();
         return $response;
-
     }
     function max_price($user_id){
         $this->connection=$this->db::connect();
@@ -93,8 +88,6 @@ class InvoiceRepository extends Repository{
         $response= $stmt->fetch();
         $this->db::disconnect();
         return $response;
-
-
     }
     public function insert($data){
        $this->connection=$this->db::connect();
@@ -105,8 +98,6 @@ class InvoiceRepository extends Repository{
 
     public function  findAllInvoiceTable($user_id,$firstRow,$offset,$date,$firstDate,$lastDate,$maxPrice,$minPrice){
         $this->connection=$this->db::connect();
-        // $sql = "SELECT i.id as id,i.date as 'date', COUNT(r.id) as nr_of_records,SUM(r.quantity) as quantity,  SUM(r.price*r.quantity) as total_price,user_id FROM `invoice` i inner join record r on i.id=r.invoice_id WHERE i.user_id=:id GROUP BY i.id LIMIT :firstRow, :offset;";
-        // echo json_encode(array($date,$firstDate,$lastDate,$maxPrice,$minPrice));
         $where=false;
         $dateFlag=false;
         $firstDateFlag=false;
@@ -115,7 +106,6 @@ class InvoiceRepository extends Repository{
         $maxPriceFlag=false;
         $sql="SELECT * FROM (SELECT i.id as id,i.date as 'date', COUNT(r.id) as nr_of_records,SUM(r.quantity) as quantity, SUM(r.price*r.quantity) as total_price,user_id FROM `invoice` i inner join record r on i.id=r.invoice_id WHERE i.user_id=:id GROUP BY i.id ) as s2";
         if($date!='0'){
-            //  echo $date;
             $dateFlag=true;
             $sql .=" WHERE s2.date=:date";
             $where=true;
@@ -152,9 +142,6 @@ class InvoiceRepository extends Repository{
             }
         }
         $sql .=" ORDER BY date DESC LIMIT :firstRow, :offset";
-
-        // SELECT * FROM (SELECT i.id as id,i.date as 'date', COUNT(r.id) as nr_of_records,SUM(r.quantity) as quantity, SUM(r.price*r.quantity) as total_price,user_id FROM `invoice` i inner join record r on i.id=r.invoice_id WHERE i.user_id=1 GROUP BY i.id) as s2 WHERE s2.date BETWEEN "2023-04-01" and "2023-04-17";
-        //  echo $sql;
         $stmt=$this->connection->prepare($sql);
         $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
         $stmt->bindValue(":firstRow",htmlspecialchars(strip_tags($firstRow)),PDO::PARAM_INT);

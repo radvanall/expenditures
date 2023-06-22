@@ -5,15 +5,10 @@
     
     public function __construct($db) {
         $this->db = $db; 
-      //  echo var_dump($db);
     }
     abstract public function insert($data);
     abstract public function update($data);
 
-    // abstract public function findById($id);
-    // abstract public function findAll();
-    // abstract public function delete($id);
-    // public function findById($id,$table);
     public function getConnection(){
       $this->connection=$this->db::connect();
     }
@@ -36,7 +31,6 @@
      public function findAll($user_id,$table){
       $this->connection=$this->db::connect();
       $sql="SELECT * FROM " . $table . " WHERE user_id=:id";
-      // $sql="SELECT * FROM " . $table;
       $stmt=$this->connection->prepare($sql);
       $stmt->bindValue(":id",htmlspecialchars(strip_tags($user_id)),PDO::PARAM_INT);
       $stmt->execute();
@@ -47,7 +41,6 @@
       $this->db::disconnect();
       return $data;
      }
-    // public function delete($id,$table);
     public function delete($id,$table){
       $this->connection=$this->db::connect();
       $sql="DELETE FROM " . $table . " WHERE id=:id";

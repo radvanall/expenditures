@@ -6,7 +6,6 @@ class User implements JsonSerializable  {
     private $password_hash;
     private $avatar;
 
-   // function __constructor(){}
     function __construct($id,$nickname,$email,$password_hash="clasified data",$avatar=""){
         $this->id=$id;
         $this->nickname=$nickname;

@@ -19,7 +19,6 @@ class CategoryRepository extends Repository{
         $stmt->bindValue(":category_name",htmlspecialchars(strip_tags($data->get_category_name())),PDO::PARAM_STR);
         $stmt->bindValue(":user_id",htmlspecialchars(strip_tags($data->get_user_id())),PDO::PARAM_INT);
         $response= $stmt->execute();
-        //$this->db::disconnect();
         return $response;
     }
     public function update($data){
@@ -89,7 +88,6 @@ class CategoryRepository extends Repository{
             return null;
          }
          $default_id=$result->id;
-        // $default_id=$stmt->fetch()->id;
         $stmt->closeCursor();
         if($default_id==$id) {
             $this->db::disconnect();

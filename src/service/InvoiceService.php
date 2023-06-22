@@ -9,22 +9,18 @@ require_once "../src/DTO/FullRecordDTO.php";
 require_once "../src/DTO/InvoiceDTO.php";
 class InvoiceService extends Service{  
       function prepareInsert($date,$user_id){
-        if(empty($date)){ return $this->errorMessage->error='Invalid date!';}
-        if(empty($user_id)){ return $this->errorMessage->error='The invoice should have an user id!';}
+        if(empty($date)){ return $this->returnError('Invalid date!');}
+        if(empty($user_id)){ return $this->returnError('The invoice should have an user id!');}
         $date=date("Y-m-d",strtotime($date));
         $invoice=new Invoice(0,$user_id,$date);
         try{
-         //  $this->repository->getConnection();
            $message=$this->repository->insert($invoice);
-          // $this->repository->disconnect();
-           if($message){return  $this->successMessage->success='The invoice has been added';}
-           else{ return $this->errorMessage->error='Something went wrong';}
+           if($message){return  $this->returnSuccess('The invoice has been added');}
+           else{ return $this->returnError('Something went wrong');}
         }catch(PDOException $e){
-            return $this->errorMessage->error="Connection failed: " . $e->getMessage();
+            return $this->returnError("Connection failed: " . $e->getMessage());
         }
       }
-    
-
       function findAll($user_id){
         $invoices=array();
         $data=parent::findAll($user_id);
@@ -45,24 +41,23 @@ class InvoiceService extends Service{
         return parent::delete($id);
     }
     function insert($new){
-        // $this->repository->getConnection();
         $result=$this->prepareInsert($new);
         $this->repository->disconnect();
         return $result;
     }
 
     function update($data){
-        if(empty($data->date)){ return $this->errorMessage->error='Invalid date!';}
-        if(empty($data->user_id)){ return $this->errorMessage->error='The invoice should have an user id!';}
+        if(empty($data->date)){ return $this->returnError('Invalid date!');}
+        if(empty($data->user_id)){ return $this->returnError('The invoice should have an user id!');}
         $date=date("Y-m-d",strtotime($data->date));
         $invoice=new Invoice($data->id,$data->user_id,$date);
         try{
             $message=$this->repository->update($invoice);
-            if($message){return $this->successMessage->success="The invoice has been updated.";}
+            if($message){return $this->returnSuccess("The invoice has been updated.");}
              else{
-                 return $this->errorMessage->error='Something went wrong';}
+                 return $this->returnError('Something went wrong');}
         }   catch(PDOException $e){ 
-       return $this->errorMessage->error='Connection failed: '. $e->getMessage();
+       return $this->returnError('Connection failed: '. $e->getMessage());
        }}
     
     function error($errorMessage="error"){
@@ -93,8 +88,6 @@ class InvoiceService extends Service{
             ));
             $total_sum+=(float)  $record->total_price;
             }
-
-            // $firstObject = $response[0];
              $invoice=new InvoiceDTO($response[0]->invoice_id,$response[0]->date,$response[0]->user_id,$total_sum,$records);
             return $invoice;
            }catch(PDOException $e){
@@ -105,8 +98,6 @@ class InvoiceService extends Service{
 
     function insertRecords($records,$date,$user_id,$recordRepository,$categoryRepository,$itemRepository){
         if (empty($records)) {
-            // $this->errorMessage->error='There is no records!';
-            // return $this->errorMessage;
            return $this->returnError("noRecords");
         }
         try {
@@ -129,8 +120,6 @@ class InvoiceService extends Service{
                 } 
                 $this->repository->commit();
                 $this->repository->disconnect();
-                // $this->successMessage->success='The invoice has been added';
-                // return $this->successMessage; 
                  return $this->returnSuccess('invoiceAdded');
             } 
         catch (PDOException $e){ return $this->error('Connection failed: '. $e->getMessage());}
@@ -142,7 +131,6 @@ class InvoiceService extends Service{
         $max_price=$this->repository->max_price($user_id);
         $invoices=array();
         $data=$this->repository->findAllInvoiceTable($user_id,$firstRow,$offset,$date,$firstDate,$lastDate,$maxPrice,$minPrice);
-        // if($data){
             foreach($data as $row){
                 array_push($invoices,new TableInvoice($row->id,$row->date,$row->quantity,$row->nr_of_records,$row->total_price));  
         }        
@@ -150,14 +138,10 @@ class InvoiceService extends Service{
         $response->row_count=$nr_of_rows->row_count;
         $response->max_price=$max_price->max_price;
         return $response;
-        // }
 
-        // return $data;
         } 
          catch (PDOException $e){
-             $this->errorMessage->error='Connection failed: '. $e->getMessage();
-            
-            return $this->errorMessage;}
+          return  $this->returnError('Connection failed: '. $e->getMessage());}
     }
 
     function getMoneyPerDay($user_id, $firstDate){
@@ -171,7 +155,6 @@ class InvoiceService extends Service{
             }
             $response->fields=$fields;
             return $response;
-
         }catch(PDOException $e){
             return $this->returnError( $this->errorMessage->error='Connection failed: '. $e->getMessage());
         }

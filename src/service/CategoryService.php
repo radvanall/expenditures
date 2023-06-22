@@ -23,7 +23,6 @@ class CategoryService extends Service{
         $user_id=$_SESSION["user_id"];        
         try{
           $response= $this->repository->changeCategoryToDelete($user_id,$id); 
-        //   if(!isset($response)) return $this->returnError('There is not a default_category for you');
         if(!isset($response)) return $this->returnError('noDefaultCategory');
            return parent::delete($id);
          }catch(PDOException $e){
@@ -31,49 +30,41 @@ class CategoryService extends Service{
         }   
     }    
    function insert($new){
-    if(empty($new->category_name)){ return $this->errorMessage->error='Invalid category name!';}
+    if(empty($new->category_name)){ return $this->returnError('Invalid category name!');}
     if($new->category_name=="default_category"){ return $this->returnError("reservedName");}
-    if(empty($new->user_id)){ return $this->errorMessage->error='The category should have an user id!';}
+    if(empty($new->user_id)){return $this->returnError('The category should have an user id!');}
     $category=new Category(0,$new->category_name,$new->user_id);
     try{
-     //   $this->repository->getConnection();
        $message=$this->repository->insert($category);
-    //   $this->repository->disconnect();
        if($message){
-        // $this->successMessage->success="The category has been created.";
-        // return  $this->successMessage;
         return $this->returnSuccess("createCategory");
     }
-       else{ 
-        //$this->errorMessage->error='Something went wrong';
-        $this->errorMessage->error="somethingWentWrong";
-        return $this->errorMessage; }
+       else{ return $this->returnError("somethingWentWrong");}
     }catch(PDOException $e){
-         $this->errorMessage->error="Connection failed: " . $e->getMessage();
-        return $this->errorMessage;
+        return $this->returnError("Connection failed: " . $e->getMessage());
     }
    }
    function update($modified_category){
-    if(empty($modified_category->category_name)){ return $this->errorMessage->error='Invalid category name!';}
+    if(empty($modified_category->category_name)){ return $this->returnError('Invalid category name!');}
     if($modified_category->category_name=="default_category"){ return $this->returnError("reservedName");}
     $category=new Category($modified_category->id,$modified_category->category_name,0);
     try{
         $message=$this->repository->update($category);
-        if(!isset($message)){ return $this->returnError('Something went wrong');}
-        if($message=="defaultCategory") { return $this->returnError("defaultCategory");}
+        // echo "message" . $message;
+        if(!isset($message)){ return $this->returnError("somethingWentWrong");}
+        if($message===0){ return $this->returnError("nothingChanged");}
+        if($message=="defaultCategory") { 
+            return $this->returnError("defaultCategory");}
         return $this->returnSuccess("updateCategory");
     }   catch(PDOException $e){ 
-   return $this->errorMessage->error='Connection failed: '. $e->getMessage();
+        return $this->returnError("Connection failed: " . $e->getMessage());
    }}
-
    function findCategoriesAndItems($user_id){
     try{
         $data=$this->repository->findCategoriesAndItems($user_id); 
     }catch(PDOException $e){
-       return $this->errorMessage->error="Connection failed: " . $e->getMessage();
-    }
+        return $this->returnError("Connection failed: " . $e->getMessage());}
     if(!$data){
-       //$this->errorMessage->error='no data';
        return [];
     }
     $grouped=array_reduce($data,function($result,$field){
@@ -116,6 +107,6 @@ class CategoryService extends Service{
             return $this->returnError( $this->errorMessage->error='Connection failed: '. $e->getMessage());
         }
     }
- 
+
 }
 

@@ -25,11 +25,10 @@ abstract class Service {
         try{
              $data=$this->repository->findAll($user_id); 
         }catch(PDOException $e){
-            return $this->errorMessage->error="Connection failed: " . $e->getMessage();
+            return $this->returnError("Connection failed: " . $e->getMessage());
         }
         if(!$data){
-            $this->errorMessage->error='no data';
-            return $this->errorMessage;
+            return $this->returnError('no data');
         }
         return $data;
     }
@@ -38,21 +37,18 @@ abstract class Service {
         try {
              $data=$this->repository->findById($id);
             if(!$data){
-               $this->errorMessage->error='no such field';
-               return $this->errorMessage;
+              return $this->returnError('no such field');     
            }
             return $data;
           } catch(PDOException $e){
-            $this->errorMessage->error='Connection failed: '. $e->getMessage();
-               return $this->errorMessage; 
+            return $this->returnError('Connection failed: '. $e->getMessage());
            }
     }
     function delete($id){
     if($id==0){ return $this->returnError('no id');}
     try{
     $message=$this->repository->delete($id);
-    if($message){ $this->successMessage->success="The field has been deleted";
-    return $this->successMessage; }
+    if($message){ return $this->returnSuccess("The field has been deleted"); }
     else{ return $this->returnError('Something went wrong');}} 
     catch(PDOException $e){ 
         return $this->returnError('Connection failed: '. $e->getMessage()); 

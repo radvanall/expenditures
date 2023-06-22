@@ -13,43 +13,36 @@
         $this->invoice_id=$invoice_id;
         $this->item_id=$item_id;
     }
-   // Setter for id
+
 public function setId($id) {
 $this->id = $id;
 }
 
-// Getter for id
 public function getId() {
     return $this->id;
 }
 
 
-// Setter for quantity
 public function setQuantity($quantity) {
     $this->quantity = $quantity;
 }
 
-// Getter for quantity
 public function getQuantity() {
     return $this->quantity;
 }
 
-// Setter for price
 public function setPrice($price) {
     $this->price = $price;
 }
 
-// Getter for price
 public function getPrice() {
     return $this->price;
 }
 
-// Setter for invoice_id
 public function setInvoiceId($invoice_id) {
     $this->invoice_id = $invoice_id;
 }
 
-// Getter for invoice_id
 public function getInvoiceId() {
     return $this->invoice_id;
 }
