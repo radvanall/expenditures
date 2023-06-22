@@ -3,6 +3,7 @@ include "../src/repository/RecordRepository.php";
 include "../src/DatabaseConnection.php";
 include "../src/service/RecordService.php";
 include "../src/controller/controller.php";
+include_once "../src/sendResponse.php";
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Credentials: true");

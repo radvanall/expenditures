@@ -1,8 +1,8 @@
 <?php
-//include "../src/model/User.php";
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Credentials: true");
+include_once "../src/sendResponse.php";
 include "../src/repository/UserRepository.php";
 include "../src/DatabaseConnection.php";
 include "../src/service/UserService.php";
@@ -21,15 +21,8 @@ session_start();
  else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="login" ){
      $form_data=$postVars["formData"];
      $form_data=json_decode($form_data);
-     $message=$userService->login($form_data);
-     if(property_exists($message,'error')){
-      http_response_code(400);
-      header('Content-Type: application/json');
-      echo json_encode($message);
-   }else {
-      http_response_code(200);
-      echo json_encode($message);
-   }
+     $result=$userService->login($form_data);
+     sendResponse($result);
    
  }else  if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="create"){
    $form_data=$_POST["formData"];
@@ -38,15 +31,8 @@ session_start();
           echo 'Error decoding JSON: ' . json_last_error_msg();
        }
      else 
-     { $message=$userService->insert($input_data); 
-      if(property_exists($message,'error')){
-         http_response_code(400);
-         header('Content-Type: application/json');
-         echo json_encode($message);
-      }else {
-         http_response_code(200);
-         echo json_encode($message);
-      }
+     { $result=$userService->insert($input_data); 
+      sendResponse($result);
       }
 }
  
@@ -58,16 +44,9 @@ session_start();
 header('Content-Type: application/json');
 echo json_encode(array("success"=>"loggedOut"));
  }else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="getLoggedUser"){
-   $message=$userService->findById($_SESSION["user_id"]);
-   if(property_exists($message,'error')){
-      http_response_code(400);
-      header('Content-Type: application/json');
-      echo json_encode($message);
-   }else {
-      $message->set_password_hash("classified data");
-      http_response_code(200);
-      echo json_encode($message);
-   }
+   $result=$userService->findById($_SESSION["user_id"]);
+   sendResponse($result);
+
  }else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="delete_user"){
    $form_data=$postVars["formData"];
    $data = json_decode($form_data, true);
@@ -78,7 +57,6 @@ echo json_encode(array("success"=>"loggedOut"));
       header('Content-Type: application/json');
       echo json_encode($message);
    }else {
-      // $message->set_password_hash("classified data");
       http_response_code(200);
       echo json_encode($message);
       session_unset();
@@ -86,16 +64,8 @@ echo json_encode(array("success"=>"loggedOut"));
    }
  }else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="set_avatar"){
 
-     $message=$userService->setAvatar($_SESSION["user_id"],$_FILES["formData"]);
-     if(property_exists($message,'error')){
-      http_response_code(400);
-      header('Content-Type: application/json');
-      echo json_encode($message);
-   }else {
-      http_response_code(200);
-      echo json_encode($message);
-
-   }
+   $result=$userService->setAvatar($_SESSION["user_id"],$_FILES["formData"]);
+     sendResponse($result);
  }
  else
  CRUD_controller($userService,$method, $getVars, $postVars);

@@ -8,11 +8,7 @@ if($method=="GET" && isset($getVars["id"])&& $getVars["id"]=="all"){
 }
 else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && isset($getVars["request"])&& $getVars["request"]=="find"){
   $result=$service->findById($getVars["id"]);
-  if(property_exists($result,'error')){
-      http_response_code(400);
-      echo json_encode($result);
-  }else
-   echo json_encode($result);
+  sendResponse($result);
  } else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="insert"){
    $form_data=$_POST["formData"];
    $input_data=json_decode(stripslashes($form_data));
@@ -22,15 +18,8 @@ else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && iss
      else 
      {
       $input_data->user_id=$_SESSION["user_id"];
-       $message=$service->insert($input_data); 
-       if(property_exists($message,'error')){
-        http_response_code(400);
-        header('Content-Type: application/json');
-        echo json_encode($message);
-     }else {
-        http_response_code(200);
-        echo json_encode($message);
-     }
+      $result=$service->insert($input_data); 
+       sendResponse($result);
       }
 }  else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="update"){
   $form_data=$postVars["formData"];
@@ -39,15 +28,8 @@ else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && iss
      echo 'Error decoding JSON: ' . json_last_error_msg();
   }
   else 
-  { $message=$service->update($input_data); 
-    if(property_exists($message,'error')){
-      http_response_code(400);
-      header('Content-Type: application/json');
-      echo json_encode($message);
-   }else {
-      http_response_code(200);
-      echo json_encode($message);
-   }
+  { $result=$service->update($input_data); 
+    sendResponse($result);
   }
 
 }  else if($method=="POST" && isset($postVars["request"]) && $postVars["request"]=="delete" ){
@@ -55,22 +37,14 @@ else if($method=="GET" && isset($getVars["id"]) && $getVars["id"]!=="all" && iss
   $data = json_decode($form_data, true);
   $id = $data['id'];
 
-  $message=$service->delete($id);
-  if(property_exists($message,'error')){
-      http_response_code(400);
-      echo json_encode($message);
-  }else{
-    http_response_code(200);
-    echo json_encode($message);
-   
- }
+  $result=$service->delete($id);
+  sendResponse($result);
 }
 else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="categoriesAndItems"){
 
-  $message=$service->findCategoriesAndItems($_SESSION['user_id']);
-  //echo json_encode($message);
-  // echo "is:" . !is_array($message);
-  if(!is_array($message)){
+  $result=$service->findCategoriesAndItems($_SESSION['user_id']);
+
+  if(!is_array($result)){
   if(property_exists($message,'error')){
       http_response_code(400);
       echo json_encode($message);
@@ -79,6 +53,4 @@ else if($method=="GET" && isset($getVars["request"]) && $getVars["request"]=="ca
   echo json_encode($message);}
 }
 
-
-// else echo "no data";
 }
